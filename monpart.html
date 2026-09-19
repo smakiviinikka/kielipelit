@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monikon partitiivi</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 18px 10px 30px;
+      min-height: 100vh;
+      box-sizing: border-box;
+      background: #fff5e8;
+      color: #3e352d;
+    }
+
+    h1 {
+      font-size: clamp(28px, 6vw, 40px);
+      margin-bottom: 8px;
+      color: #a45f35;
+    }
+
+    #instructions {
+      font-weight: bold;
+      font-size: clamp(16px, 4vw, 20px);
+      margin: 0 auto 15px;
+      max-width: 800px;
+    }
+
+    #score, #levelText {
+      font-size: clamp(16px, 4vw, 20px);
+      margin-bottom: 6px;
+    }
+
+    #questionNumberText {
+      margin-top: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #4b4035;
+    }
+
+
+    #question {
+      font-size: clamp(20px, 5vw, 30px);
+      font-weight: bold;
+      max-width: 900px;
+      margin: 25px auto 20px;
+      padding: 22px 18px;
+      line-height: 1.35;
+      background: #fffaf3;
+      border: 1px solid #e7c9aa;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(76, 65, 47, 0.08);
+    }
+
+    #question em {
+      font-style: italic;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    button {
+      padding: 18px;
+      font-size: clamp(16px, 4vw, 20px);
+      font-weight: bold;
+      cursor: pointer;
+      border: 1px solid #b8794f;
+      border-radius: 9px;
+      background: #f0d2ad;
+      color: #49372a;
+      box-shadow: 0 2px 5px rgba(76, 65, 47, 0.10);
+    }
+
+    button:hover {
+      background: #e5bf94;
+    }
+
+    button:disabled {
+      cursor: default;
+      opacity: 1;
+    }
+
+    .wrong-answer {
+      outline: 3px solid #9b5f52;
+      background: #f0ddd8 !important;
+    }
+
+
+    #timerArea {
+      margin: 14px auto 4px;
+      max-width: 620px;
+    }
+
+    #timerText {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 7px;
+      color: #655044;
+    }
+
+    #timeBarOuter {
+      width: 100%;
+      height: 12px;
+      background: #e2d7ca;
+      border: 1px solid #b49b82;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    #timeBar {
+      width: 100%;
+      height: 100%;
+      background: #8d7258;
+      transition: width 0.1s linear;
+    }
+
+    #feedback {
+      min-height: 28px;
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    #gameOver {
+      font-size: clamp(18px, 5vw, 28px);
+      font-weight: bold;
+      margin-top: 25px;
+      color: #76523e;
+    }
+
+    #finalMessage {
+      font-size: clamp(16px, 4vw, 20px);
+      margin-top: 8px;
+      color: #444;
+    }
+
+    #resultFeedback {
+      font-size: clamp(17px, 4vw, 21px);
+      font-weight: bold;
+      margin-top: 8px;
+      color: #655044;
+    }
+
+    #retryButton {
+      margin-top: 15px;
+      padding: 12px 25px;
+      font-size: 18px;
+      display: none;
+      background: #43827a;
+      color: white;
+      border-color: #43573a;
+    }
+
+    #retryButton:hover {
+      background: #465c3c;
+    }
+
+    #highscore {
+      margin-top: 30px;
+      font-size: 18px;
+      color: #333;
+    }
+
+    #logoFooter {
+      margin-top: 40px;
+    }
+
+    #logoFooter .collabLabel {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 4px;
+    }
+
+    #logoFooter .logoText {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    #logoFooter span {
+      color: #617d52;
+    }
+
+    @media (max-width: 600px) {
+      .buttons {
+        grid-template-columns: 1fr;
+      }
+      button {
+        padding: 15px;
+      }
+    }
+  
+    #modeControls {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      margin-bottom: 8px;
+    }
+
+    #modeControls .modeButton {
+      padding: 4px 8px;
+      min-width: 0;
+      width: auto;
+      font-size: 11px;
+      line-height: 1.2;
+      font-weight: bold;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    #modeControls .modeButton.normal {
+      background: #dff0d8 !important;
+      border: 1px solid #7fa56f !important;
+      color: #294323 !important;
+    }
+
+    #modeControls .modeButton.hardcore {
+      background: #e7a0a0 !important;
+      border: 1px solid #a94d4d !important;
+      color: #5a1f1f !important;
+    }
+
+    #modeControls .modeButton.normal.active {
+      outline: 2px solid #5c7c50;
+      outline-offset: 1px;
+    }
+
+    #modeControls .modeButton.hardcore.active {
+      outline: 2px solid #9a3434;
+      outline-offset: 1px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Monikon partitiivi</h1>
+
+  <div id="instructions">
+    Valitse oikea vastaus.
+  </div>
+
+
+  <div id="score">Pisteet: 0</div>
+  <div id="questionNumberText">Kysymys 1</div>
+
+  <div id="timerArea">
+    <div id="timerText">Aikaa: 15 s</div>
+    <div id="timeBarOuter"><div id="timeBar"></div></div>
+  </div>
+
+  <div id="question"></div>
+
+  <div class="buttons">
+    <button></button>
+    <button></button>
+    <button></button>
+    <button></button>
+  </div>
+
+  <div id="feedback"></div>
+  <div id="gameOver"></div>
+  <div id="finalMessage"></div>
+  <div id="resultFeedback"></div>
+  <button id="retryButton" onclick="startGame()">Yritä uudelleen</button>
+
+  <div id="modeControls">
+    <button class="modeButton normal active" id="normalModeButton" onclick="setMode('normal')">Normal mode</button>
+    <button class="modeButton hardcore" id="hardcoreModeButton" onclick="setMode('hardcore')">Hardcore mode</button>
+  </div>
+  <div id="highscore">Parhaat pisteesi: 0</div>
+
+  <div id="logoFooter">
+    <div class="collabLabel">Yhteistyössä:</div>
+    <div class="logoText">Sami <span>×</span> ChatGPT</div>
+  </div>
+
+  <script>
+    /*
+      MONIKON PARTITIIVI -PELI
+      ----------------
+      Kysymyspankki on jaettu vaikeustasoihin 1–4 ja perustuu annetun kuvan pronominiryhmiin.
+      Peli etenee vaikeustasolta toiselle pisteiden karttuessa.
+      Kysymykset valitaan satunnaisesti kyseisen tason joukosta.
+    */
+
+
+      // Huomio kysymyspankin laatimisessa:
+      // "Se, mitä sanoit..." on objekti -> mitä.
+      // "Se, mikä yllätti kaikki..." viittaa edeltävään asiaan -> mikä.
+      // "Kirja, jonka luin..." -> jonka (objekti).
+      // "Kirja, joka löytyi..." -> joka (tekijä/subjekti).
+
+    const questionBank = [
+  {
+    "level": 1,
+    "id": 1,
+    "q": "Mikä on sanan <em>kala</em> monikon partitiivi?",
+    "a": [
+      "kaloja",
+      "kaloia",
+      "kalaja",
+      "kaloita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 2,
+    "q": "Mikä on sanan <em>talo</em> monikon partitiivi?",
+    "a": [
+      "taloja",
+      "taloia",
+      "talaja",
+      "taloita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 3,
+    "q": "Mikä on sanan <em>auto</em> monikon partitiivi?",
+    "a": [
+      "autoja",
+      "autoia",
+      "autaja",
+      "autoita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 4,
+    "q": "Mikä on sanan <em>kirja</em> monikon partitiivi?",
+    "a": [
+      "kirjoja",
+      "kirjaia",
+      "kirjaja",
+      "kirjoita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 5,
+    "q": "Mikä on sanan <em>kissa</em> monikon partitiivi?",
+    "a": [
+      "kissoja",
+      "kissaja",
+      "kissoita",
+      "kissia"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 6,
+    "q": "Mikä on sanan <em>koulu</em> monikon partitiivi?",
+    "a": [
+      "kouluja",
+      "kouluia",
+      "koulaja",
+      "kouluita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 7,
+    "q": "Mikä on sanan <em>pallo</em> monikon partitiivi?",
+    "a": [
+      "palloja",
+      "palloia",
+      "pallaja",
+      "palloita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 8,
+    "q": "Mikä on sanan <em>tyttö</em> monikon partitiivi?",
+    "a": [
+      "tyttöjä",
+      "tyttöia",
+      "tyttötä",
+      "tyttöita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 9,
+    "q": "Mikä on sanan <em>poika</em> monikon partitiivi?",
+    "a": [
+      "poikia",
+      "poikaja",
+      "poikeja",
+      "poikaita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 10,
+    "q": "Mikä on sanan <em>koira</em> monikon partitiivi?",
+    "a": [
+      "koiria",
+      "koiraja",
+      "koireja",
+      "koiraita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 11,
+    "q": "Mikä on sanan <em>tuoli</em> monikon partitiivi?",
+    "a": [
+      "tuoleja",
+      "tuolia",
+      "tuolija",
+      "tuolita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 12,
+    "q": "Mikä on sanan <em>lasi</em> monikon partitiivi?",
+    "a": [
+      "laseja",
+      "lasia",
+      "lasija",
+      "lasita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 13,
+    "q": "Mikä on sanan <em>banaani</em> monikon partitiivi?",
+    "a": [
+      "banaaneja",
+      "banaania",
+      "banaanija",
+      "banaanita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 14,
+    "q": "Mikä on sanan <em>omena</em> monikon partitiivi?",
+    "a": [
+      "omenoita",
+      "omenoja",
+      "omenia",
+      "omenaita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 15,
+    "q": "Mikä on sanan <em>peruna</em> monikon partitiivi?",
+    "a": [
+      "perunoita",
+      "perunoja",
+      "perunia",
+      "perunaita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 16,
+    "q": "Mikä on sanan <em>mansikka</em> monikon partitiivi?",
+    "a": [
+      "mansikoita",
+      "mansikkoja",
+      "mansikkia",
+      "mansikkaita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 17,
+    "q": "Mikä on sanan <em>kauppa</em> monikon partitiivi?",
+    "a": [
+      "kauppoja",
+      "kauppia",
+      "kauppaja",
+      "kauppoita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 18,
+    "q": "Mikä on sanan <em>opettaja</em> monikon partitiivi?",
+    "a": [
+      "opettajia",
+      "opettajaja",
+      "opettajoja",
+      "opettajaita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 19,
+    "q": "Mikä on sanan <em>ystävä</em> monikon partitiivi?",
+    "a": [
+      "ystäviä",
+      "ystäväjä",
+      "ystävöjä",
+      "ystäväitä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 20,
+    "q": "Mikä on sanan <em>päivä</em> monikon partitiivi?",
+    "a": [
+      "päiviä",
+      "päiväjä",
+      "päivejä",
+      "päiväitä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 21,
+    "q": "Mikä on sanan <em>leipä</em> monikon partitiivi?",
+    "a": [
+      "leipiä",
+      "leipäjä",
+      "leipejä",
+      "leipäitä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 22,
+    "q": "Mikä on sanan <em>pöytä</em> monikon partitiivi?",
+    "a": [
+      "pöytiä",
+      "pöytäjä",
+      "pöytejä",
+      "pöytäitä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 23,
+    "q": "Mikä on sanan <em>lapsi</em> monikon partitiivi?",
+    "a": [
+      "lapsia",
+      "lapseja",
+      "lapsija",
+      "lapsita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 24,
+    "q": "Mikä on sanan <em>käsi</em> monikon partitiivi?",
+    "a": [
+      "käsiä",
+      "käsia",
+      "käsejä",
+      "käsitä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 25,
+    "q": "Mikä on sanan <em>vesi</em> monikon partitiivi?",
+    "a": [
+      "vesiä",
+      "vesia",
+      "vesejä",
+      "vesitä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 26,
+    "q": "Mikä on sanan <em>vuosi</em> monikon partitiivi?",
+    "a": [
+      "vuosia",
+      "vuoseja",
+      "vuosija",
+      "vuosita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 27,
+    "q": "Mikä on sanan <em>uusi</em> monikon partitiivi?",
+    "a": [
+      "uusia",
+      "uuseja",
+      "uusija",
+      "uusita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 28,
+    "q": "Mikä on sanan <em>suuri</em> monikon partitiivi?",
+    "a": [
+      "suuria",
+      "suureja",
+      "suurija",
+      "suurita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 29,
+    "q": "Mikä on sanan <em>pieni</em> monikon partitiivi?",
+    "a": [
+      "pieniä",
+      "pienia",
+      "pienejä",
+      "pienitä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 30,
+    "q": "Mikä on sanan <em>kieli</em> monikon partitiivi?",
+    "a": [
+      "kieliä",
+      "kielia",
+      "kielejä",
+      "kielitä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 31,
+    "q": "Mikä on sanan <em>sieni</em> monikon partitiivi?",
+    "a": [
+      "sieniä",
+      "sienia",
+      "sienejä",
+      "sienitä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 32,
+    "q": "Mikä on sanan <em>nainen</em> monikon partitiivi?",
+    "a": [
+      "naisia",
+      "naisija",
+      "naiseja",
+      "naisita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 33,
+    "q": "Mikä on sanan <em>ihminen</em> monikon partitiivi?",
+    "a": [
+      "ihmisiä",
+      "ihmisia",
+      "ihmisejä",
+      "ihmisitä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 34,
+    "q": "Mikä on sanan <em>hevonen</em> monikon partitiivi?",
+    "a": [
+      "hevosia",
+      "hevosija",
+      "hevoseja",
+      "hevosita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 35,
+    "q": "Mikä on sanan <em>sininen</em> monikon partitiivi?",
+    "a": [
+      "sinisiä",
+      "sinisia",
+      "sinisejä",
+      "sinisitä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 36,
+    "q": "Mikä on sanan <em>punainen</em> monikon partitiivi?",
+    "a": [
+      "punaisia",
+      "punaisija",
+      "punaiseja",
+      "punaisita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 37,
+    "q": "Mikä on sanan <em>iloinen</em> monikon partitiivi?",
+    "a": [
+      "iloisia",
+      "iloisija",
+      "iloiseja",
+      "iloisita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 38,
+    "q": "Mikä on sanan <em>huone</em> monikon partitiivi?",
+    "a": [
+      "huoneita",
+      "huoneja",
+      "huonia",
+      "huoneitaä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 39,
+    "q": "Mikä on sanan <em>perhe</em> monikon partitiivi?",
+    "a": [
+      "perheitä",
+      "perhejä",
+      "perhia",
+      "perheita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 40,
+    "q": "Mikä on sanan <em>koe</em> monikon partitiivi?",
+    "a": [
+      "kokeita",
+      "koeja",
+      "kokeja",
+      "koita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 41,
+    "q": "Mikä on sanan <em>hame</em> monikon partitiivi?",
+    "a": [
+      "hameita",
+      "hameja",
+      "hamia",
+      "hameta"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 42,
+    "q": "Mikä on sanan <em>maa</em> monikon partitiivi?",
+    "a": [
+      "maita",
+      "maaja",
+      "maia",
+      "maata"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 43,
+    "q": "Mikä on sanan <em>puu</em> monikon partitiivi?",
+    "a": [
+      "puita",
+      "puuja",
+      "puia",
+      "puuta"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 44,
+    "q": "Mikä on sanan <em>suu</em> monikon partitiivi?",
+    "a": [
+      "suita",
+      "suuja",
+      "suia",
+      "suuta"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 45,
+    "q": "Mikä on sanan <em>työ</em> monikon partitiivi?",
+    "a": [
+      "töitä",
+      "työjä",
+      "työitä",
+      "töjä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 46,
+    "q": "Mikä on sanan <em>yö</em> monikon partitiivi?",
+    "a": [
+      "öitä",
+      "yöjä",
+      "yöitä",
+      "öjä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 47,
+    "q": "Mikä on sanan <em>tie</em> monikon partitiivi?",
+    "a": [
+      "teitä",
+      "tieja",
+      "tieitä",
+      "tejä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 48,
+    "q": "Mikä on sanan <em>mies</em> monikon partitiivi?",
+    "a": [
+      "miehiä",
+      "miesiä",
+      "miehejä",
+      "miehitä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 49,
+    "q": "Mikä on sanan <em>hammas</em> monikon partitiivi?",
+    "a": [
+      "hampaita",
+      "hammasia",
+      "hampasia",
+      "hammaita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 50,
+    "q": "Mikä on sanan <em>varvas</em> monikon partitiivi?",
+    "a": [
+      "varpaita",
+      "varvasia",
+      "varpasia",
+      "varvaita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 51,
+    "q": "Mikä on sanan <em>avain</em> monikon partitiivi?",
+    "a": [
+      "avaimia",
+      "avainia",
+      "avaineja",
+      "avaimita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 52,
+    "q": "Mikä on sanan <em>puhelin</em> monikon partitiivi?",
+    "a": [
+      "puhelimia",
+      "puhelinia",
+      "puhelineja",
+      "puhelimita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 53,
+    "q": "Mikä on sanan <em>lämmin</em> monikon partitiivi?",
+    "a": [
+      "lämpimiä",
+      "lämminiä",
+      "lämminejä",
+      "lämpimita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 54,
+    "q": "Mikä on sanan <em>vanha</em> monikon partitiivi?",
+    "a": [
+      "vanhoja",
+      "vanhia",
+      "vanhaja",
+      "vanhoita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 55,
+    "q": "Mikä on sanan <em>pitkä</em> monikon partitiivi?",
+    "a": [
+      "pitkiä",
+      "pitkäjä",
+      "pitkejä",
+      "pitkäitä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 56,
+    "q": "Mikä on sanan <em>hyvä</em> monikon partitiivi?",
+    "a": [
+      "hyviä",
+      "hyväjä",
+      "hyvejä",
+      "hyväitä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 57,
+    "q": "Mikä on sanan <em>kylmä</em> monikon partitiivi?",
+    "a": [
+      "kylmiä",
+      "kylmäjä",
+      "kylmejä",
+      "kylmäitä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 58,
+    "q": "Mikä on sanan <em>vaikea</em> monikon partitiivi?",
+    "a": [
+      "vaikeita",
+      "vaikeja",
+      "vaikia",
+      "vaikeitaä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 59,
+    "q": "Mikä on sanan <em>nopea</em> monikon partitiivi?",
+    "a": [
+      "nopeita",
+      "nopeja",
+      "nopia",
+      "nopeitaä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 60,
+    "q": "Mikä on sanan <em>kaunis</em> monikon partitiivi?",
+    "a": [
+      "kauniita",
+      "kaunisia",
+      "kauneja",
+      "kaunita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 61,
+    "q": "Mikä on sanan <em>oppilas</em> monikon partitiivi?",
+    "a": [
+      "oppilaita",
+      "oppilasia",
+      "oppilasja",
+      "oppilaitaä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 62,
+    "q": "Mikä on sanan <em>asema</em> monikon partitiivi?",
+    "a": [
+      "asemia",
+      "asemoja",
+      "asemaja",
+      "asemaita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 63,
+    "q": "Mikä on sanan <em>ongelma</em> monikon partitiivi?",
+    "a": [
+      "ongelmia",
+      "ongelmoja",
+      "ongelmaja",
+      "ongelmaita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 64,
+    "q": "Mikä on sanan <em>ohjelma</em> monikon partitiivi?",
+    "a": [
+      "ohjelmia",
+      "ohjelmoja",
+      "ohjelmaja",
+      "ohjelmaita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 65,
+    "q": "Mikä on sanan <em>museo</em> monikon partitiivi?",
+    "a": [
+      "museoita",
+      "museoja",
+      "museoia",
+      "museota"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 66,
+    "q": "Mikä on sanan <em>radio</em> monikon partitiivi?",
+    "a": [
+      "radioita",
+      "radioja",
+      "radioia",
+      "radiota"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 67,
+    "q": "Mikä on sanan <em>video</em> monikon partitiivi?",
+    "a": [
+      "videoita",
+      "videoja",
+      "videoia",
+      "videota"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 68,
+    "q": "Mikä on sanan <em>ravintola</em> monikon partitiivi?",
+    "a": [
+      "ravintoloita",
+      "ravintolia",
+      "ravintoloja",
+      "ravintolaita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 69,
+    "q": "Mikä on sanan <em>kirjailija</em> monikon partitiivi?",
+    "a": [
+      "kirjailijoita",
+      "kirjailijia",
+      "kirjailijoja",
+      "kirjailijaita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 70,
+    "q": "Mikä on sanan <em>sairaala</em> monikon partitiivi?",
+    "a": [
+      "sairaaloita",
+      "sairaalia",
+      "sairaaloja",
+      "sairaalaita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 71,
+    "q": "Mikä on sanan <em>hotelli</em> monikon partitiivi?",
+    "a": [
+      "hotelleja",
+      "hotellia",
+      "hotellija",
+      "hotellita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 72,
+    "q": "Mikä on sanan <em>paperi</em> monikon partitiivi?",
+    "a": [
+      "papereita",
+      "paperia",
+      "papereja",
+      "paperita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 73,
+    "q": "Mikä on sanan <em>numero</em> monikon partitiivi?",
+    "a": [
+      "numeroita",
+      "numeroja",
+      "numeroia",
+      "numerota"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 74,
+    "q": "Mikä on sanan <em>kone</em> monikon partitiivi?",
+    "a": [
+      "koneita",
+      "koneja",
+      "konia",
+      "koneta"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 75,
+    "q": "Mikä on sanan <em>vene</em> monikon partitiivi?",
+    "a": [
+      "veneitä",
+      "veneja",
+      "venejä",
+      "venetä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 76,
+    "q": "Mikä on sanan <em>nimi</em> monikon partitiivi?",
+    "a": [
+      "nimiä",
+      "nimejä",
+      "nimija",
+      "nimita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 77,
+    "q": "Mikä on sanan <em>ovi</em> monikon partitiivi?",
+    "a": [
+      "ovia",
+      "oveja",
+      "ovija",
+      "ovita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 78,
+    "q": "Mikä on sanan <em>äiti</em> monikon partitiivi?",
+    "a": [
+      "äitejä",
+      "äitiä",
+      "äitija",
+      "äititä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 79,
+    "q": "Valitse lauseeseen oikea muoto: <em>Kaupassa on paljon ___.</em> (omena)",
+    "a": [
+      "omenoita",
+      "omenat",
+      "omenaa",
+      "omenoja"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 80,
+    "q": "Valitse lauseeseen oikea muoto: <em>Pihalla leikkii paljon ___.</em> (lapsi)",
+    "a": [
+      "lapsia",
+      "lapset",
+      "lasta",
+      "lapseja"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 81,
+    "q": "Valitse lauseeseen oikea muoto: <em>Luokassa on monta ___.</em> (oppilas)",
+    "a": [
+      "oppilaita",
+      "oppilaat",
+      "oppilasta",
+      "oppilasia"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 82,
+    "q": "Valitse lauseeseen oikea muoto: <em>Näen kadulla paljon ___.</em> (auto)",
+    "a": [
+      "autoja",
+      "autot",
+      "autoa",
+      "autoita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 83,
+    "q": "Mikä näistä on monikon partitiivissa?",
+    "a": [
+      "koiria",
+      "koiran",
+      "koirat",
+      "koiraa"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 84,
+    "q": "Mikä näistä on monikon partitiivissa?",
+    "a": [
+      "ihmisiä",
+      "ihminen",
+      "ihmiset",
+      "ihmistä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 85,
+    "q": "Mikä näistä on monikon partitiivissa?",
+    "a": [
+      "töitä",
+      "työ",
+      "työt",
+      "työtä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 86,
+    "q": "Mikä näistä on monikon partitiivissa?",
+    "a": [
+      "hampaita",
+      "hammas",
+      "hampaat",
+      "hammasta"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 87,
+    "q": "Mikä näistä on monikon partitiivissa?",
+    "a": [
+      "ystäviä",
+      "ystävä",
+      "ystävät",
+      "ystävää"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 88,
+    "q": "Mikä pari on oikein?",
+    "a": [
+      "nainen → naisia",
+      "nainen → naiseja",
+      "nainen → naisita",
+      "nainen → naisija"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 89,
+    "q": "Mikä pari on oikein?",
+    "a": [
+      "mies → miehiä",
+      "mies → miesiä",
+      "mies → miehejä",
+      "mies → miehitä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 90,
+    "q": "Mikä pari on oikein?",
+    "a": [
+      "työ → töitä",
+      "työ → työitä",
+      "työ → työjä",
+      "työ → töjä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 91,
+    "q": "Mikä pari on oikein?",
+    "a": [
+      "hammas → hampaita",
+      "hammas → hammasia",
+      "hammas → hampasia",
+      "hammas → hammaita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 92,
+    "q": "Mikä pari on oikein?",
+    "a": [
+      "huone → huoneita",
+      "huone → huoneja",
+      "huone → huonia",
+      "huone → huoneta"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 93,
+    "q": "Täydennä: <em>Minulla on paljon suomalaisia ___.</em> (ystävä)",
+    "a": [
+      "ystäviä",
+      "ystävät",
+      "ystävää",
+      "ystäväjä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 94,
+    "q": "Täydennä: <em>Torilla myydään tuoreita ___.</em> (kala)",
+    "a": [
+      "kaloja",
+      "kalat",
+      "kalaa",
+      "kaloita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 95,
+    "q": "Täydennä: <em>Kirjastossa on paljon vanhoja ___.</em> (kirja)",
+    "a": [
+      "kirjoja",
+      "kirjat",
+      "kirjaa",
+      "kirjoita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 96,
+    "q": "Täydennä: <em>Koulussa on paljon uusia ___.</em> (opettaja)",
+    "a": [
+      "opettajia",
+      "opettajat",
+      "opettajaa",
+      "opettajoja"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 97,
+    "q": "Täydennä: <em>Taivaalla näkyi kirkkaita ___.</em> (tähti)",
+    "a": [
+      "tähtiä",
+      "tähdet",
+      "tähteä",
+      "tähtejä"
+    ],
+    "correct": 0
+  }
+];
+
+    const TIME_PER_QUESTION = 15;
+    let timerInterval = null;
+    let timeLeft = TIME_PER_QUESTION;
+
+    let questionNumber = 0;
+    let score = 0;
+    let correctAnswers = 0;
+    let gameMode = "normal";
+    let currentQuestion = null;
+    let running = false;
+    let usedQuestions = new Set();
+    let easyQueue = [];
+    let mixedQueue = [];
+
+    const buttons = document.querySelectorAll(".buttons button");
+
+    function setMode(mode) {
+      gameMode = mode;
+
+      document.getElementById("normalModeButton").classList.toggle("active", mode === "normal");
+      document.getElementById("hardcoreModeButton").classList.toggle("active", mode === "hardcore");
+
+
+      // Vaihdettaessa pelitilaa aloitetaan uusi peli, jotta pisteytys ja ajastin ovat selkeät.
+      startGame();
+    }
+
+    function getBestScoreData() {
+      const bestScore = Number(localStorage.getItem("pluralPartitiveBestScore") || 0);
+      const bestMode = localStorage.getItem("pluralPartitiveBestScoreMode") || "normal";
+      return { bestScore, bestMode };
+    }
+
+    function updateHighscoreDisplay() {
+      const { bestScore, bestMode } = getBestScoreData();
+      const modeText = bestMode === "hardcore" && bestScore > 0 ? " (Hardcore)" : "";
+      document.getElementById("highscore").textContent =
+        `Parhaat pisteesi: ${bestScore}${modeText}`;
+    }
+
+    function saveHighscoreIfNeeded() {
+      const { bestScore } = getBestScoreData();
+
+      if (score > bestScore) {
+        localStorage.setItem("pluralPartitiveBestScore", String(score));
+        localStorage.setItem("pluralPartitiveBestScoreMode", gameMode);
+      }
+
+      updateHighscoreDisplay();
+    }
+
+    function startGame() {
+      clearInterval(timerInterval);
+      questionNumber = 0;
+      score = 0;
+      correctAnswers = 0;
+      currentQuestion = null;
+      running = true;
+      usedQuestions = new Set();
+      // Ensimmäiset viisi ovat satunnaisia helppoja kysymyksiä.
+      easyQueue = shuffleArray(questionBank.filter(q => q.level === 1).slice());
+      mixedQueue = [];
+
+      document.getElementById("retryButton").style.display = "none";
+      document.getElementById("gameOver").textContent = "";
+      document.getElementById("finalMessage").textContent = "";
+      document.getElementById("resultFeedback").textContent = "";
+      document.getElementById("feedback").textContent = "";
+
+      updateScore();
+      nextQuestion();
+    }
+
+    function getQuestion() {
+      // Ensimmäiset viisi kysymystä arvotaan helppojen kysymysten joukosta.
+      if (questionNumber < 5) {
+        while (easyQueue.length > 0) {
+          const candidate = easyQueue.shift();
+          if (!usedQuestions.has(candidate)) return candidate;
+        }
+      }
+
+      // Viiden ensimmäisen jälkeen kaikki jäljellä olevat helpot ja vaikeat
+      // kysymykset sekoitetaan yhdeksi satunnaiseksi jonoksi.
+      if (mixedQueue.length === 0) {
+        const remaining = questionBank.filter(q => !usedQuestions.has(q));
+        mixedQueue = shuffleArray(remaining.slice());
+      }
+
+      while (mixedQueue.length > 0) {
+        const candidate = mixedQueue.shift();
+        if (!usedQuestions.has(candidate)) return candidate;
+      }
+
+      return null;
+    }
+
+    function getTimeForQuestion() {
+      if (gameMode === "hardcore") {
+        return 3;
+      }
+
+      // Normal mode: lähtöaika 15 s. Jokaisen kolmen oikean vastauksen jälkeen
+      // seuraavan kysymyksen aika lyhenee yhdellä sekunnilla.
+      return Math.max(3, TIME_PER_QUESTION - Math.floor(correctAnswers / 3));
+    }
+
+    function updateTimerDisplay(totalTime) {
+      const shownTime = Math.max(0, Math.ceil(timeLeft));
+      document.getElementById("timerText").textContent = `Aikaa: ${shownTime} s`;
+      const percent = Math.max(0, Math.min(100, (timeLeft / totalTime) * 100));
+      document.getElementById("timeBar").style.width = `${percent}%`;
+    }
+
+    function startTimer() {
+      clearInterval(timerInterval);
+
+      const totalTime = getTimeForQuestion();
+      timeLeft = totalTime;
+      updateTimerDisplay(totalTime);
+
+      const startedAt = Date.now();
+
+      timerInterval = setInterval(() => {
+        if (!running) {
+          clearInterval(timerInterval);
+          return;
+        }
+
+        const elapsed = (Date.now() - startedAt) / 1000;
+        timeLeft = totalTime - elapsed;
+        updateTimerDisplay(totalTime);
+
+        if (timeLeft <= 0) {
+          timeLeft = 0;
+          updateTimerDisplay(totalTime);
+          clearInterval(timerInterval);
+          buttons.forEach(btn => btn.disabled = true);
+          endGame("Aika loppui! ⏱️");
+        }
+      }, 100);
+    }
+
+    function nextQuestion() {
+      if (!running) return;
+
+      currentQuestion = getQuestion();
+
+      if (!currentQuestion) {
+        winGame();
+        return;
+      }
+
+      usedQuestions.add(currentQuestion);
+
+      questionNumber++;
+
+      document.getElementById("questionNumberText").textContent =
+        `Kysymys ${questionNumber}`;
+
+      document.getElementById("question").innerHTML = currentQuestion.q;
+      document.getElementById("feedback").textContent = "";
+
+      const answers = shuffleArray(currentQuestion.a.map((text, index) => ({
+        text: text,
+        originalIndex: index
+      })));
+
+      buttons.forEach((btn, i) => {
+        btn.disabled = false;
+        btn.classList.remove("wrong-answer");
+        btn.textContent = answers[i].text;
+        btn.onclick = () => answer(answers[i].originalIndex, btn);
+      });
+
+      startTimer();
+    }
+
+    function shuffleArray(array) {
+      // Fisher–Yates
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function answer(choice, selectedButton) {
+      if (!running) return;
+
+      clearInterval(timerInterval);
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (choice === currentQuestion.correct) {
+        correctAnswers++;
+        score += gameMode === "hardcore" ? 3 : 1;
+        document.getElementById("feedback").textContent = "Oikein! ✓";
+        updateScore();
+
+        // Pieni tauko tekee palautteesta näkyvän ilman, että peli tuntuu tahmealta.
+        setTimeout(() => {
+          if (running) nextQuestion();
+        }, 250);
+
+      } else {
+        if (selectedButton) {
+          selectedButton.classList.add("wrong-answer");
+        }
+        endGame("Väärä vastaus! ❌");
+      }
+    }
+
+    function getResultMessage(score) {
+      if (score <= 4) {
+        return "Okei, lisää harjoitusta!";
+      } else if (score <= 9) {
+        return "Ihan hyvät pisteet jo!";
+      } else if (score <= 17) {
+        return "Monikon partitiivi alkaa olla hallussa!";
+      } else if (score <= 24) {
+        return "Oho! Todella kova tulos!";
+      } else if (score <= 30) {
+        return "Mitä!? Jäätävät pisteet!";
+      } else if (score <= 50) {
+        return "Osaat jo melkein paremmin kuin Sami! Huikeaa!";
+      } else {
+        return "Monikon partitiivi suoritettu kiitettävin pistein! Onneksi olkoon!";
+      }
+    }
+
+    function winGame() {
+      clearInterval(timerInterval);
+      running = false;
+
+      buttons.forEach(btn => btn.disabled = true);
+
+      document.getElementById("feedback").textContent = "";
+      document.getElementById("gameOver").textContent =
+        "🎉 Kaikki kysymykset suoritettu!";
+
+      document.getElementById("finalMessage").textContent =
+        gameMode === "hardcore"
+          ? `Lopulliset pisteesi: ${score} · Oikein: ${correctAnswers}`
+          : `Lopulliset pisteesi: ${score} / ${questionBank.length}`;
+      document.getElementById("resultFeedback").textContent =
+        getResultMessage(score);
+
+      updateScore();
+      saveHighscoreIfNeeded();
+      document.getElementById("retryButton").style.display = "inline-block";
+    }
+
+    function updateScore() {
+      document.getElementById("score").textContent =
+        gameMode === "hardcore"
+          ? `Pisteet: ${score} · Hardcore`
+          : `Pisteet: ${score}`;
+    }
+
+    function endGame(message) {
+      if (!running) return;
+
+      clearInterval(timerInterval);
+      running = false;
+
+      buttons.forEach(btn => btn.disabled = true);
+
+      document.getElementById("feedback").textContent = "";
+      document.getElementById("gameOver").textContent = message;
+
+      document.getElementById("finalMessage").textContent =
+        gameMode === "hardcore"
+          ? `Lopulliset pisteesi: ${score} · Oikein: ${correctAnswers}`
+          : `Lopulliset pisteesi: ${score}`;
+      document.getElementById("resultFeedback").textContent =
+        getResultMessage(score);
+
+      updateScore();
+      saveHighscoreIfNeeded();
+      document.getElementById("retryButton").style.display = "inline-block";
+    }
+
+    updateScore();
+    updateHighscoreDisplay();
+    startGame();
+  </script>
+
+</body>
+</html>
