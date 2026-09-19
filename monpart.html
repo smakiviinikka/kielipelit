@@ -240,7 +240,26 @@
       outline-offset: 1px;
     }
 
-  </style>
+  
+      /* Puhelimella kosketuksen jälkeen painike ei saa jäädä hover/focus-tilaan. */
+      @media (hover: none) and (pointer: coarse) {
+        .answerButton:hover,
+        .answerButton:focus,
+        .answerButton:active {
+          background: #f0d2ad;
+          border-color: #b8794f;
+          color: #49372a;
+        }
+
+        .answerButton.wrong-answer,
+        .answerButton.wrong-answer:hover,
+        .answerButton.wrong-answer:focus,
+        .answerButton.wrong-answer:active {
+          background: #f0ddd8 !important;
+        }
+      }
+
+    </style>
 </head>
 <body>
 
@@ -1265,7 +1284,7 @@
   {
     "level": 2,
     "id": 81,
-    "q": "Valitse lauseeseen oikea muoto: <em>Luokassa on monta ___.</em> (oppilas)",
+    "q": "Valitse lauseeseen oikea muoto: <em>Luokassa on paljon _________.</em> (oppilas)",
     "a": [
       "oppilaita",
       "oppilaat",
@@ -1636,6 +1655,10 @@
         originalIndex: index
       })));
 
+      if (document.activeElement && typeof document.activeElement.blur === "function") {
+        document.activeElement.blur();
+      }
+
       buttons.forEach((btn, i) => {
         btn.disabled = false;
         btn.classList.remove("wrong-answer");
@@ -1657,6 +1680,10 @@
 
     function answer(choice, selectedButton) {
       if (!running) return;
+
+      if (selectedButton && typeof selectedButton.blur === "function") {
+        selectedButton.blur();
+      }
 
       clearInterval(timerInterval);
       buttons.forEach(btn => btn.disabled = true);
