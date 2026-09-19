@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sanaluokkien kertausta</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 18px 10px 30px;
+      min-height: 100vh;
+      box-sizing: border-box;
+      background: #eef3fa;
+      color: #28364a;
+    }
+
+    h1 {
+      font-size: clamp(28px, 6vw, 40px);
+      margin-bottom: 8px;
+      color: #465f8a;
+    }
+
+    #instructions {
+      font-weight: bold;
+      font-size: clamp(16px, 4vw, 20px);
+      margin: 0 auto 15px;
+      max-width: 800px;
+    }
+
+    #score, #levelText {
+      font-size: clamp(16px, 4vw, 20px);
+      margin-bottom: 6px;
+    }
+
+    #questionNumberText {
+      margin-top: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #4b4035;
+    }
+
+
+    #question {
+      font-size: clamp(20px, 5vw, 30px);
+      font-weight: bold;
+      max-width: 900px;
+      margin: 25px auto 20px;
+      padding: 22px 18px;
+      line-height: 1.35;
+      background: #f8f7fc;
+      border: 1px solid #c9cce0;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(76, 65, 47, 0.08);
+    }
+
+    #question em {
+      font-style: italic;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    button {
+      padding: 18px;
+      font-size: clamp(16px, 4vw, 20px);
+      font-weight: bold;
+      cursor: pointer;
+      border: 1px solid #7d91b5;
+      border-radius: 9px;
+      background: #c9d5eb;
+      color: #26344c;
+      box-shadow: 0 2px 5px rgba(76, 65, 47, 0.10);
+    }
+
+    button:hover {
+      background: #b9c8e2;
+    }
+
+    button:disabled {
+      cursor: default;
+      opacity: 1;
+    }
+
+    .wrong-answer {
+      outline: 3px solid #9b5f52;
+      background: #f0ddd8 !important;
+    }
+
+
+    #timerArea {
+      margin: 14px auto 4px;
+      max-width: 620px;
+    }
+
+    #timerText {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 7px;
+      color: #44536d;
+    }
+
+    #timeBarOuter {
+      width: 100%;
+      height: 12px;
+      background: #e2d7ca;
+      border: 1px solid #b49b82;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    #timeBar {
+      width: 100%;
+      height: 100%;
+      background: #8d7258;
+      transition: width 0.1s linear;
+    }
+
+    #feedback {
+      min-height: 28px;
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    #gameOver {
+      font-size: clamp(18px, 5vw, 28px);
+      font-weight: bold;
+      margin-top: 25px;
+      color: #76523e;
+    }
+
+    #finalMessage {
+      font-size: clamp(16px, 4vw, 20px);
+      margin-top: 8px;
+      color: #444;
+    }
+
+    #resultFeedback {
+      font-size: clamp(17px, 4vw, 21px);
+      font-weight: bold;
+      margin-top: 8px;
+      color: #44536d;
+    }
+
+    #retryButton {
+      margin-top: 15px;
+      padding: 12px 25px;
+      font-size: 18px;
+      display: none;
+      background: #526fa3;
+      color: white;
+      border-color: #43573a;
+    }
+
+    #retryButton:hover {
+      background: #465c3c;
+    }
+
+    #highscore {
+      margin-top: 30px;
+      font-size: 18px;
+      color: #333;
+    }
+
+    #logoFooter {
+      margin-top: 40px;
+    }
+
+    #logoFooter .collabLabel {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 4px;
+    }
+
+    #logoFooter .logoText {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    #logoFooter span {
+      color: #617d52;
+    }
+
+    @media (max-width: 600px) {
+      .buttons {
+        grid-template-columns: 1fr;
+      }
+      button {
+        padding: 15px;
+      }
+    }
+  
+    #modeControls {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      margin-bottom: 8px;
+    }
+
+    #modeControls .modeButton {
+      padding: 4px 8px;
+      min-width: 0;
+      width: auto;
+      font-size: 11px;
+      line-height: 1.2;
+      font-weight: bold;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    #modeControls .modeButton.normal {
+      background: #dff0d8 !important;
+      border: 1px solid #7fa56f !important;
+      color: #294323 !important;
+    }
+
+    #modeControls .modeButton.hardcore {
+      background: #e7a0a0 !important;
+      border: 1px solid #a94d4d !important;
+      color: #5a1f1f !important;
+    }
+
+    #modeControls .modeButton.normal.active {
+      outline: 2px solid #5c7c50;
+      outline-offset: 1px;
+    }
+
+    #modeControls .modeButton.hardcore.active {
+      outline: 2px solid #9a3434;
+      outline-offset: 1px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Sanaluokkien kertausta</h1>
+
+  <div id="instructions">
+    Valitse oikea vastaus.
+  </div>
+
+
+  <div id="score">Pisteet: 0</div>
+  <div id="questionNumberText">Kysymys 1</div>
+
+  <div id="timerArea">
+    <div id="timerText">Aikaa: 15 s</div>
+    <div id="timeBarOuter"><div id="timeBar"></div></div>
+  </div>
+
+  <div id="question"></div>
+
+  <div class="buttons">
+    <button></button>
+    <button></button>
+    <button></button>
+    <button></button>
+  </div>
+
+  <div id="feedback"></div>
+  <div id="gameOver"></div>
+  <div id="finalMessage"></div>
+  <div id="resultFeedback"></div>
+  <button id="retryButton" onclick="startGame()">Yritä uudelleen</button>
+
+  <div id="modeControls">
+    <button class="modeButton normal active" id="normalModeButton" onclick="setMode('normal')">Normal mode</button>
+    <button class="modeButton hardcore" id="hardcoreModeButton" onclick="setMode('hardcore')">Hardcore mode</button>
+  </div>
+  <div id="highscore">Parhaat pisteesi: 0</div>
+
+  <div id="logoFooter">
+    <div class="collabLabel">Yhteistyössä:</div>
+    <div class="logoText">Sami <span>×</span> ChatGPT</div>
+  </div>
+
+  <script>
+    /*
+      SANALUOKKAPELI
+      ----------------
+      Kysymyspankki on jaettu vaikeustasoihin 1–4 ja perustuu annetun kuvan pronominiryhmiin.
+      Peli etenee vaikeustasolta toiselle pisteiden karttuessa.
+      Kysymykset valitaan satunnaisesti kyseisen tason joukosta.
+    */
+
+
+      // Huomio kysymyspankin laatimisessa:
+      // "Se, mitä sanoit..." on objekti -> mitä.
+      // "Se, mikä yllätti kaikki..." viittaa edeltävään asiaan -> mikä.
+      // "Kirja, jonka luin..." -> jonka (objekti).
+      // "Kirja, joka löytyi..." -> joka (tekijä/subjekti).
+
+    const questionBank = [
+  {
+    "level": 1,
+    "id": 1,
+    "q": "Mikä sanaluokka? <em>istua</em>",
+    "a": [
+      "verbi",
+      "substantiivi",
+      "adjektiivi",
+      "pronomini"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 2,
+    "q": "Mikä sanaluokka? <em>koira</em>",
+    "a": [
+      "substantiivi",
+      "verbi",
+      "adjektiivi",
+      "adverbi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 3,
+    "q": "Mikä sanaluokka? <em>kaunis</em>",
+    "a": [
+      "adjektiivi",
+      "substantiivi",
+      "verbi",
+      "pronomini"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 4,
+    "q": "Mikä sanaluokka? <em>hän</em>",
+    "a": [
+      "pronomini",
+      "adjektiivi",
+      "substantiivi",
+      "verbi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 5,
+    "q": "Mikä sanaluokka? <em>nopeasti</em>",
+    "a": [
+      "adverbi",
+      "adjektiivi",
+      "verbi",
+      "substantiivi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 6,
+    "q": "Mikä sanaluokka? <em>ja</em>",
+    "a": [
+      "konjunktio",
+      "adverbi",
+      "pronomini",
+      "verbi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 7,
+    "q": "Mikä sanaluokka? <em>kolme</em>",
+    "a": [
+      "numeraali",
+      "substantiivi",
+      "adjektiivi",
+      "adverbi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 8,
+    "q": "Mikä sanaluokka? <em>Helsinki</em>",
+    "a": [
+      "substantiivi",
+      "adjektiivi",
+      "pronomini",
+      "verbi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 9,
+    "q": "Mikä sanaluokka? <em>me</em>",
+    "a": [
+      "pronomini",
+      "numeraali",
+      "adverbi",
+      "substantiivi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 10,
+    "q": "Mikä sanaluokka? <em>mutta</em>",
+    "a": [
+      "konjunktio",
+      "pronomini",
+      "verbi",
+      "adjektiivi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 11,
+    "q": "Mikä sanaluokka? <em>seitsemän</em>",
+    "a": [
+      "numeraali",
+      "adverbi",
+      "substantiivi",
+      "verbi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 1,
+    "id": 12,
+    "q": "Mikä sanaluokka? <em>iloinen</em>",
+    "a": [
+      "adjektiivi",
+      "verbi",
+      "adverbi",
+      "substantiivi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 13,
+    "q": "Mikä sanaluokka? <em>koulussa</em>",
+    "a": [
+      "substantiivi",
+      "adverbi",
+      "verbi",
+      "adjektiivi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 14,
+    "q": "Mikä sanaluokka? <em>juoksimme</em>",
+    "a": [
+      "verbi",
+      "substantiivi",
+      "adjektiivi",
+      "adverbi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 15,
+    "q": "Mikä sanaluokka? <em>minulle</em>",
+    "a": [
+      "pronomini",
+      "substantiivi",
+      "adverbi",
+      "adjektiivi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 16,
+    "q": "Mikä sanaluokka? <em>parempi</em>",
+    "a": [
+      "adjektiivi",
+      "adverbi",
+      "verbi",
+      "substantiivi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 17,
+    "q": "Mikä sanaluokka? <em>eilen</em>",
+    "a": [
+      "adverbi",
+      "adjektiivi",
+      "substantiivi",
+      "pronomini"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 18,
+    "q": "Mikä sanaluokka? <em>koska</em>",
+    "a": [
+      "konjunktio",
+      "adverbi",
+      "pronomini",
+      "substantiivi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 19,
+    "q": "Mikä sanaluokka? <em>ensimmäinen</em>",
+    "a": [
+      "numeraali",
+      "adjektiivi",
+      "substantiivi",
+      "adverbi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 20,
+    "q": "Mikä sanaluokka? <em>joku</em>",
+    "a": [
+      "pronomini",
+      "substantiivi",
+      "adjektiivi",
+      "adverbi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 21,
+    "q": "Mikä sanaluokka? <em>laulaminen</em>",
+    "a": [
+      "substantiivi",
+      "verbi",
+      "adjektiivi",
+      "adverbi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 22,
+    "q": "Mikä sanaluokka? <em>hiljaa</em>",
+    "a": [
+      "adverbi",
+      "adjektiivi",
+      "substantiivi",
+      "verbi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 23,
+    "q": "Missä vaihtoehdossa kaikki sanat ovat substantiiveja?",
+    "a": [
+      "koulu, ilo, Seinäjoki",
+      "kaunis, talo, metsä",
+      "juosta, uni, kirja",
+      "hän, koira, pöytä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 24,
+    "q": "Missä vaihtoehdossa kaikki sanat ovat verbejä?",
+    "a": [
+      "juosta, ajatella, olla",
+      "uni, juosta, kävellä",
+      "kaunis, olla, nähdä",
+      "hän, tehdä, tulla"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 25,
+    "q": "Missä vaihtoehdossa kaikki sanat ovat adjektiiveja?",
+    "a": [
+      "suuri, vihreä, vaikea",
+      "nopeasti, suuri, hieno",
+      "talo, kaunis, pieni",
+      "hyvä, juosta, vanha"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 26,
+    "q": "Missä vaihtoehdossa kaikki sanat ovat pronomineja?",
+    "a": [
+      "minä, tämä, joku",
+      "hän, talo, se",
+      "kuka, kaunis, minä",
+      "jokin, juosta, tuo"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 27,
+    "q": "Missä vaihtoehdossa kaikki sanat ovat numeraaleja?",
+    "a": [
+      "kaksi, viides, sata",
+      "kolme, paljon, kuusi",
+      "ensimmäinen, usein, kaksi",
+      "sata, suuri, neljä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 28,
+    "q": "Missä vaihtoehdossa kaikki sanat ovat adverbeja?",
+    "a": [
+      "eilen, täällä, nopeasti",
+      "hiljainen, eilen, siellä",
+      "nyt, nopea, hyvin",
+      "tänään, koti, kaukana"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 29,
+    "q": "Missä vaihtoehdossa kaikki sanat ovat konjunktioita?",
+    "a": [
+      "ja, mutta, koska",
+      "että, hän, tai",
+      "jos, vaikka, siellä",
+      "sekä, kun, nopeasti"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 30,
+    "q": "Mikä seuraavista on taipumaton sana?",
+    "a": [
+      "nopeasti",
+      "koiralla",
+      "kauniin",
+      "juoksimme"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 31,
+    "q": "Mikä seuraavista kuuluu taipumattomiin sanoihin?",
+    "a": [
+      "eilen",
+      "minulle",
+      "kolmannen",
+      "talossa"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 32,
+    "q": "Mikä seuraavista on taipuva sana?",
+    "a": [
+      "kirjassa",
+      "eilen",
+      "mutta",
+      "ehkä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 33,
+    "q": "Mikä seuraavista on erisnimi?",
+    "a": [
+      "Pekka",
+      "poika",
+      "kaupunki",
+      "opettaja"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 34,
+    "q": "Mikä seuraavista on yleisnimi?",
+    "a": [
+      "kaupunki",
+      "Tampere",
+      "Suomi",
+      "Maija"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 35,
+    "q": "Mikä seuraavista on abstrakti substantiivi?",
+    "a": [
+      "rakkaus",
+      "tuoli",
+      "koira",
+      "omena"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 36,
+    "q": "Mikä seuraavista on konkreettinen substantiivi?",
+    "a": [
+      "polkupyörä",
+      "ilo",
+      "viha",
+      "rohkeus"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 37,
+    "q": "Mikä sana lauseessa on verbi? <em>Vanha koira nukkui rauhallisesti.</em>",
+    "a": [
+      "nukkui",
+      "vanha",
+      "koira",
+      "rauhallisesti"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 38,
+    "q": "Mikä sana lauseessa on adjektiivi? <em>Pieni lintu lauloi kauniisti.</em>",
+    "a": [
+      "pieni",
+      "lintu",
+      "lauloi",
+      "kauniisti"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 39,
+    "q": "Mikä sana lauseessa on adverbi? <em>Pieni lintu lauloi kauniisti.</em>",
+    "a": [
+      "kauniisti",
+      "pieni",
+      "lintu",
+      "lauloi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 40,
+    "q": "Mikä sana lauseessa on pronomini? <em>Hän löysi vanhan kirjan.</em>",
+    "a": [
+      "hän",
+      "löysi",
+      "vanhan",
+      "kirjan"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 41,
+    "q": "Mikä sana lauseessa on numeraali? <em>Kolme oppilasta tuli myöhässä.</em>",
+    "a": [
+      "kolme",
+      "oppilasta",
+      "tuli",
+      "myöhässä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 42,
+    "q": "Mikä sana lauseessa on konjunktio? <em>Lähdin kotiin, koska olin väsynyt.</em>",
+    "a": [
+      "koska",
+      "kotiin",
+      "olin",
+      "väsynyt"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 43,
+    "q": "Mihin sanaluokkaan sana <em>juokseminen</em> kuuluu?",
+    "a": [
+      "substantiiveihin",
+      "verbeihin",
+      "adjektiiveihin",
+      "adverbeihin"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 44,
+    "q": "Mihin sanaluokkaan sana <em>kauneus</em> kuuluu?",
+    "a": [
+      "substantiiveihin",
+      "adjektiiveihin",
+      "adverbeihin",
+      "verbeihin"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 45,
+    "q": "Mikä väite verbeistä pitää paikkansa?",
+    "a": [
+      "Ne taipuvat persoonamuodoissa.",
+      "Ne tarkoittavat aina fyysistä tekemistä.",
+      "Ne eivät taivu lainkaan.",
+      "Ne ovat aina lauseen ensimmäisiä sanoja."
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 46,
+    "q": "Mikä väite adjektiiveista pitää paikkansa?",
+    "a": [
+      "Ne ilmaisevat usein ominaisuutta.",
+      "Ne ilmaisevat aina tekemistä.",
+      "Ne ovat aina erisnimiä.",
+      "Ne eivät koskaan taivu."
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 47,
+    "q": "Mikä väite pronomineista pitää paikkansa?",
+    "a": [
+      "Ne voivat viitata henkilöihin tai asioihin.",
+      "Ne korvaavat aina verbejä.",
+      "Ne ovat aina taipumattomia.",
+      "Niitä ovat vain minä ja sinä."
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 48,
+    "q": "Mikä väite substantiiveista pitää paikkansa?",
+    "a": [
+      "Niillä voidaan nimetä asioita, olentoja ja ilmiöitä.",
+      "Ne ovat aina konkreettisia esineitä.",
+      "Ne eivät taivu sijamuodoissa.",
+      "Kaikki substantiivit kirjoitetaan isolla alkukirjaimella."
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 49,
+    "q": "Mikä seuraavista EI ole substantiivi?",
+    "a": [
+      "kaunis",
+      "metsä",
+      "ystävä",
+      "onnellisuus"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 50,
+    "q": "Mikä seuraavista EI ole verbi?",
+    "a": [
+      "juoksu",
+      "juosta",
+      "ajatella",
+      "nukkua"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 51,
+    "q": "Mikä seuraavista EI ole adjektiivi?",
+    "a": [
+      "kauniisti",
+      "vihreä",
+      "pitkä",
+      "iloinen"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 52,
+    "q": "Mikä seuraavista EI ole pronomini?",
+    "a": [
+      "koti",
+      "hän",
+      "tämä",
+      "joku"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 53,
+    "q": "Mikä seuraavista EI ole numeraali?",
+    "a": [
+      "moni",
+      "kaksi",
+      "toinen",
+      "sata"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 54,
+    "q": "Mikä seuraavista EI ole konjunktio?",
+    "a": [
+      "ehkä",
+      "ja",
+      "mutta",
+      "koska"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 55,
+    "q": "Valitse substantiivi.",
+    "a": [
+      "vapaus",
+      "vapaa",
+      "vapaasti",
+      "vapautua"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 56,
+    "q": "Valitse adjektiivi.",
+    "a": [
+      "onnellinen",
+      "onni",
+      "onnellisesti",
+      "onnistua"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 57,
+    "q": "Valitse adverbi.",
+    "a": [
+      "rohkeasti",
+      "rohkea",
+      "rohkeus",
+      "rohkaista"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 58,
+    "q": "Valitse verbi.",
+    "a": [
+      "kaunistaa",
+      "kaunis",
+      "kauneus",
+      "kauniisti"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 59,
+    "q": "Sana <em>hyvin</em> määrittää usein verbiä tai adjektiivia. Mikä sanaluokka se on?",
+    "a": [
+      "adverbi",
+      "adjektiivi",
+      "substantiivi",
+      "pronomini"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 60,
+    "q": "Sana <em>joka</em> viittaa usein edellä mainittuun sanaan. Mikä sanaluokka se on?",
+    "a": [
+      "pronomini",
+      "konjunktio",
+      "adverbi",
+      "substantiivi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 61,
+    "q": "Sana <em>vaikka</em> yhdistää lauseita. Mikä sanaluokka se on?",
+    "a": [
+      "konjunktio",
+      "pronomini",
+      "adverbi",
+      "verbi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 62,
+    "q": "Sana <em>kymmenes</em> ilmaisee järjestystä. Mikä sanaluokka se on?",
+    "a": [
+      "numeraali",
+      "adjektiivi",
+      "substantiivi",
+      "adverbi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 63,
+    "q": "Mikä sanaluokka voi taipua aikamuodoissa?",
+    "a": [
+      "verbi",
+      "substantiivi",
+      "adjektiivi",
+      "pronomini"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 64,
+    "q": "Mikä sanaluokka voi saada vertailumuodot <em>kaunis – kauniimpi – kaunein</em>?",
+    "a": [
+      "adjektiivi",
+      "substantiivi",
+      "pronomini",
+      "konjunktio"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 65,
+    "q": "Mikä sanaluokka sisältää sanat <em>minä, sinä, hän</em>?",
+    "a": [
+      "pronominit",
+      "substantiivit",
+      "adverbit",
+      "konjunktiot"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 66,
+    "q": "Mikä sanaluokka sisältää sanat <em>yksi, kaksi, kolmas</em>?",
+    "a": [
+      "numeraalit",
+      "adjektiivit",
+      "substantiivit",
+      "pronominit"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 67,
+    "q": "Mikä sanaluokka sisältää sanat <em>ja, tai, mutta</em>?",
+    "a": [
+      "konjunktiot",
+      "adverbit",
+      "pronominit",
+      "verbit"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 68,
+    "q": "Mikä sanaluokka sisältää sanat <em>täällä, eilen, hyvin</em>?",
+    "a": [
+      "adverbit",
+      "adjektiivit",
+      "substantiivit",
+      "pronominit"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 69,
+    "q": "Mikä sana on lauseessa substantiivi? <em>Nuori poika juoksi nopeasti kotiin.</em>",
+    "a": [
+      "kotiin",
+      "nuori",
+      "juoksi",
+      "nopeasti"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 70,
+    "q": "Mikä sana on lauseessa verbi? <em>Meidän uusi automme kulkee hiljaa.</em>",
+    "a": [
+      "kulkee",
+      "meidän",
+      "uusi",
+      "hiljaa"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 71,
+    "q": "Mikä sana on lauseessa pronomini? <em>Meidän uusi automme kulkee hiljaa.</em>",
+    "a": [
+      "meidän",
+      "uusi",
+      "automme",
+      "hiljaa"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 72,
+    "q": "Mikä sana on lauseessa adverbi? <em>Meidän uusi automme kulkee hiljaa.</em>",
+    "a": [
+      "hiljaa",
+      "meidän",
+      "uusi",
+      "automme"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 73,
+    "q": "Mikä pari koostuu samasta sanaluokasta?",
+    "a": [
+      "kaunis – suuri",
+      "juosta – nopeasti",
+      "hän – talo",
+      "kolme – eilen"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 74,
+    "q": "Mikä pari koostuu eri sanaluokista?",
+    "a": [
+      "onni – onnellinen",
+      "kaunis – suuri",
+      "juosta – ajatella",
+      "minä – hän"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 75,
+    "q": "Lauseessa <em>Juokseva poika kaatui.</em> mikä sanaluokka sana <em>juokseva</em> on?",
+    "a": [
+      "adjektiivi",
+      "verbi",
+      "substantiivi",
+      "adverbi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 76,
+    "q": "Lauseessa <em>Uiminen on hauskaa.</em> mikä sanaluokka sana <em>uiminen</em> on?",
+    "a": [
+      "substantiivi",
+      "verbi",
+      "adjektiivi",
+      "adverbi"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 2,
+    "id": 77,
+    "q": "Lauseessa <em>Hän juoksee todella nopeasti.</em> mikä sanaluokka sana <em>todella</em> on?",
+    "a": [
+      "adverbi",
+      "adjektiivi",
+      "pronomini",
+      "konjunktio"
+    ],
+    "correct": 0
+  }
+];
+
+    const TIME_PER_QUESTION = 15;
+    let timerInterval = null;
+    let timeLeft = TIME_PER_QUESTION;
+
+    let questionNumber = 0;
+    let score = 0;
+    let correctAnswers = 0;
+    let gameMode = "normal";
+    let currentQuestion = null;
+    let running = false;
+    let usedQuestions = new Set();
+    let easyQueue = [];
+    let mixedQueue = [];
+
+    const buttons = document.querySelectorAll(".buttons button");
+
+    function setMode(mode) {
+      gameMode = mode;
+
+      document.getElementById("normalModeButton").classList.toggle("active", mode === "normal");
+      document.getElementById("hardcoreModeButton").classList.toggle("active", mode === "hardcore");
+
+
+      // Vaihdettaessa pelitilaa aloitetaan uusi peli, jotta pisteytys ja ajastin ovat selkeät.
+      startGame();
+    }
+
+    function getBestScoreData() {
+      const bestScore = Number(localStorage.getItem("wordClassBestScore") || 0);
+      const bestMode = localStorage.getItem("wordClassBestScoreMode") || "normal";
+      return { bestScore, bestMode };
+    }
+
+    function updateHighscoreDisplay() {
+      const { bestScore, bestMode } = getBestScoreData();
+      const modeText = bestMode === "hardcore" && bestScore > 0 ? " (Hardcore)" : "";
+      document.getElementById("highscore").textContent =
+        `Parhaat pisteesi: ${bestScore}${modeText}`;
+    }
+
+    function saveHighscoreIfNeeded() {
+      const { bestScore } = getBestScoreData();
+
+      if (score > bestScore) {
+        localStorage.setItem("wordClassBestScore", String(score));
+        localStorage.setItem("wordClassBestScoreMode", gameMode);
+      }
+
+      updateHighscoreDisplay();
+    }
+
+    function startGame() {
+      clearInterval(timerInterval);
+      questionNumber = 0;
+      score = 0;
+      correctAnswers = 0;
+      currentQuestion = null;
+      running = true;
+      usedQuestions = new Set();
+      // Ensimmäiset viisi ovat satunnaisia helppoja kysymyksiä.
+      easyQueue = shuffleArray(questionBank.filter(q => q.level === 1).slice());
+      mixedQueue = [];
+
+      document.getElementById("retryButton").style.display = "none";
+      document.getElementById("gameOver").textContent = "";
+      document.getElementById("finalMessage").textContent = "";
+      document.getElementById("resultFeedback").textContent = "";
+      document.getElementById("feedback").textContent = "";
+
+      updateScore();
+      nextQuestion();
+    }
+
+    function getQuestion() {
+      // Ensimmäiset viisi kysymystä arvotaan helppojen kysymysten joukosta.
+      if (questionNumber < 5) {
+        while (easyQueue.length > 0) {
+          const candidate = easyQueue.shift();
+          if (!usedQuestions.has(candidate)) return candidate;
+        }
+      }
+
+      // Viiden ensimmäisen jälkeen kaikki jäljellä olevat helpot ja vaikeat
+      // kysymykset sekoitetaan yhdeksi satunnaiseksi jonoksi.
+      if (mixedQueue.length === 0) {
+        const remaining = questionBank.filter(q => !usedQuestions.has(q));
+        mixedQueue = shuffleArray(remaining.slice());
+      }
+
+      while (mixedQueue.length > 0) {
+        const candidate = mixedQueue.shift();
+        if (!usedQuestions.has(candidate)) return candidate;
+      }
+
+      return null;
+    }
+
+    function getTimeForQuestion() {
+      if (gameMode === "hardcore") {
+        return 3;
+      }
+
+      // Normal mode: lähtöaika 15 s. Jokaisen kolmen oikean vastauksen jälkeen
+      // seuraavan kysymyksen aika lyhenee yhdellä sekunnilla.
+      return Math.max(3, TIME_PER_QUESTION - Math.floor(correctAnswers / 3));
+    }
+
+    function updateTimerDisplay(totalTime) {
+      const shownTime = Math.max(0, Math.ceil(timeLeft));
+      document.getElementById("timerText").textContent = `Aikaa: ${shownTime} s`;
+      const percent = Math.max(0, Math.min(100, (timeLeft / totalTime) * 100));
+      document.getElementById("timeBar").style.width = `${percent}%`;
+    }
+
+    function startTimer() {
+      clearInterval(timerInterval);
+
+      const totalTime = getTimeForQuestion();
+      timeLeft = totalTime;
+      updateTimerDisplay(totalTime);
+
+      const startedAt = Date.now();
+
+      timerInterval = setInterval(() => {
+        if (!running) {
+          clearInterval(timerInterval);
+          return;
+        }
+
+        const elapsed = (Date.now() - startedAt) / 1000;
+        timeLeft = totalTime - elapsed;
+        updateTimerDisplay(totalTime);
+
+        if (timeLeft <= 0) {
+          timeLeft = 0;
+          updateTimerDisplay(totalTime);
+          clearInterval(timerInterval);
+          buttons.forEach(btn => btn.disabled = true);
+          endGame("Aika loppui! ⏱️");
+        }
+      }, 100);
+    }
+
+    function nextQuestion() {
+      if (!running) return;
+
+      currentQuestion = getQuestion();
+
+      if (!currentQuestion) {
+        winGame();
+        return;
+      }
+
+      usedQuestions.add(currentQuestion);
+
+      questionNumber++;
+
+      document.getElementById("questionNumberText").textContent =
+        `Kysymys ${questionNumber}`;
+
+      document.getElementById("question").innerHTML = currentQuestion.q;
+      document.getElementById("feedback").textContent = "";
+
+      const answers = shuffleArray(currentQuestion.a.map((text, index) => ({
+        text: text,
+        originalIndex: index
+      })));
+
+      buttons.forEach((btn, i) => {
+        btn.disabled = false;
+        btn.classList.remove("wrong-answer");
+        btn.textContent = answers[i].text;
+        btn.onclick = () => answer(answers[i].originalIndex, btn);
+      });
+
+      startTimer();
+    }
+
+    function shuffleArray(array) {
+      // Fisher–Yates
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function answer(choice, selectedButton) {
+      if (!running) return;
+
+      clearInterval(timerInterval);
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (choice === currentQuestion.correct) {
+        correctAnswers++;
+        score += gameMode === "hardcore" ? 3 : 1;
+        document.getElementById("feedback").textContent = "Oikein! ✓";
+        updateScore();
+
+        // Pieni tauko tekee palautteesta näkyvän ilman, että peli tuntuu tahmealta.
+        setTimeout(() => {
+          if (running) nextQuestion();
+        }, 250);
+
+      } else {
+        if (selectedButton) {
+          selectedButton.classList.add("wrong-answer");
+        }
+        endGame("Väärä vastaus! ❌");
+      }
+    }
+
+    function getResultMessage(score) {
+      if (score <= 4) {
+        return "Okei, lisää harjoitusta!";
+      } else if (score <= 9) {
+        return "Ihan hyvät pisteet jo!";
+      } else if (score <= 17) {
+        return "Pronominit alkaa olla hallussa!";
+      } else if (score <= 24) {
+        return "Oho! Todella kova tulos!";
+      } else if (score <= 30) {
+        return "Mitä!? Jäätävät pisteet!";
+      } else if (score <= 50) {
+        return "Osaat jo melkein paremmin kuin Sami! Huikeaa!";
+      } else {
+        return "Pronominitehtävät suoritettu kiitettävin pistein! Onneksi olkoon!";
+      }
+    }
+
+    function winGame() {
+      clearInterval(timerInterval);
+      running = false;
+
+      buttons.forEach(btn => btn.disabled = true);
+
+      document.getElementById("feedback").textContent = "";
+      document.getElementById("gameOver").textContent =
+        "🎉 Kaikki kysymykset suoritettu!";
+
+      document.getElementById("finalMessage").textContent =
+        gameMode === "hardcore"
+          ? `Lopulliset pisteesi: ${score} · Oikein: ${correctAnswers}`
+          : `Lopulliset pisteesi: ${score} / ${questionBank.length}`;
+      document.getElementById("resultFeedback").textContent =
+        getResultMessage(score);
+
+      updateScore();
+      saveHighscoreIfNeeded();
+      document.getElementById("retryButton").style.display = "inline-block";
+    }
+
+    function updateScore() {
+      document.getElementById("score").textContent =
+        gameMode === "hardcore"
+          ? `Pisteet: ${score} · Hardcore`
+          : `Pisteet: ${score}`;
+    }
+
+    function endGame(message) {
+      if (!running) return;
+
+      clearInterval(timerInterval);
+      running = false;
+
+      buttons.forEach(btn => btn.disabled = true);
+
+      document.getElementById("feedback").textContent = "";
+      document.getElementById("gameOver").textContent = message;
+
+      document.getElementById("finalMessage").textContent =
+        gameMode === "hardcore"
+          ? `Lopulliset pisteesi: ${score} · Oikein: ${correctAnswers}`
+          : `Lopulliset pisteesi: ${score}`;
+      document.getElementById("resultFeedback").textContent =
+        getResultMessage(score);
+
+      updateScore();
+      saveHighscoreIfNeeded();
+      document.getElementById("retryButton").style.display = "inline-block";
+    }
+
+    updateScore();
+    updateHighscoreDisplay();
+    startGame();
+  </script>
+
+</body>
+</html>
