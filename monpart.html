@@ -1718,22 +1718,24 @@
     }
 
     function getResultMessage(score) {
-      if (score <= 4) {
-        return "Okei, lisää harjoitusta!";
-      } else if (score <= 9) {
-        return "Ihan hyvät pisteet jo!";
-      } else if (score <= 17) {
-        return "Monikon partitiivi alkaa olla hallussa!";
-      } else if (score <= 24) {
-        return "Oho! Todella kova tulos!";
-      } else if (score <= 30) {
-        return "Mitä!? Jäätävät pisteet!";
-      } else if (score <= 50) {
-        return "Osaat jo melkein paremmin kuin Sami! Huikeaa!";
-      } else {
-        return "Monikon partitiivi suoritettu kiitettävin pistein! Onneksi olkoon!";
-      }
-    }
+  if (score <= 4) {
+    return "Hyvä yritys! Harjoittele vielä.";
+  } else if (score <= 9) {
+    return "Hyvä! Jatka harjoittelua!";
+  } else if (score <= 17) {
+    return "Hienoa! Osaat jo monta monikon partitiivin muotoa.";
+  } else if (score <= 24) {
+    return "Todella hyvä! Monikon partitiivi alkaa sujua!";
+  } else if (score <= 30) {
+    return "Mahtavaa! Osaat monikon partitiivin jo hyvin!";
+  } else if (score <= 50) {
+    return "Erinomaista! Monikon partitiivi on hyvin hallussa!";
+  } else {
+    return "Huipputulos! Olet monikon partitiivin mestari!";
+  }
+}
+
+
 
     function winGame() {
       clearInterval(timerInterval);
@@ -1792,6 +1794,6 @@
     startGame();
   </script>
 
-<div id="versionNumber">v4.1</div>
+<div id="versionNumber">v4.2</div>
 </body>
 </html>
