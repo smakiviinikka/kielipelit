@@ -94,6 +94,13 @@
       background: #f0ddd8 !important;
     }
 
+    .correct-answer {
+      outline: 3px solid #5f8f58;
+      background: #d9ead3 !important;
+      border-color: #6a9b62 !important;
+      color: #244b20 !important;
+    }
+
 
     #timerArea {
       margin: 14px auto 4px;
@@ -251,6 +258,15 @@
           color: #49372a;
         }
 
+        .answerButton.correct-answer,
+        .answerButton.correct-answer:hover,
+        .answerButton.correct-answer:focus,
+        .answerButton.correct-answer:active {
+          background: #d9ead3 !important;
+          border-color: #6a9b62 !important;
+          color: #244b20 !important;
+        }
+
         .answerButton.wrong-answer,
         .answerButton.wrong-answer:hover,
         .answerButton.wrong-answer:focus,
@@ -269,7 +285,28 @@
         text-align: center;
       }
 
-    </style>
+    
+    .answerButton.wrong-answer,
+    .answerButton.wrong-answer:hover,
+    .answerButton.wrong-answer:focus,
+    .answerButton.wrong-answer:active {
+      background: #e53935 !important;
+      border-color: #b71c1c !important;
+      color: #ffffff !important;
+      outline: 3px solid #b71c1c !important;
+    }
+
+    .answerButton.correct-answer,
+    .answerButton.correct-answer:hover,
+    .answerButton.correct-answer:focus,
+    .answerButton.correct-answer:active {
+      background: #43a047 !important;
+      border-color: #1b5e20 !important;
+      color: #ffffff !important;
+      outline: 3px solid #1b5e20 !important;
+    }
+
+  </style>
 </head>
 <body>
 
@@ -493,9 +530,9 @@
     "q": "Mikä on sanan <em>omena</em> monikon partitiivi?",
     "a": [
       "omenoita",
-      "omenoja",
-      "omenia",
-      "omenaita"
+      "omenaita",
+      "omenoija",
+      "omenoitaa"
     ],
     "correct": 0
   },
@@ -505,9 +542,9 @@
     "q": "Mikä on sanan <em>peruna</em> monikon partitiivi?",
     "a": [
       "perunoita",
-      "perunoja",
-      "perunia",
-      "perunaita"
+      "perunaita",
+      "perunoitta",
+      "perunoitaa"
     ],
     "correct": 0
   },
@@ -517,9 +554,9 @@
     "q": "Mikä on sanan <em>mansikka</em> monikon partitiivi?",
     "a": [
       "mansikoita",
-      "mansikkoja",
-      "mansikkia",
-      "mansikkaita"
+      "mansikkaita",
+      "mansikoitta",
+      "mansikoitaa"
     ],
     "correct": 0
   },
@@ -1105,9 +1142,9 @@
     "q": "Mikä on sanan <em>museo</em> monikon partitiivi?",
     "a": [
       "museoita",
-      "museoja",
       "museoia",
-      "museota"
+      "museota",
+      "museoitta"
     ],
     "correct": 0
   },
@@ -1117,9 +1154,9 @@
     "q": "Mikä on sanan <em>radio</em> monikon partitiivi?",
     "a": [
       "radioita",
-      "radioja",
       "radioia",
-      "radiota"
+      "radiota",
+      "radioitta"
     ],
     "correct": 0
   },
@@ -1129,9 +1166,9 @@
     "q": "Mikä on sanan <em>video</em> monikon partitiivi?",
     "a": [
       "videoita",
-      "videoja",
       "videoia",
-      "videota"
+      "videota",
+      "videoitta"
     ],
     "correct": 0
   },
@@ -1142,8 +1179,8 @@
     "a": [
       "ravintoloita",
       "ravintolia",
-      "ravintoloja",
-      "ravintolaita"
+      "ravintolaita",
+      "ravintoloitta"
     ],
     "correct": 0
   },
@@ -1154,8 +1191,8 @@
     "a": [
       "kirjailijoita",
       "kirjailijia",
-      "kirjailijoja",
-      "kirjailijaita"
+      "kirjailijaita",
+      "kirjailijoitta"
     ],
     "correct": 0
   },
@@ -1166,8 +1203,8 @@
     "a": [
       "sairaaloita",
       "sairaalia",
-      "sairaaloja",
-      "sairaalaita"
+      "sairaalaita",
+      "sairaaloitta"
     ],
     "correct": 0
   },
@@ -1190,8 +1227,8 @@
     "a": [
       "papereita",
       "paperia",
-      "papereja",
-      "paperita"
+      "paperita",
+      "papereitta"
     ],
     "correct": 0
   },
@@ -1201,9 +1238,9 @@
     "q": "Mikä on sanan <em>numero</em> monikon partitiivi?",
     "a": [
       "numeroita",
-      "numeroja",
       "numeroia",
-      "numerota"
+      "numerota",
+      "numeroitta"
     ],
     "correct": 0
   },
@@ -1275,7 +1312,7 @@
       "omenoita",
       "omenat",
       "omenaa",
-      "omenoja"
+      "omenoija"
     ],
     "correct": 0
   },
@@ -1494,6 +1531,186 @@
       "tähtejä"
     ],
     "correct": 0
+  },
+  {
+    "level": 3,
+    "id": 98,
+    "q": "Mikä sanapari on monikon partitiivissa? <em>nopea auto</em>",
+    "a": [
+      "nopeita autoja",
+      "nopeat autoja",
+      "nopeita autot",
+      "nopea autoja"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 3,
+    "id": 99,
+    "q": "Mikä sanapari on monikon partitiivissa? <em>vanha talo</em>",
+    "a": [
+      "vanhoja taloja",
+      "vanhat taloja",
+      "vanhoja talot",
+      "vanha taloja"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 3,
+    "id": 100,
+    "q": "Mikä sanapari on monikon partitiivissa? <em>uusi kirja</em>",
+    "a": [
+      "uusia kirjoja",
+      "uudet kirjoja",
+      "uusia kirjat",
+      "uusi kirjoja"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 3,
+    "id": 101,
+    "q": "Mikä sanapari on monikon partitiivissa? <em>pieni koira</em>",
+    "a": [
+      "pieniä koiria",
+      "pienet koiria",
+      "pieniä koirat",
+      "pieni koiria"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 3,
+    "id": 102,
+    "q": "Mikä sanapari on monikon partitiivissa? <em>hyvä ystävä</em>",
+    "a": [
+      "hyviä ystäviä",
+      "hyvät ystäviä",
+      "hyviä ystävät",
+      "hyvä ystäviä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 3,
+    "id": 103,
+    "q": "Mikä sanapari on monikon partitiivissa? <em>pitkä päivä</em>",
+    "a": [
+      "pitkiä päiviä",
+      "pitkät päiviä",
+      "pitkiä päivät",
+      "pitkä päiviä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 3,
+    "id": 104,
+    "q": "Mikä sanapari on monikon partitiivissa? <em>kylmä yö</em>",
+    "a": [
+      "kylmiä öitä",
+      "kylmät öitä",
+      "kylmiä yöt",
+      "kylmä öitä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 3,
+    "id": 105,
+    "q": "Mikä sanapari on monikon partitiivissa? <em>suomalainen opettaja</em>",
+    "a": [
+      "suomalaisia opettajia",
+      "suomalaiset opettajia",
+      "suomalaisia opettajat",
+      "suomalainen opettajia"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 3,
+    "id": 106,
+    "q": "Mikä sanapari on monikon partitiivissa? <em>vaikea tehtävä</em>",
+    "a": [
+      "vaikeita tehtäviä",
+      "vaikeat tehtäviä",
+      "vaikeita tehtävät",
+      "vaikea tehtäviä"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 3,
+    "id": 107,
+    "q": "Mikä sanapari on monikon partitiivissa? <em>sininen pallo</em>",
+    "a": [
+      "sinisiä palloja",
+      "siniset palloja",
+      "sinisiä pallot",
+      "sininen palloja"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 3,
+    "id": 108,
+    "q": "Mikä sanapari on monikon partitiivissa? <em>lämmin huone</em>",
+    "a": [
+      "lämpimiä huoneita",
+      "lämpimät huoneita",
+      "lämpimiä huoneet",
+      "lämmin huoneita"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 3,
+    "id": 109,
+    "q": "Mikä sanapari on monikon partitiivissa? <em>iloinen lapsi</em>",
+    "a": [
+      "iloisia lapsia",
+      "iloiset lapsia",
+      "iloisia lapset",
+      "iloinen lapsia"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 3,
+    "id": 110,
+    "q": "Mikä sanapari on monikon partitiivissa? <em>suuri koulu</em>",
+    "a": [
+      "suuria kouluja",
+      "suuret kouluja",
+      "suuria koulut",
+      "suuri kouluja"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 3,
+    "id": 111,
+    "q": "Mikä sanapari on monikon partitiivissa? <em>tuore kala</em>",
+    "a": [
+      "tuoreita kaloja",
+      "tuoreet kaloja",
+      "tuoreita kalat",
+      "tuore kaloja"
+    ],
+    "correct": 0
+  },
+  {
+    "level": 3,
+    "id": 112,
+    "q": "Mikä sanapari on monikon partitiivissa? <em>vanha mies</em>",
+    "a": [
+      "vanhoja miehiä",
+      "vanhat miehiä",
+      "vanhoja miehet",
+      "vanha miehiä"
+    ],
+    "correct": 0
   }
 ];
 
@@ -1582,7 +1799,9 @@
       // Viiden ensimmäisen jälkeen kaikki jäljellä olevat helpot ja vaikeat
       // kysymykset sekoitetaan yhdeksi satunnaiseksi jonoksi.
       if (mixedQueue.length === 0) {
-        const remaining = questionBank.filter(q => !usedQuestions.has(q));
+        const remaining = questionBank.filter(q =>
+          !usedQuestions.has(q) && (q.level !== 3 || score >= 20)
+        );
         mixedQueue = shuffleArray(remaining.slice());
       }
 
@@ -1671,8 +1890,9 @@
 
       buttons.forEach((btn, i) => {
         btn.disabled = false;
-        btn.classList.remove("wrong-answer");
+        btn.classList.remove("wrong-answer", "correct-answer");
         btn.textContent = answers[i].text;
+        btn.dataset.originalIndex = answers[i].originalIndex;
         btn.onclick = () => answer(answers[i].originalIndex, btn);
       });
 
@@ -1700,7 +1920,11 @@
 
       if (choice === currentQuestion.correct) {
         correctAnswers++;
+        const previousScore = score;
         score += gameMode === "hardcore" ? 3 : 1;
+        if (previousScore < 20 && score >= 20) {
+          mixedQueue = [];
+        }
         document.getElementById("feedback").textContent = "Oikein! ✓";
         updateScore();
 
@@ -1710,9 +1934,20 @@
         }, 250);
 
       } else {
-        if (selectedButton) {
-          selectedButton.classList.add("wrong-answer");
-        }
+        buttons.forEach(btn => {
+          btn.classList.remove("wrong-answer", "correct-answer");
+          const originalIndex = Number(btn.dataset.originalIndex);
+
+          if (originalIndex === currentQuestion.correct) {
+            btn.classList.add("correct-answer");
+          }
+
+          if (btn === selectedButton && originalIndex !== currentQuestion.correct) {
+            btn.classList.add("wrong-answer");
+          }
+
+          btn.disabled = true;
+        });
         endGame("Väärä vastaus! ❌");
       }
     }
@@ -1794,6 +2029,6 @@
     startGame();
   </script>
 
-<div id="versionNumber">v4.2</div>
+<div id="versionNumber">v4.6</div>
 </body>
 </html>
