@@ -65,13 +65,26 @@ footer{margin-top:28px;font-size:12px;opacity:.68} .version{margin-top:9px;font-
 
 <div class="totalbox">YHTEISPISTEET: <span id="total">0</span></div>
 <footer>Yhteistyössä: ChatGPT</footer>
-<div class="version">v2.1</div>
+<div class="version">v2.2</div>
 </main>
 <script>
 const BANK=[{"id":1001,"level":0,"q":"Mikä sijamuoto?<br><em>talo</em>","a":["nominatiivi","genetiivi","partitiivi","inessiivi"],"correct":0},{"id":1002,"level":0,"q":"Mikä sijamuoto?<br><em>koira</em>","a":["partitiivi","nominatiivi","genetiivi","elatiivi"],"correct":1},{"id":1003,"level":0,"q":"Mikä sijamuoto?<br><em>kirja</em>","a":["genetiivi","partitiivi","nominatiivi","adessiivi"],"correct":2},{"id":1004,"level":0,"q":"Mikä sijamuoto?<br><em>talon</em>","a":["partitiivi","genetiivi","nominatiivi","elatiivi"],"correct":1},{"id":1005,"level":0,"q":"Mikä sijamuoto?<br><em>koiran</em>","a":["nominatiivi","partitiivi","genetiivi","inessiivi"],"correct":2},{"id":1006,"level":0,"q":"Mikä sijamuoto?<br><em>kirjan</em>","a":["genetiivi","nominatiivi","partitiivi","illatiivi"],"correct":0},{"id":1007,"level":0,"q":"Mikä sijamuoto?<br><em>taloa</em>","a":["genetiivi","partitiivi","illatiivi","nominatiivi"],"correct":1},{"id":1008,"level":0,"q":"Mikä sijamuoto?<br><em>koiraa</em>","a":["partitiivi","genetiivi","nominatiivi","adessiivi"],"correct":0},{"id":1009,"level":0,"q":"Mikä sijamuoto?<br><em>kirjaa</em>","a":["nominatiivi","genetiivi","partitiivi","elatiivi"],"correct":2},{"id":4,"level":1,"fixed":0,"q":"Mikä sijamuoto?<br><em>koulussa</em>","a":["inessiivi","elatiivi","illatiivi","adessiivi"],"correct":0},{"id":5,"level":1,"fixed":0,"q":"Mikä sijamuoto?<br><em>metsästä</em>","a":["illatiivi","elatiivi","ablatiivi","inessiivi"],"correct":1},{"id":6,"level":1,"fixed":0,"q":"Mikä sijamuoto?<br><em>kauppaan</em>","a":["illatiivi","allatiivi","inessiivi","elatiivi"],"correct":0},{"id":7,"level":1,"fixed":0,"q":"Mikä sijamuoto?<br><em>pöydällä</em>","a":["adessiivi","allatiivi","ablatiivi","inessiivi"],"correct":0},{"id":8,"level":1,"fixed":0,"q":"Mikä sijamuoto?<br><em>pihalta</em>","a":["elatiivi","ablatiivi","allatiivi","adessiivi"],"correct":1},{"id":9,"level":1,"fixed":0,"q":"Mikä sijamuoto?<br><em>ystävälle</em>","a":["allatiivi","adessiivi","illatiivi","ablatiivi"],"correct":0},{"id":10,"level":1,"fixed":0,"q":"Valitse sanan <em>kirja</em> inessiivi.","a":["kirjassa","kirjasta","kirjaan","kirjalla"],"correct":0},{"id":11,"level":1,"fixed":0,"q":"Valitse sanan <em>koulu</em> elatiivi.","a":["koulussa","koulusta","kouluun","koululta"],"correct":1},{"id":12,"level":1,"fixed":0,"q":"Valitse sanan <em>huone</em> illatiivi.","a":["huoneessa","huoneesta","huoneeseen","huoneelle"],"correct":2},{"id":13,"level":1,"fixed":0,"q":"Valitse sanan <em>tuoli</em> adessiivi.","a":["tuolissa","tuolilla","tuolilta","tuolille"],"correct":1},{"id":14,"level":1,"fixed":0,"q":"Valitse sanan <em>asema</em> ablatiivi.","a":["asemalla","asemalta","asemalle","asemasta"],"correct":1},{"id":15,"level":1,"fixed":0,"q":"Valitse sanan <em>lapsi</em> allatiivi.","a":["lapsella","lapselta","lapselle","lapseen"],"correct":2},{"id":16,"level":1,"fixed":0,"q":"Mikä näistä on partitiivissa?","a":["koiraa","koiran","koira","koirassa"],"correct":0},{"id":17,"level":1,"fixed":0,"q":"Mikä näistä on genetiivissä?","a":["kissan","kissaa","kissa","kissasta"],"correct":0},{"id":18,"level":1,"fixed":0,"q":"Mikä näistä on nominatiivissa?","a":["metsä","metsän","metsää","metsässä"],"correct":0},{"id":19,"level":1,"fixed":0,"q":"Missä sijassa lihavoitu sana on?<br><em>Kirja on <strong>pöydällä</strong>.</em>","a":["adessiivi","inessiivi","allatiivi","ablatiivi"],"correct":0},{"id":20,"level":1,"fixed":0,"q":"Missä sijassa lihavoitu sana on?<br><em>Tulin <strong>koulusta</strong> kotiin.</em>","a":["elatiivi","ablatiivi","inessiivi","illatiivi"],"correct":0},{"id":21,"level":1,"fixed":0,"q":"Missä sijassa lihavoitu sana on?<br><em>Annoin kirjan <strong>ystävälle</strong>.</em>","a":["allatiivi","adessiivi","illatiivi","genetiivi"],"correct":0},{"id":22,"level":1,"fixed":0,"q":"Missä sijassa lihavoitu sana on?<br><em>Koira juoksee <strong>pihalla</strong>.</em>","a":["adessiivi","inessiivi","ablatiivi","allatiivi"],"correct":0},{"id":23,"level":1,"fixed":0,"q":"Missä sijassa lihavoitu sana on?<br><em>Menemme <strong>kirjastoon</strong>.</em>","a":["illatiivi","allatiivi","inessiivi","elatiivi"],"correct":0},{"id":24,"level":1,"fixed":0,"q":"Missä sijassa lihavoitu sana on?<br><em>Hän nousi <strong>tuolilta</strong>.</em>","a":["ablatiivi","elatiivi","adessiivi","allatiivi"],"correct":0},{"id":25,"level":1,"fixed":0,"q":"Missä sijassa lihavoitu sana on?<br><em>Puhelin on <strong>repussa</strong>.</em>","a":["inessiivi","adessiivi","elatiivi","illatiivi"],"correct":0},{"id":26,"level":1,"fixed":0,"q":"Valitse elatiivi.","a":["talosta","talossa","taloon","talolta"],"correct":0},{"id":27,"level":1,"fixed":0,"q":"Valitse illatiivi.","a":["kouluun","koulussa","koulusta","koululle"],"correct":0},{"id":28,"level":1,"fixed":0,"q":"Valitse ablatiivi.","a":["pöydältä","pöydällä","pöydälle","pöydästä"],"correct":0},{"id":29,"level":1,"fixed":0,"q":"Valitse allatiivi.","a":["äidille","äidillä","äidiltä","äitiin"],"correct":0},{"id":30,"level":1,"fixed":0,"q":"Valitse inessiivi.","a":["kaupassa","kaupasta","kauppaan","kaupalla"],"correct":0},{"id":31,"level":1,"fixed":0,"q":"Valitse adessiivi.","a":["asemalla","asemalta","asemalle","asemassa"],"correct":0},{"id":32,"level":2,"fixed":0,"q":"Mikä sijamuoto?<br><em>opettajana</em>","a":["essiivi","translatiivi","abessiivi","partitiivi"],"correct":0},{"id":33,"level":2,"fixed":0,"q":"Mikä sijamuoto?<br><em>opettajaksi</em>","a":["essiivi","translatiivi","allatiivi","genetiivi"],"correct":1},{"id":34,"level":2,"fixed":0,"q":"Mikä sijamuoto?<br><em>rahatta</em>","a":["abessiivi","essiivi","partitiivi","ablatiivi"],"correct":0},{"id":35,"level":2,"fixed":0,"q":"Mikä sijamuoto?<br><em>ystävineen</em>","a":["komitatiivi","instruktiivi","essiivi","allatiivi"],"correct":0},{"id":36,"level":2,"fixed":0,"q":"Valitse sanan <em>lapsi</em> essiivi.","a":["lapsena","lapseksi","lapsetta","lapselle"],"correct":0},{"id":37,"level":2,"fixed":0,"q":"Valitse sanan <em>suuri</em> translatiivi.","a":["suurena","suureksi","suuretta","suurella"],"correct":1},{"id":38,"level":2,"fixed":0,"q":"Valitse sanan <em>apu</em> abessiivi.","a":["apuna","avuksi","avutta","avulla"],"correct":2},{"id":39,"level":2,"fixed":0,"q":"Mikä näistä on essiivissä?","a":["kotona","kodiksi","koditta","kodilla"],"correct":0},{"id":40,"level":2,"fixed":0,"q":"Mikä näistä on translatiivissa?","a":["valmiina","valmiiksi","valmiitta","valmiilla"],"correct":1},{"id":41,"level":2,"fixed":0,"q":"Mikä näistä on abessiivissa?","a":["luvalla","luvaksi","luvatta","lupana"],"correct":2},{"id":42,"level":2,"fixed":0,"q":"Mikä näistä on komitatiivissa?","a":["lapsineen","lapsena","lapselle","lapsitta"],"correct":0},{"id":43,"level":2,"fixed":0,"q":"Mikä näistä on instruktiivissa?","a":["omin käsin","omissa käsissä","omilta käsiltä","omine käsineen"],"correct":0},{"id":44,"level":2,"fixed":0,"q":"Missä sijassa lihavoitu sana on?<br><em>Hän työskentelee <strong>opettajana</strong>.</em>","a":["essiivi","translatiivi","adessiivi","inessiivi"],"correct":0},{"id":45,"level":2,"fixed":0,"q":"Missä sijassa lihavoitu sana on?<br><em>Vesi muuttui <strong>jääksi</strong>.</em>","a":["translatiivi","essiivi","illatiivi","partitiivi"],"correct":0},{"id":46,"level":2,"fixed":0,"q":"Missä sijassa lihavoitu sana on?<br><em>Hän lähti ulos <strong>takitta</strong>.</em>","a":["abessiivi","partitiivi","essiivi","elatiivi"],"correct":0},{"id":47,"level":2,"fixed":0,"q":"Missä sijassa lihavoitu sana on?<br><em>Hän saapui <strong>perheineen</strong>.</em>","a":["komitatiivi","instruktiivi","allatiivi","essiivi"],"correct":0},{"id":48,"level":2,"fixed":0,"q":"Missä sijassa lihavoitu sana on?<br><em>Työ tehtiin <strong>käsin</strong>.</em>","a":["instruktiivi","komitatiivi","essiivi","genetiivi"],"correct":0},{"id":49,"level":2,"fixed":0,"q":"Mikä näistä EI ole paikallissija?","a":["inessiivi","elatiivi","essiivi","illatiivi"],"correct":2},{"id":50,"level":2,"fixed":0,"q":"Mikä sarja sisältää vain sisäpaikallissijoja?","a":["inessiivi, elatiivi, illatiivi","adessiivi, ablatiivi, allatiivi","essiivi, translatiivi, abessiivi","nominatiivi, genetiivi, partitiivi"],"correct":0},{"id":51,"level":2,"fixed":0,"q":"Mikä sarja sisältää vain ulkopaikallissijoja?","a":["adessiivi, ablatiivi, allatiivi","inessiivi, elatiivi, illatiivi","essiivi, abessiivi, komitatiivi","nominatiivi, genetiivi, partitiivi"],"correct":0},{"id":52,"level":2,"fixed":0,"q":"Mikä sijamuoto?<br><em>kotona</em>","a":["essiivi","inessiivi","adessiivi","nominatiivi"],"correct":0},{"id":53,"level":2,"fixed":0,"q":"Mikä sijamuoto?<br><em>kotoa</em>","a":["partitiivi","elatiivi","ablatiivi","essiivi"],"correct":0},{"id":54,"level":2,"fixed":0,"q":"Missä sijassa lihavoitu sana on?<br><em>Asia ratkaistiin <strong>äänin</strong> 5–2.</em>","a":["instruktiivi","komitatiivi","essiivi","partitiivi"],"correct":0},{"id":55,"level":2,"fixed":0,"q":"Missä sijassa lihavoitu sana on?<br><em>Presidentti saapui <strong>puolisoineen</strong>.</em>","a":["komitatiivi","instruktiivi","essiivi","allatiivi"],"correct":0}];
 const ROUND_HASHES=["03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", "38083c7ee9121e17401883566a148aa5c2e2d55dc53bc4a94a026517dbff3c6b", "66945e57b10928a14f5981168fbd25d2ed050c39996bd8cc7e3e906c6e495f3c", "9ff0419d067b9543723a84442a661f91ec958fbf09cb0c1fd62acd4b68855dbd", "3c3ccbacd3a07a4885cbcb53e87798e9b68523ad09af7e4a82bd17300246627e", "de27088fdf91b0a55c1117c3d43ad65853d103bbfc61fe419c7324cdc168d0e3", "b88c399bc0698b809333f91ee7380e28c85b5db1d2fa242d2c647bbe2ca8beca", "d308ddc557e774187ad6c7da81b39db990def9a39e6c88e79cb163b6bdd6e8e5", "b0981fa41b7abd6f7823e15e12cb37995821c63e5ea9121edebbbe109ec20245", "9a89fd0c94aac0a90999a4ccc80c0a2ae8b82d0feedce21c41838a83a8ba9530"];
 const $=id=>document.getElementById(id);
 let round=0,score=0,totalScore=0,correctCount=0,mode="normal",running=false,unlocked=false,current=null,used=new Set(),timer=null,timeLeft=0,roundAdded=false,openingQueue=[];
+const SAVE_KEY="sijamuotopeli_v22_state";
+function saveState(){localStorage.setItem(SAVE_KEY,JSON.stringify({round,totalScore,unlocked}));}
+function loadState(){
+ try{
+  const x=JSON.parse(localStorage.getItem(SAVE_KEY)||"null");
+  if(!x)return;
+  if(Number.isInteger(x.round)&&x.round>=0&&x.round<=10)round=x.round;
+  if(Number.isFinite(x.totalScore)&&x.totalScore>=0)totalScore=x.totalScore;
+  unlocked=!!x.unlocked&&round>0&&round<=10;
+  $("round").textContent=round;$("total").textContent=totalScore;
+ }catch(e){}
+}
+
 
 function shuffle(a){let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
 
@@ -95,7 +108,7 @@ async function unlockRound(){
   const v=$("code").value.trim();
   if(!/^\d{4}$/.test(v)){$("codemsg").textContent="Syötä neljä numeroa.";return}
   if(await hashCode(v)!==ROUND_HASHES[round]){$("codemsg").textContent="Väärä koodi.";$("code").select();return}
-  round++;unlocked=true;
+  round++;unlocked=true;saveState();
   $("round").textContent=round;$("unlock").style.display="none";$("modes").style.display="block";
   $("question").innerHTML="Koodi oikein!<br><em>Valitse pelitila.</em>";
   $("codemsg").textContent="";
@@ -103,7 +116,7 @@ async function unlockRound(){
 
 function chooseMode(m){
   if(!unlocked)return;
-  mode=m;unlocked=false;startRound();
+  mode=m;unlocked=false;saveState();startRound();
 }
 
 function startRound(){
@@ -173,7 +186,7 @@ function resultText(){
 
 function endRound(allDone){
   running=false;clearInterval(timer);
-  if(!roundAdded){totalScore+=score;roundAdded=true;$("total").textContent=totalScore}
+  if(!roundAdded){totalScore+=score;roundAdded=true;$("total").textContent=totalScore;saveState()}
   $("result").textContent=(allDone?"Kysymykset loppuivat. ":"")+resultText()+" Kierroksen pisteet: "+score+".";
   if(round>=10){
     $("unlock").style.display="none";$("modes").style.display="none";
@@ -184,8 +197,19 @@ function endRound(allDone){
 }
 
 $("code").addEventListener("keydown",e=>{if(e.key==="Enter")unlockRound()});
-$("unlock").style.display="block";
-$("unlockTitle").textContent="Avaa kierros 1";
-$("codemsg").textContent="Syötä opettajan antama koodi.";
+loadState();
+if(round>=10){
+ $("unlock").style.display="none";$("modes").style.display="none";
+ $("question").innerHTML="Kaikki 10 kierrosta on pelattu!";
+ $("result").textContent="Yhteispisteet: "+totalScore+".";
+}else if(unlocked){
+ $("unlock").style.display="none";$("modes").style.display="block";
+ $("question").innerHTML="Kierros "+round+" on avattu.<br><em>Valitse pelitila.</em>";
+}else{
+ $("unlock").style.display="block";
+ $("unlockTitle").textContent="Avaa kierros "+(round+1);
+ $("codemsg").textContent="Syötä opettajan antama koodi.";
+ if(round>0)$("question").innerHTML="Valmis kierrokselle "+(round+1)+"?";
+}
 </script>
 </body></html>
