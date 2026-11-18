@@ -1,0 +1,2497 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Passiivi ja objekti v1.5</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 18px 10px 30px;
+      min-height: 100vh;
+      box-sizing: border-box;
+      background: #fff5e8;
+      color: #3e352d;
+    }
+
+    h1 {
+      font-size: clamp(28px, 6vw, 40px);
+      margin-bottom: 8px;
+      color: #a45f35;
+    }
+
+    #instructions {
+      font-weight: bold;
+      font-size: clamp(16px, 4vw, 20px);
+      margin: 0 auto 15px;
+      max-width: 800px;
+    }
+
+    #score, #levelText {
+      font-size: clamp(16px, 4vw, 20px);
+      margin-bottom: 6px;
+    }
+
+    #questionNumberText {
+      margin-top: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #4b4035;
+    }
+
+
+    #question {
+      font-size: clamp(20px, 5vw, 30px);
+      font-weight: bold;
+      max-width: 900px;
+      margin: 25px auto 20px;
+      padding: 22px 18px;
+      line-height: 1.35;
+      background: #fffaf3;
+      border: 1px solid #e7c9aa;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(76, 65, 47, 0.08);
+    }
+
+    #question em {
+      font-style: italic;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    button {
+      padding: 18px;
+      font-size: clamp(16px, 4vw, 20px);
+      font-weight: bold;
+      cursor: pointer;
+      border: 1px solid #b8794f;
+      border-radius: 9px;
+      background: #f0d2ad;
+      color: #49372a;
+      box-shadow: 0 2px 5px rgba(76, 65, 47, 0.10);
+    }
+
+    button:hover {
+      background: #e5bf94;
+    }
+
+    button:disabled {
+      cursor: default;
+      opacity: 1;
+    }
+
+    .wrong-answer {
+      outline: 3px solid #9b5f52;
+      background: #f0ddd8 !important;
+    }
+
+    .correct-answer {
+      outline: 3px solid #5f8f58;
+      background: #d9ead3 !important;
+      border-color: #6a9b62 !important;
+      color: #244b20 !important;
+    }
+
+
+    #timerArea {
+      margin: 14px auto 4px;
+      max-width: 620px;
+    }
+
+    #timerText {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 7px;
+      color: #655044;
+    }
+
+    #timeBarOuter {
+      width: 100%;
+      height: 12px;
+      background: #e2d7ca;
+      border: 1px solid #b49b82;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    #timeBar {
+      width: 100%;
+      height: 100%;
+      background: #8d7258;
+      transition: width 0.1s linear;
+    }
+
+    #feedback {
+      min-height: 28px;
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    #gameOver {
+      font-size: clamp(18px, 5vw, 28px);
+      font-weight: bold;
+      margin-top: 25px;
+      color: #76523e;
+    }
+
+    #finalMessage {
+      font-size: clamp(16px, 4vw, 20px);
+      margin-top: 8px;
+      color: #444;
+    }
+
+    #resultFeedback {
+      font-size: clamp(17px, 4vw, 21px);
+      font-weight: bold;
+      margin-top: 8px;
+      color: #655044;
+    }
+
+    #retryButton {
+      margin-top: 15px;
+      padding: 12px 25px;
+      font-size: 18px;
+      display: none;
+      background: #43827a;
+      color: white;
+      border-color: #43573a;
+    }
+
+    #retryButton:hover {
+      background: #465c3c;
+    }
+
+    #highscore {
+      margin-top: 30px;
+      font-size: 18px;
+      color: #333;
+    }
+
+    #logoFooter {
+      margin-top: 40px;
+    }
+
+    #logoFooter .collabLabel {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 4px;
+    }
+
+    #logoFooter .logoText {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    #logoFooter span {
+      color: #617d52;
+    }
+
+    @media (max-width: 600px) {
+      .buttons {
+        grid-template-columns: 1fr;
+      }
+      button {
+        padding: 15px;
+      }
+    }
+  
+    #modeControls {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      margin-bottom: 8px;
+    }
+
+    #modeControls .modeButton {
+      padding: 4px 8px;
+      min-width: 0;
+      width: auto;
+      font-size: 11px;
+      line-height: 1.2;
+      font-weight: bold;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    #modeControls .modeButton.normal {
+      background: #dff0d8 !important;
+      border: 1px solid #7fa56f !important;
+      color: #294323 !important;
+    }
+
+    #modeControls .modeButton.hardcore {
+      background: #e7a0a0 !important;
+      border: 1px solid #a94d4d !important;
+      color: #5a1f1f !important;
+    }
+
+    #modeControls .modeButton.normal.active {
+      outline: 2px solid #5c7c50;
+      outline-offset: 1px;
+    }
+
+    #modeControls .modeButton.hardcore.active {
+      outline: 2px solid #9a3434;
+      outline-offset: 1px;
+    }
+
+  
+      /* Puhelimella kosketuksen jälkeen painike ei saa jäädä hover/focus-tilaan. */
+      @media (hover: none) and (pointer: coarse) {
+        .answerButton:hover,
+        .answerButton:focus,
+        .answerButton:active {
+          background: #f0d2ad;
+          border-color: #b8794f;
+          color: #49372a;
+        }
+
+        .answerButton.correct-answer,
+        .answerButton.correct-answer:hover,
+        .answerButton.correct-answer:focus,
+        .answerButton.correct-answer:active {
+          background: #d9ead3 !important;
+          border-color: #6a9b62 !important;
+          color: #244b20 !important;
+        }
+
+        .answerButton.wrong-answer,
+        .answerButton.wrong-answer:hover,
+        .answerButton.wrong-answer:focus,
+        .answerButton.wrong-answer:active {
+          background: #f0ddd8 !important;
+        }
+      }
+
+    
+      #versionNumber {
+        margin-top: 14px;
+        padding-bottom: 6px;
+        font-size: 10px;
+        color: #8a7a6d;
+        opacity: 0.75;
+        text-align: center;
+      }
+
+    
+    .answerButton.wrong-answer,
+    .answerButton.wrong-answer:hover,
+    .answerButton.wrong-answer:focus,
+    .answerButton.wrong-answer:active {
+      background: #e53935 !important;
+      border-color: #b71c1c !important;
+      color: #ffffff !important;
+      outline: 3px solid #b71c1c !important;
+    }
+
+    .answerButton.correct-answer,
+    .answerButton.correct-answer:hover,
+    .answerButton.correct-answer:focus,
+    .answerButton.correct-answer:active {
+      background: #43a047 !important;
+      border-color: #1b5e20 !important;
+      color: #ffffff !important;
+      outline: 3px solid #1b5e20 !important;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Passiivi ja objekti</h1>
+
+  <div id="instructions">
+    Valitse lauseeseen sopiva passiivin muoto tai objektin sijamuoto.
+  </div>
+
+
+  <div id="score">Pisteet: 0</div>
+  <div id="questionNumberText">Kysymys 1</div>
+
+  <div id="timerArea">
+    <div id="timerText">Aikaa: 15 s</div>
+    <div id="timeBarOuter"><div id="timeBar"></div></div>
+  </div>
+
+  <div id="question"></div>
+
+  <div class="buttons">
+    <button></button>
+    <button></button>
+    <button></button>
+    <button></button>
+  </div>
+
+  <div id="feedback"></div>
+  <div id="gameOver"></div>
+  <div id="finalMessage"></div>
+  <div id="resultFeedback"></div>
+  <button id="retryButton" onclick="startGame()">Yritä uudelleen</button>
+
+  <div id="modeControls">
+    <button class="modeButton normal active" id="normalModeButton" onclick="setMode('normal')">Normal mode</button>
+    <button class="modeButton hardcore" id="hardcoreModeButton" onclick="setMode('hardcore')">Hardcore mode</button>
+  </div>
+  <div id="highscore">Parhaat pisteesi: 0</div>
+
+  <div id="logoFooter">
+    <div class="collabLabel">Yhteistyössä:</div>
+    <div class="logoText">Sami <span>×</span> ChatGPT</div>
+  </div>
+
+  <script>
+    /*
+      PASSIIVI JA OBJEKTI -PELI
+      150 kysymystä: passiivin aikamuodot sekä passiivilausetta täydentävän objektin sijamuoto.
+      Ensimmäiset viisi kysymystä ovat helpommasta tasosta.
+    */
+
+    const questionBank = [
+  {
+    "level": 1,
+    "q": "Eilen opistolla ______ musiikkia.",
+    "a": [
+      "kuuneltiin",
+      "kuunneltiin",
+      "kuunneltin",
+      "kuuneltin"
+    ],
+    "correct": 1,
+    "id": 1,
+    "starter": true
+  },
+  {
+    "level": 1,
+    "q": "Suomessa juodaan paljon ______.",
+    "a": [
+      "kahvi",
+      "kahvia",
+      "kahvin",
+      "kahvissa"
+    ],
+    "correct": 1,
+    "id": 2,
+    "starter": true
+  },
+  {
+    "level": 1,
+    "q": "Tavallisesti koulussa ______ kerhoja.",
+    "a": [
+      "pidetäänn",
+      "pidetän",
+      "pidetään",
+      "pidetää"
+    ],
+    "correct": 2,
+    "id": 3,
+    "starter": true
+  },
+  {
+    "level": 1,
+    "q": "Lounaalla tarjotaan usein ______.",
+    "a": [
+      "keitto",
+      "keiton",
+      "keitossa",
+      "keittoa"
+    ],
+    "correct": 3,
+    "id": 4,
+    "starter": true
+  },
+  {
+    "level": 1,
+    "q": "Tällä kurssilla on tähän asti ______ kolme kirjaa.",
+    "a": [
+      "luettu",
+      "luetuu",
+      "luetun",
+      "luetu"
+    ],
+    "correct": 0,
+    "id": 5,
+    "starter": true
+  },
+  {
+    "level": 1,
+    "q": "Kirjastossa lainataan ______.",
+    "a": [
+      "kirjat",
+      "kirjojen",
+      "kirjoja",
+      "kirjoissa"
+    ],
+    "correct": 2,
+    "id": 6
+  },
+  {
+    "level": 1,
+    "q": "Kun vieraat saapuivat, pöytä ______ jo.",
+    "a": [
+      "oli katetu",
+      "oli katettu",
+      "oli katettuu",
+      "oli katettun"
+    ],
+    "correct": 1,
+    "id": 7
+  },
+  {
+    "level": 1,
+    "q": "Autossa kuunnellaan ______.",
+    "a": [
+      "musiikkia",
+      "musiikki",
+      "musiikin",
+      "musiikissa"
+    ],
+    "correct": 0,
+    "id": 8
+  },
+  {
+    "level": 1,
+    "q": "Viime vuonna koulussa ei ______ juhlia.",
+    "a": [
+      "järjestetty",
+      "järjestettty",
+      "järjestetä",
+      "järjestetyn"
+    ],
+    "correct": 0,
+    "id": 9
+  },
+  {
+    "level": 1,
+    "q": "Kesällä ostetaan torilta ______.",
+    "a": [
+      "mansikat",
+      "mansikoiden",
+      "mansikoita",
+      "mansikoissa"
+    ],
+    "correct": 2,
+    "id": 10
+  },
+  {
+    "level": 1,
+    "q": "Tavallisesti koulussa ______ jalkapalloa.",
+    "a": [
+      "pelataann",
+      "pelataan",
+      "pelataa",
+      "pelatään"
+    ],
+    "correct": 1,
+    "id": 11
+  },
+  {
+    "level": 1,
+    "q": "Juhlissa tarjotaan ______.",
+    "a": [
+      "kakkua",
+      "kakun",
+      "kakku",
+      "kakussa"
+    ],
+    "correct": 0,
+    "id": 12
+  },
+  {
+    "level": 1,
+    "q": "Eilen koulussa ______ jalkapalloa.",
+    "a": [
+      "pelattin",
+      "pelatttiin",
+      "pelatiin",
+      "pelattiin"
+    ],
+    "correct": 3,
+    "id": 13
+  },
+  {
+    "level": 1,
+    "q": "Retkellä juodaan ______.",
+    "a": [
+      "vesi",
+      "vedessä",
+      "vettä",
+      "veden"
+    ],
+    "correct": 2,
+    "id": 14
+  },
+  {
+    "level": 1,
+    "q": "Tähän mennessä koulussa ______ jalkapalloa.",
+    "a": [
+      "on pelatu",
+      "on pelattun",
+      "on pelattu",
+      "on pelattuu"
+    ],
+    "correct": 2,
+    "id": 15
+  },
+  {
+    "level": 1,
+    "q": "Koulussa tehdään usein ______.",
+    "a": [
+      "tehtävät",
+      "tehtävissä",
+      "tehtävien",
+      "tehtäviä"
+    ],
+    "correct": 3,
+    "id": 16
+  },
+  {
+    "level": 1,
+    "q": "Kun vieraat saapuivat, jalkapalloa ______ jo.",
+    "a": [
+      "oli pelattu",
+      "oli pelatu",
+      "oli pelattuu",
+      "oli pelattun"
+    ],
+    "correct": 0,
+    "id": 17
+  },
+  {
+    "level": 1,
+    "q": "Suomen tunnilla harjoitellaan ______.",
+    "a": [
+      "sanojen",
+      "sanoja",
+      "sanat",
+      "sanoissa"
+    ],
+    "correct": 1,
+    "id": 18
+  },
+  {
+    "level": 1,
+    "q": "Viime vuonna koulussa jalkapalloa ei ______.",
+    "a": [
+      "ei pelattu",
+      "ei pelattun",
+      "ei pelattuu",
+      "ei pelatu"
+    ],
+    "correct": 0,
+    "id": 19
+  },
+  {
+    "level": 1,
+    "q": "Kaupassa myydään tuoreita ______.",
+    "a": [
+      "vihannesten",
+      "vihanneksissa",
+      "vihanneksia",
+      "vihannekset"
+    ],
+    "correct": 2,
+    "id": 20
+  },
+  {
+    "level": 2,
+    "q": "Tavallisesti koulussa ______ kirjaa.",
+    "a": [
+      "luetaa",
+      "luetaann",
+      "luetaan",
+      "luetään"
+    ],
+    "correct": 2,
+    "id": 21
+  },
+  {
+    "level": 2,
+    "q": "Aamupalalla tarjoillaan ______.",
+    "a": [
+      "hedelmissä",
+      "hedelmiä",
+      "hedelmien",
+      "hedelmät"
+    ],
+    "correct": 1,
+    "id": 22
+  },
+  {
+    "level": 2,
+    "q": "Eilen koulussa ______ kirjaa.",
+    "a": [
+      "luettin",
+      "luettiin",
+      "luetiin",
+      "luetttiin"
+    ],
+    "correct": 1,
+    "id": 23
+  },
+  {
+    "level": 2,
+    "q": "Kesäisin katsotaan ulkona ______.",
+    "a": [
+      "elokuvissa",
+      "elokuvia",
+      "elokuvat",
+      "elokuvien"
+    ],
+    "correct": 1,
+    "id": 24
+  },
+  {
+    "level": 2,
+    "q": "Oppitunneilla ______ vain yhtä oppikirjaa.",
+    "a": [
+      "on käytety",
+      "on käytetä",
+      "on käytetty",
+      "on käytettty"
+    ],
+    "correct": 2,
+    "id": 25
+  },
+  {
+    "level": 2,
+    "q": "Puutarhassa istutetaan ______.",
+    "a": [
+      "kukat",
+      "kukissa",
+      "kukkia",
+      "kukkien"
+    ],
+    "correct": 2,
+    "id": 26
+  },
+  {
+    "level": 2,
+    "q": "Kun vieraat saapuivat, kirjaa ______ jo.",
+    "a": [
+      "oli luetu",
+      "oli luettu",
+      "oli luettun",
+      "oli luettuu"
+    ],
+    "correct": 1,
+    "id": 27
+  },
+  {
+    "level": 2,
+    "q": "Jouluna leivotaan ______.",
+    "a": [
+      "piparkakkujen",
+      "piparkakkuja",
+      "piparkakut",
+      "piparkakuissa"
+    ],
+    "correct": 1,
+    "id": 28
+  },
+  {
+    "level": 2,
+    "q": "Viime vuonna koulussa kirjaa ei ______.",
+    "a": [
+      "ei luettu",
+      "ei luettuu",
+      "ei luettun",
+      "ei luetu"
+    ],
+    "correct": 0,
+    "id": 29
+  },
+  {
+    "level": 2,
+    "q": "Koulun ruokalassa tarjotaan ______.",
+    "a": [
+      "kasvisruoan",
+      "kasvisruoka",
+      "kasvisruoassa",
+      "kasvisruokaa"
+    ],
+    "correct": 3,
+    "id": 30
+  },
+  {
+    "level": 2,
+    "q": "Tavallisesti koulussa ______ ruokaa.",
+    "a": [
+      "tehdäänn",
+      "tehdään",
+      "tehdaan",
+      "tehdää"
+    ],
+    "correct": 1,
+    "id": 31
+  },
+  {
+    "level": 2,
+    "q": "Kahvilassa juodaan ______.",
+    "a": [
+      "teessä",
+      "teen",
+      "tee",
+      "teetä"
+    ],
+    "correct": 3,
+    "id": 32
+  },
+  {
+    "level": 2,
+    "q": "Eilen koulussa ______ ruokaa.",
+    "a": [
+      "tehtin",
+      "tehtiin",
+      "tehteen",
+      "tehttiin"
+    ],
+    "correct": 1,
+    "id": 33
+  },
+  {
+    "level": 2,
+    "q": "Museossa esitellään ______.",
+    "a": [
+      "esineitä",
+      "esineet",
+      "esineissä",
+      "esineiden"
+    ],
+    "correct": 0,
+    "id": 34
+  },
+  {
+    "level": 2,
+    "q": "Tähän mennessä koulussa ______ ruokaa.",
+    "a": [
+      "on teht",
+      "on tehtyy",
+      "on tehty",
+      "on tehtyn"
+    ],
+    "correct": 2,
+    "id": 35
+  },
+  {
+    "level": 2,
+    "q": "Konsertissa kuunnellaan ______.",
+    "a": [
+      "lauluja",
+      "laulut",
+      "laulujen",
+      "lauluissa"
+    ],
+    "correct": 0,
+    "id": 36
+  },
+  {
+    "level": 2,
+    "q": "Kun vieraat saapuivat, ruokaa ______ jo.",
+    "a": [
+      "oli tehtyy",
+      "oli teht",
+      "oli tehty",
+      "oli tehtyn"
+    ],
+    "correct": 2,
+    "id": 37
+  },
+  {
+    "level": 2,
+    "q": "Talvella rakennetaan ______.",
+    "a": [
+      "lumilinnoja",
+      "lumilinnat",
+      "lumilinnojen",
+      "lumilinnoissa"
+    ],
+    "correct": 0,
+    "id": 38
+  },
+  {
+    "level": 2,
+    "q": "Viime vuonna koulussa ruokaa ei ______.",
+    "a": [
+      "ei tehtyy",
+      "ei teht",
+      "ei tehtyn",
+      "ei tehty"
+    ],
+    "correct": 3,
+    "id": 39
+  },
+  {
+    "level": 2,
+    "q": "Koulussa luetaan usein ______.",
+    "a": [
+      "romaanien",
+      "romaaneissa",
+      "romaanit",
+      "romaaneja"
+    ],
+    "correct": 3,
+    "id": 40
+  },
+  {
+    "level": 2,
+    "q": "Tavallisesti koulussa ______ viestiä.",
+    "a": [
+      "kirjoitetään",
+      "kirjoitetaann",
+      "kirjoitetaa",
+      "kirjoitetaan"
+    ],
+    "correct": 3,
+    "id": 41
+  },
+  {
+    "level": 2,
+    "q": "Pajassa korjataan ______.",
+    "a": [
+      "polkupyörien",
+      "polkupyörät",
+      "polkupyörissä",
+      "polkupyöriä"
+    ],
+    "correct": 3,
+    "id": 42
+  },
+  {
+    "level": 2,
+    "q": "Eilen koulussa ______ viestiä.",
+    "a": [
+      "kirjoitettin",
+      "kirjoitettiin",
+      "kirjoitetiin",
+      "kirjoitetttiin"
+    ],
+    "correct": 1,
+    "id": 43
+  },
+  {
+    "level": 2,
+    "q": "Matkalla otetaan paljon ______.",
+    "a": [
+      "valokuvissa",
+      "valokuvia",
+      "valokuvien",
+      "valokuvat"
+    ],
+    "correct": 1,
+    "id": 44
+  },
+  {
+    "level": 2,
+    "q": "Tähän mennessä koulussa ______ viestiä.",
+    "a": [
+      "on kirjoitettu",
+      "on kirjoitetu",
+      "on kirjoitettuu",
+      "on kirjoitettun"
+    ],
+    "correct": 0,
+    "id": 45
+  },
+  {
+    "level": 2,
+    "q": "Ruokakaupassa ostetaan ______.",
+    "a": [
+      "hedelmiä",
+      "hedelmien",
+      "hedelmissä",
+      "hedelmät"
+    ],
+    "correct": 0,
+    "id": 46
+  },
+  {
+    "level": 2,
+    "q": "Kun vieraat saapuivat, viestiä ______ jo.",
+    "a": [
+      "oli kirjoitettun",
+      "oli kirjoitetu",
+      "oli kirjoitettuu",
+      "oli kirjoitettu"
+    ],
+    "correct": 3,
+    "id": 47
+  },
+  {
+    "level": 2,
+    "q": "Keittiössä pilkotaan ______.",
+    "a": [
+      "vihanneksia",
+      "vihannekset",
+      "vihannesten",
+      "vihanneksissa"
+    ],
+    "correct": 0,
+    "id": 48
+  },
+  {
+    "level": 2,
+    "q": "Viime vuonna koulussa viestiä ei ______.",
+    "a": [
+      "ei kirjoitetu",
+      "ei kirjoitettuu",
+      "ei kirjoitettu",
+      "ei kirjoitettun"
+    ],
+    "correct": 2,
+    "id": 49
+  },
+  {
+    "level": 2,
+    "q": "Pihalla kasvatetaan ______.",
+    "a": [
+      "tomaateissa",
+      "tomaattien",
+      "tomaatit",
+      "tomaatteja"
+    ],
+    "correct": 3,
+    "id": 50
+  },
+  {
+    "level": 2,
+    "q": "Illalla koulun kaikki luokat ______.",
+    "a": [
+      "siivottiin",
+      "siivotiin",
+      "siivotttiin",
+      "siivottin"
+    ],
+    "correct": 0,
+    "id": 51
+  },
+  {
+    "level": 2,
+    "q": "Välipalalla tarjotaan usein ______.",
+    "a": [
+      "pähkinät",
+      "pähkinöissä",
+      "pähkinöiden",
+      "pähkinöitä"
+    ],
+    "correct": 3,
+    "id": 52
+  },
+  {
+    "level": 2,
+    "q": "Eilen koulussa ______ huonetta.",
+    "a": [
+      "siivottiin",
+      "siivotiin",
+      "siivotttiin",
+      "siivottin"
+    ],
+    "correct": 0,
+    "id": 53
+  },
+  {
+    "level": 2,
+    "q": "Juhlissa lauletaan ______.",
+    "a": [
+      "lauluissa",
+      "laulujen",
+      "laulut",
+      "lauluja"
+    ],
+    "correct": 3,
+    "id": 54
+  },
+  {
+    "level": 2,
+    "q": "Tähän mennessä koulussa ______ huonetta.",
+    "a": [
+      "on siivottuu",
+      "on siivottun",
+      "on siivotu",
+      "on siivottu"
+    ],
+    "correct": 3,
+    "id": 55
+  },
+  {
+    "level": 2,
+    "q": "Koulussa opiskellaan ______.",
+    "a": [
+      "historia",
+      "historian",
+      "historiassa",
+      "historiaa"
+    ],
+    "correct": 3,
+    "id": 56
+  },
+  {
+    "level": 2,
+    "q": "Kun vieraat saapuivat, huonetta ______ jo.",
+    "a": [
+      "oli siivotu",
+      "oli siivottun",
+      "oli siivottuu",
+      "oli siivottu"
+    ],
+    "correct": 3,
+    "id": 57
+  },
+  {
+    "level": 2,
+    "q": "Sairaalassa hoidetaan ______.",
+    "a": [
+      "potilaita",
+      "potilaat",
+      "potilaiden",
+      "potilaissa"
+    ],
+    "correct": 0,
+    "id": 58
+  },
+  {
+    "level": 2,
+    "q": "Viime vuonna koulussa huonetta ei ______.",
+    "a": [
+      "ei siivottun",
+      "ei siivotu",
+      "ei siivottuu",
+      "ei siivottu"
+    ],
+    "correct": 3,
+    "id": 59
+  },
+  {
+    "level": 2,
+    "q": "Lopuksi luetaan ______ ääneen.",
+    "a": [
+      "kirjaa",
+      "kirja",
+      "kirjassa",
+      "kirjan"
+    ],
+    "correct": 1,
+    "id": 60
+  },
+  {
+    "level": 2,
+    "q": "Tavallisesti koulussa ______ astioita.",
+    "a": [
+      "pestään",
+      "pestaan",
+      "pestää",
+      "pestäänn"
+    ],
+    "correct": 0,
+    "id": 61
+  },
+  {
+    "level": 2,
+    "q": "Opettaja tarkistaa kokeessa yhden ______.",
+    "a": [
+      "vastauksessa",
+      "vastaukset",
+      "vastausta",
+      "vastauksen"
+    ],
+    "correct": 3,
+    "id": 62
+  },
+  {
+    "level": 2,
+    "q": "Eilen koulussa ______ astioita.",
+    "a": [
+      "pesttiin",
+      "pestin",
+      "pestiin",
+      "pesteen"
+    ],
+    "correct": 2,
+    "id": 63
+  },
+  {
+    "level": 2,
+    "q": "Tänään luetaan ______ loppuun.",
+    "a": [
+      "romaanin",
+      "romaania",
+      "romaanissa",
+      "romaani"
+    ],
+    "correct": 3,
+    "id": 64
+  },
+  {
+    "level": 2,
+    "q": "Tähän mennessä koulussa ______ astioita.",
+    "a": [
+      "on pesty",
+      "on pestyn",
+      "on pestyy",
+      "on pest"
+    ],
+    "correct": 0,
+    "id": 65
+  },
+  {
+    "level": 2,
+    "q": "Minä luen tänään tämän ______ loppuun.",
+    "a": [
+      "kirjan",
+      "kirjaa",
+      "kirjassa",
+      "kirjat"
+    ],
+    "correct": 0,
+    "id": 66
+  },
+  {
+    "level": 2,
+    "q": "Kun vieraat saapuivat, astioita ______ jo.",
+    "a": [
+      "oli pest",
+      "oli pestyn",
+      "oli pestyy",
+      "oli pesty"
+    ],
+    "correct": 3,
+    "id": 67
+  },
+  {
+    "level": 2,
+    "q": "Päivän päätteeksi siivotaan ______.",
+    "a": [
+      "luokka",
+      "luokassa",
+      "luokan",
+      "luokkaa"
+    ],
+    "correct": 0,
+    "id": 68
+  },
+  {
+    "level": 2,
+    "q": "Viime vuonna koulussa astioita ei ______.",
+    "a": [
+      "ei pestyn",
+      "ei pestyy",
+      "ei pest",
+      "ei pesty"
+    ],
+    "correct": 3,
+    "id": 69
+  },
+  {
+    "level": 2,
+    "q": "Oppilas palauttaa ______ ennen tunnin alkua.",
+    "a": [
+      "vihkoa",
+      "vihkot",
+      "vihkossa",
+      "vihkon"
+    ],
+    "correct": 3,
+    "id": 70
+  },
+  {
+    "level": 2,
+    "q": "Tavallisesti koulussa ______ ikkunat.",
+    "a": [
+      "avataann",
+      "avataa",
+      "avataan",
+      "avatään"
+    ],
+    "correct": 2,
+    "id": 71
+  },
+  {
+    "level": 2,
+    "q": "Ennen koetta kerrataan ______.",
+    "a": [
+      "kaikkien sääntöjen",
+      "kaikkia sääntöjä",
+      "kaikki säännöt",
+      "kaikissa säännöissä"
+    ],
+    "correct": 2,
+    "id": 72
+  },
+  {
+    "level": 2,
+    "q": "Eilen koulussa ______ ikkunat.",
+    "a": [
+      "avatiin",
+      "avatttiin",
+      "avattin",
+      "avattiin"
+    ],
+    "correct": 3,
+    "id": 73
+  },
+  {
+    "level": 2,
+    "q": "Me katsomme illalla koko ______ loppuun.",
+    "a": [
+      "elokuvaa",
+      "elokuvan",
+      "elokuvassa",
+      "elokuvat"
+    ],
+    "correct": 1,
+    "id": 74
+  },
+  {
+    "level": 2,
+    "q": "Tähän mennessä koulussa ______ ikkunat.",
+    "a": [
+      "on avattu",
+      "on avattuu",
+      "on avattun",
+      "on avatu"
+    ],
+    "correct": 0,
+    "id": 75
+  },
+  {
+    "level": 2,
+    "q": "Ennen matkaa ostetaan ______.",
+    "a": [
+      "lipuissa",
+      "lippujen",
+      "lippuja",
+      "liput"
+    ],
+    "correct": 3,
+    "id": 76
+  },
+  {
+    "level": 2,
+    "q": "Kun vieraat saapuivat, ikkunat ______ jo.",
+    "a": [
+      "oli avattu",
+      "oli avatu",
+      "oli avattuu",
+      "oli avattun"
+    ],
+    "correct": 0,
+    "id": 77
+  },
+  {
+    "level": 2,
+    "q": "Kirjoitan tänään ______ valmiiksi.",
+    "a": [
+      "aineessa",
+      "ainetta",
+      "aineet",
+      "aineen"
+    ],
+    "correct": 3,
+    "id": 78
+  },
+  {
+    "level": 2,
+    "q": "Viime vuonna koulussa ikkunat ei ______.",
+    "a": [
+      "ei avatu",
+      "ei avattu",
+      "ei avattuu",
+      "ei avattun"
+    ],
+    "correct": 1,
+    "id": 79
+  },
+  {
+    "level": 2,
+    "q": "Paketista avataan ______.",
+    "a": [
+      "laatikossa",
+      "laatikon",
+      "laatikko",
+      "laatikkoa"
+    ],
+    "correct": 2,
+    "id": 80
+  },
+  {
+    "level": 2,
+    "q": "Tavallisesti koulussa ______ voittaja.",
+    "a": [
+      "valitään",
+      "valitaan",
+      "valitaa",
+      "valitaann"
+    ],
+    "correct": 1,
+    "id": 81
+  },
+  {
+    "level": 2,
+    "q": "Perhe ostaa lapselle uuden ______.",
+    "a": [
+      "polkupyörää",
+      "polkupyörät",
+      "polkupyörän",
+      "polkupyörässä"
+    ],
+    "correct": 2,
+    "id": 82
+  },
+  {
+    "level": 2,
+    "q": "Eilen koulussa ______ voittaja.",
+    "a": [
+      "valitttiin",
+      "valittin",
+      "valittiin",
+      "valitiin"
+    ],
+    "correct": 2,
+    "id": 83
+  },
+  {
+    "level": 2,
+    "q": "Juhlan aluksi lauletaan ______.",
+    "a": [
+      "Maamme-laulun",
+      "Maamme-laulua",
+      "Maamme-laulu",
+      "Maamme-laulussa"
+    ],
+    "correct": 2,
+    "id": 84
+  },
+  {
+    "level": 2,
+    "q": "Tähän mennessä koulussa ______ voittaja.",
+    "a": [
+      "on valitu",
+      "on valittu",
+      "on valittun",
+      "on valittuu"
+    ],
+    "correct": 1,
+    "id": 85
+  },
+  {
+    "level": 2,
+    "q": "Minä avaan nyt tämän ______.",
+    "a": [
+      "kirjeessä",
+      "kirjeet",
+      "kirjeen",
+      "kirjettä"
+    ],
+    "correct": 2,
+    "id": 86
+  },
+  {
+    "level": 2,
+    "q": "Kun vieraat saapuivat, voittaja ______ jo.",
+    "a": [
+      "oli valitu",
+      "oli valittuu",
+      "oli valittun",
+      "oli valittu"
+    ],
+    "correct": 3,
+    "id": 87
+  },
+  {
+    "level": 2,
+    "q": "Kilpailussa palkitaan ______.",
+    "a": [
+      "voittajat",
+      "voittajissa",
+      "voittajia",
+      "voittajien"
+    ],
+    "correct": 0,
+    "id": 88
+  },
+  {
+    "level": 2,
+    "q": "Viime vuonna koulussa voittaja ei ______.",
+    "a": [
+      "ei valitu",
+      "ei valittu",
+      "ei valittun",
+      "ei valittuu"
+    ],
+    "correct": 1,
+    "id": 89
+  },
+  {
+    "level": 2,
+    "q": "Opettaja lukee tunnilla yhden ______ ääneen.",
+    "a": [
+      "tarinan",
+      "tarinassa",
+      "tarinat",
+      "tarinaa"
+    ],
+    "correct": 0,
+    "id": 90
+  },
+  {
+    "level": 2,
+    "q": "Tavallisesti koulussa ______ polkupyöriä.",
+    "a": [
+      "korjataan",
+      "korjataa",
+      "korjatään",
+      "korjataann"
+    ],
+    "correct": 0,
+    "id": 91
+  },
+  {
+    "level": 2,
+    "q": "Ennen talvea korjataan ______.",
+    "a": [
+      "katossa",
+      "kattoa",
+      "katon",
+      "katto"
+    ],
+    "correct": 3,
+    "id": 92
+  },
+  {
+    "level": 2,
+    "q": "Eilen koulussa ______ polkupyöriä.",
+    "a": [
+      "korjatiin",
+      "korjatttiin",
+      "korjattiin",
+      "korjattin"
+    ],
+    "correct": 2,
+    "id": 93
+  },
+  {
+    "level": 2,
+    "q": "Hän pesee aamulla auton ______.",
+    "a": [
+      "ikkunan",
+      "ikkunaa",
+      "ikkunassa",
+      "ikkunat"
+    ],
+    "correct": 0,
+    "id": 94
+  },
+  {
+    "level": 2,
+    "q": "Tähän mennessä koulussa ______ polkupyöriä.",
+    "a": [
+      "on korjattun",
+      "on korjattu",
+      "on korjatu",
+      "on korjattuu"
+    ],
+    "correct": 1,
+    "id": 95
+  },
+  {
+    "level": 2,
+    "q": "Koulun juhlaan harjoitellaan ______.",
+    "a": [
+      "esityksissä",
+      "esitysten",
+      "esityksiä",
+      "esitykset"
+    ],
+    "correct": 3,
+    "id": 96
+  },
+  {
+    "level": 2,
+    "q": "Kun vieraat saapuivat, polkupyöriä ______ jo.",
+    "a": [
+      "oli korjattu",
+      "oli korjatu",
+      "oli korjattuu",
+      "oli korjattun"
+    ],
+    "correct": 0,
+    "id": 97
+  },
+  {
+    "level": 2,
+    "q": "Me valmistamme juhliin ______.",
+    "a": [
+      "ruoat",
+      "ruoan",
+      "ruokaa",
+      "ruoassa"
+    ],
+    "correct": 1,
+    "id": 98
+  },
+  {
+    "level": 2,
+    "q": "Viime vuonna koulussa polkupyöriä ei ______.",
+    "a": [
+      "ei korjattu",
+      "ei korjattun",
+      "ei korjatu",
+      "ei korjattuu"
+    ],
+    "correct": 0,
+    "id": 99
+  },
+  {
+    "level": 2,
+    "q": "Retken jälkeen pestään ______.",
+    "a": [
+      "astioita",
+      "astioiden",
+      "astiat",
+      "astioissa"
+    ],
+    "correct": 2,
+    "id": 100
+  },
+  {
+    "level": 3,
+    "q": "Tavallisesti koulussa ______ ruokaa.",
+    "a": [
+      "ostetaa",
+      "ostetaan",
+      "ostetään",
+      "ostetaann"
+    ],
+    "correct": 1,
+    "id": 101
+  },
+  {
+    "level": 3,
+    "q": "Pihalle pystytetään ______.",
+    "a": [
+      "teltta",
+      "telttaa",
+      "teltassa",
+      "teltan"
+    ],
+    "correct": 0,
+    "id": 102
+  },
+  {
+    "level": 3,
+    "q": "Eilen koulussa ______ ruokaa.",
+    "a": [
+      "ostettin",
+      "ostetiin",
+      "ostetttiin",
+      "ostettiin"
+    ],
+    "correct": 3,
+    "id": 103
+  },
+  {
+    "level": 3,
+    "q": "Ennen nukkumaanmenoa luetaan ______.",
+    "a": [
+      "iltasatua",
+      "iltasadussa",
+      "iltasadun",
+      "iltasatu"
+    ],
+    "correct": 3,
+    "id": 104
+  },
+  {
+    "level": 3,
+    "q": "Tähän mennessä koulussa ______ ruokaa.",
+    "a": [
+      "on ostettuu",
+      "on ostettu",
+      "on ostetu",
+      "on ostettun"
+    ],
+    "correct": 1,
+    "id": 105
+  },
+  {
+    "level": 3,
+    "q": "Tänään katsotaan ______ loppuun.",
+    "a": [
+      "elokuvassa",
+      "elokuva",
+      "elokuvan",
+      "elokuvaa"
+    ],
+    "correct": 1,
+    "id": 106
+  },
+  {
+    "level": 3,
+    "q": "Kun vieraat saapuivat, ruokaa ______ jo.",
+    "a": [
+      "oli ostettun",
+      "oli ostettuu",
+      "oli ostettu",
+      "oli ostetu"
+    ],
+    "correct": 2,
+    "id": 107
+  },
+  {
+    "level": 3,
+    "q": "Ennen vieraiden tuloa valmistetaan ______.",
+    "a": [
+      "ruoka",
+      "ruoassa",
+      "ruokaa",
+      "ruoan"
+    ],
+    "correct": 0,
+    "id": 108
+  },
+  {
+    "level": 3,
+    "q": "Viime vuonna koulussa ruokaa ei ______.",
+    "a": [
+      "ei ostettu",
+      "ei ostetu",
+      "ei ostettun",
+      "ei ostettuu"
+    ],
+    "correct": 0,
+    "id": 109
+  },
+  {
+    "level": 3,
+    "q": "Kaikki oppilaat palauttavat ______ määräaikaan mennessä.",
+    "a": [
+      "tehtäviä",
+      "tehtävissä",
+      "tehtävien",
+      "tehtävät"
+    ],
+    "correct": 3,
+    "id": 110
+  },
+  {
+    "level": 3,
+    "q": "Tavallisesti koulussa ______ kahvia.",
+    "a": [
+      "juodaann",
+      "juodaa",
+      "juodään",
+      "juodaan"
+    ],
+    "correct": 3,
+    "id": 111
+  },
+  {
+    "level": 3,
+    "q": "Lopuksi tarkistetaan ______.",
+    "a": [
+      "vastausten",
+      "vastauksia",
+      "vastauksissa",
+      "vastaukset"
+    ],
+    "correct": 3,
+    "id": 112
+  },
+  {
+    "level": 3,
+    "q": "Eilen koulussa ______ kahvia.",
+    "a": [
+      "juoteen",
+      "juotiin",
+      "juottiin",
+      "juotin"
+    ],
+    "correct": 1,
+    "id": 113
+  },
+  {
+    "level": 3,
+    "q": "Ennen ulos lähtöä puetaan ______.",
+    "a": [
+      "takin",
+      "takkia",
+      "takissa",
+      "takki"
+    ],
+    "correct": 3,
+    "id": 114
+  },
+  {
+    "level": 3,
+    "q": "Tähän mennessä koulussa ______ kahvia.",
+    "a": [
+      "on juotuu",
+      "on juot",
+      "on juotu",
+      "on juotun"
+    ],
+    "correct": 2,
+    "id": 115
+  },
+  {
+    "level": 3,
+    "q": "Juhlan jälkeen siivotaan ______.",
+    "a": [
+      "sali",
+      "salin",
+      "salissa",
+      "salia"
+    ],
+    "correct": 0,
+    "id": 116
+  },
+  {
+    "level": 3,
+    "q": "Kun vieraat saapuivat, kahvia ______ jo.",
+    "a": [
+      "oli juotuu",
+      "oli juot",
+      "oli juotu",
+      "oli juotun"
+    ],
+    "correct": 2,
+    "id": 117
+  },
+  {
+    "level": 3,
+    "q": "Tänään kirjoitetaan ______ valmiiksi.",
+    "a": [
+      "ainetta",
+      "aine",
+      "aineessa",
+      "aineen"
+    ],
+    "correct": 1,
+    "id": 118
+  },
+  {
+    "level": 3,
+    "q": "Viime vuonna koulussa kahvia ei ______.",
+    "a": [
+      "ei juot",
+      "ei juotun",
+      "ei juotu",
+      "ei juotuu"
+    ],
+    "correct": 2,
+    "id": 119
+  },
+  {
+    "level": 3,
+    "q": "Ennen tunnin loppua palautetaan ______.",
+    "a": [
+      "vihkoja",
+      "vihkojen",
+      "vihkoissa",
+      "vihkot"
+    ],
+    "correct": 3,
+    "id": 120
+  },
+  {
+    "level": 3,
+    "q": "Tavallisesti koulussa ______ vieraita.",
+    "a": [
+      "kutsutään",
+      "kutsutaann",
+      "kutsutaa",
+      "kutsutaan"
+    ],
+    "correct": 3,
+    "id": 121
+  },
+  {
+    "level": 3,
+    "q": "Koko luokka lukee ______ yhdessä.",
+    "a": [
+      "tarinassa",
+      "tarinan",
+      "tarina",
+      "tarinaa"
+    ],
+    "correct": 2,
+    "id": 122
+  },
+  {
+    "level": 3,
+    "q": "Eilen koulussa ______ vieraita.",
+    "a": [
+      "kutsuttin",
+      "kutsuttiin",
+      "kutsutttiin",
+      "kutsutiin"
+    ],
+    "correct": 1,
+    "id": 123
+  },
+  {
+    "level": 3,
+    "q": "Pihalta kerätään ______.",
+    "a": [
+      "roskissa",
+      "roskat",
+      "roskia",
+      "roskien"
+    ],
+    "correct": 1,
+    "id": 124
+  },
+  {
+    "level": 3,
+    "q": "Tähän mennessä koulussa ______ vieraita.",
+    "a": [
+      "on kutsuttun",
+      "on kutsutu",
+      "on kutsuttu",
+      "on kutsuttuu"
+    ],
+    "correct": 2,
+    "id": 125
+  },
+  {
+    "level": 3,
+    "q": "Ennen kokousta jaetaan ______.",
+    "a": [
+      "asiakirjojen",
+      "asiakirjoja",
+      "asiakirjoissa",
+      "asiakirjat"
+    ],
+    "correct": 3,
+    "id": 126
+  },
+  {
+    "level": 3,
+    "q": "Kun vieraat saapuivat, vieraita ______ jo.",
+    "a": [
+      "oli kutsutu",
+      "oli kutsuttuu",
+      "oli kutsuttun",
+      "oli kutsuttu"
+    ],
+    "correct": 3,
+    "id": 127
+  },
+  {
+    "level": 3,
+    "q": "Jouluksi ostetaan ______.",
+    "a": [
+      "lahjojen",
+      "lahjoissa",
+      "lahjat",
+      "lahjoja"
+    ],
+    "correct": 2,
+    "id": 128
+  },
+  {
+    "level": 3,
+    "q": "Viime vuonna koulussa vieraita ei ______.",
+    "a": [
+      "ei kutsuttuu",
+      "ei kutsutu",
+      "ei kutsuttun",
+      "ei kutsuttu"
+    ],
+    "correct": 3,
+    "id": 129
+  },
+  {
+    "level": 3,
+    "q": "Pöydälle asetetaan ______.",
+    "a": [
+      "maljakossa",
+      "maljakko",
+      "maljakon",
+      "maljakkoa"
+    ],
+    "correct": 1,
+    "id": 130
+  },
+  {
+    "level": 3,
+    "q": "Tavallisesti koulussa ______ seinää.",
+    "a": [
+      "maalataan",
+      "maalatään",
+      "maalataa",
+      "maalataann"
+    ],
+    "correct": 0,
+    "id": 131
+  },
+  {
+    "level": 3,
+    "q": "Ennen lähtöä pakataan ______.",
+    "a": [
+      "matkalaukkujen",
+      "matkalaukuissa",
+      "matkalaukkuja",
+      "matkalaukut"
+    ],
+    "correct": 3,
+    "id": 132
+  },
+  {
+    "level": 3,
+    "q": "Eilen koulussa ______ seinää.",
+    "a": [
+      "maalattin",
+      "maalattiin",
+      "maalatiin",
+      "maalatttiin"
+    ],
+    "correct": 1,
+    "id": 133
+  },
+  {
+    "level": 3,
+    "q": "Lopuksi avataan ______.",
+    "a": [
+      "kirje",
+      "kirjettä",
+      "kirjeen",
+      "kirjeessä"
+    ],
+    "correct": 0,
+    "id": 134
+  },
+  {
+    "level": 3,
+    "q": "Tähän mennessä koulussa ______ seinää.",
+    "a": [
+      "on maalattu",
+      "on maalattuu",
+      "on maalatu",
+      "on maalattun"
+    ],
+    "correct": 0,
+    "id": 135
+  },
+  {
+    "level": 3,
+    "q": "Tunnilla harjoitellaan ______.",
+    "a": [
+      "kieliopissa",
+      "kieliopin",
+      "kielioppi",
+      "kielioppia"
+    ],
+    "correct": 3,
+    "id": 136
+  },
+  {
+    "level": 3,
+    "q": "Kun vieraat saapuivat, seinää ______ jo.",
+    "a": [
+      "oli maalattuu",
+      "oli maalattu",
+      "oli maalattun",
+      "oli maalatu"
+    ],
+    "correct": 1,
+    "id": 137
+  },
+  {
+    "level": 3,
+    "q": "Aamulla keitetään ______.",
+    "a": [
+      "kahvin",
+      "kahvia",
+      "kahvi",
+      "kahvissa"
+    ],
+    "correct": 1,
+    "id": 138
+  },
+  {
+    "level": 3,
+    "q": "Viime vuonna koulussa seinää ei ______.",
+    "a": [
+      "ei maalattun",
+      "ei maalattuu",
+      "ei maalatu",
+      "ei maalattu"
+    ],
+    "correct": 3,
+    "id": 139
+  },
+  {
+    "level": 3,
+    "q": "Välitunnilla pelataan ______.",
+    "a": [
+      "jalkapallo",
+      "jalkapalloa",
+      "jalkapallossa",
+      "jalkapallon"
+    ],
+    "correct": 1,
+    "id": 140
+  },
+  {
+    "level": 3,
+    "q": "Tavallisesti koulussa ______ taloa.",
+    "a": [
+      "rakennetaann",
+      "rakennetään",
+      "rakennetaan",
+      "rakennetaa"
+    ],
+    "correct": 2,
+    "id": 141
+  },
+  {
+    "level": 3,
+    "q": "Tänään luetaan loppuun ______.",
+    "a": [
+      "kirjaa",
+      "kirja",
+      "kirjassa",
+      "kirjan"
+    ],
+    "correct": 1,
+    "id": 142
+  },
+  {
+    "level": 3,
+    "q": "Eilen koulussa ______ taloa.",
+    "a": [
+      "rakennetiin",
+      "rakennettin",
+      "rakennettiin",
+      "rakennetttiin"
+    ],
+    "correct": 2,
+    "id": 143
+  },
+  {
+    "level": 3,
+    "q": "Uutisissa luetaan ______.",
+    "a": [
+      "uutisissa",
+      "uutisten",
+      "uutiset",
+      "uutisia"
+    ],
+    "correct": 3,
+    "id": 144
+  },
+  {
+    "level": 3,
+    "q": "Tähän mennessä koulussa ______ taloa.",
+    "a": [
+      "on rakennettuu",
+      "on rakennettu",
+      "on rakennettun",
+      "on rakennetu"
+    ],
+    "correct": 1,
+    "id": 145
+  },
+  {
+    "level": 3,
+    "q": "Tänään tehdään ______ valmiiksi.",
+    "a": [
+      "koko työn",
+      "koko työ",
+      "koko työtä",
+      "koko työssä"
+    ],
+    "correct": 1,
+    "id": 146
+  },
+  {
+    "level": 3,
+    "q": "Kun vieraat saapuivat, taloa ______ jo.",
+    "a": [
+      "oli rakennettun",
+      "oli rakennetu",
+      "oli rakennettu",
+      "oli rakennettuu"
+    ],
+    "correct": 2,
+    "id": 147
+  },
+  {
+    "level": 3,
+    "q": "Ennen vieraiden tuloa koristellaan ______.",
+    "a": [
+      "koko huonetta",
+      "koko huone",
+      "koko huoneessa",
+      "koko huoneen"
+    ],
+    "correct": 1,
+    "id": 148
+  },
+  {
+    "level": 3,
+    "q": "Viime vuonna koulussa taloa ei ______.",
+    "a": [
+      "ei rakennettu",
+      "ei rakennettun",
+      "ei rakennetu",
+      "ei rakennettuu"
+    ],
+    "correct": 0,
+    "id": 149
+  },
+  {
+    "level": 3,
+    "q": "Ennen koulun alkua avataan ______.",
+    "a": [
+      "kaikkien ikkunoiden",
+      "kaikki ikkunat",
+      "kaikkia ikkunoita",
+      "kaikissa ikkunoissa"
+    ],
+    "correct": 1,
+    "id": 150
+  }
+];
+    const TIME_PER_QUESTION = 15;
+    let timerInterval = null;
+    let timeLeft = TIME_PER_QUESTION;
+
+    let questionNumber = 0;
+    let score = 0;
+    let correctAnswers = 0;
+    let gameMode = "normal";
+    let currentQuestion = null;
+    let running = false;
+    let usedQuestions = new Set();
+    let levelQueues = {};
+    let currentLevel = 1;
+
+    const buttons = document.querySelectorAll(".buttons button");
+
+    function setMode(mode) {
+      gameMode = mode;
+
+      document.getElementById("normalModeButton").classList.toggle("active", mode === "normal");
+      document.getElementById("hardcoreModeButton").classList.toggle("active", mode === "hardcore");
+
+
+      // Vaihdettaessa pelitilaa aloitetaan uusi peli, jotta pisteytys ja ajastin ovat selkeät.
+      startGame();
+    }
+
+    function getBestScoreData() {
+      const bestScore = Number(localStorage.getItem("passiveObjectBestScore") || 0);
+      const bestMode = localStorage.getItem("passiveObjectBestScoreMode") || "normal";
+      return { bestScore, bestMode };
+    }
+
+    function updateHighscoreDisplay() {
+      const { bestScore, bestMode } = getBestScoreData();
+      const modeText = bestMode === "hardcore" && bestScore > 0 ? " (Hardcore)" : "";
+      document.getElementById("highscore").textContent =
+        `Parhaat pisteesi: ${bestScore}${modeText}`;
+    }
+
+    function saveHighscoreIfNeeded() {
+      const { bestScore } = getBestScoreData();
+
+      if (score > bestScore) {
+        localStorage.setItem("passiveObjectBestScore", String(score));
+        localStorage.setItem("passiveObjectBestScoreMode", gameMode);
+      }
+
+      updateHighscoreDisplay();
+    }
+
+    function startGame() {
+      clearInterval(timerInterval);
+      questionNumber = 0;
+      score = 0;
+      correctAnswers = 0;
+      currentQuestion = null;
+      running = true;
+      usedQuestions = new Set();
+      currentLevel = 1;
+
+      // Jokainen vaikeustaso arvotaan omaksi jonokseen. Peli etenee
+      // järjestyksessä helposta (1) keskivaikeaan (2) ja vaikeaan (3).
+      // Kunkin tason sisällä passiivin ja objektin kysymykset vuorottelevat.
+      levelQueues = {};
+      [1, 2, 3].forEach(level => {
+        levelQueues[level] = {
+          passive: shuffleArray(questionBank.filter(q => q.level === level && q.id % 2 === 1)),
+          object: shuffleArray(questionBank.filter(q => q.level === level && q.id % 2 === 0))
+        };
+      });
+
+      document.getElementById("retryButton").style.display = "none";
+      document.getElementById("gameOver").textContent = "";
+      document.getElementById("finalMessage").textContent = "";
+      document.getElementById("resultFeedback").textContent = "";
+      document.getElementById("feedback").textContent = "";
+
+      updateScore();
+      nextQuestion();
+    }
+
+    function getQuestion() {
+      // Parittomat kysymykset testaavat passiivimuotoa ja parilliset objektia.
+      const wantsPassive = questionNumber % 2 === 0;
+      const queueType = wantsPassive ? "passive" : "object";
+
+      while (currentLevel <= 3) {
+        const queues = levelQueues[currentLevel];
+        const queue = queues[queueType];
+
+        if (queue.length > 0) {
+          const candidate = queue.pop();
+          if (!usedQuestions.has(candidate)) return candidate;
+          continue;
+        }
+
+        // Tason molemmat jonot ovat tyhjät: siirrytään seuraavaan tasoon.
+        if (queues.passive.length === 0 && queues.object.length === 0) {
+          currentLevel++;
+          continue;
+        }
+
+        // Jos toisen kysymystyypin jono on tyhjä, etsitään seuraava
+        // vuorossa oleva kysymys jäljellä olevasta jonosta.
+        const otherQueue = queues[queueType === "passive" ? "object" : "passive"];
+        if (otherQueue.length > 0) {
+          const candidate = otherQueue.pop();
+          if (!usedQuestions.has(candidate)) return candidate;
+        }
+      }
+
+      return null;
+    }
+
+    function getTimeForQuestion() {
+      if (gameMode === "hardcore") {
+        return 3;
+      }
+
+      // Normal mode: lähtöaika 15 s. Jokaisen kolmen oikean vastauksen jälkeen
+      // seuraavan kysymyksen aika lyhenee yhdellä sekunnilla.
+      return Math.max(3, TIME_PER_QUESTION - Math.floor(correctAnswers / 3));
+    }
+
+    function updateTimerDisplay(totalTime) {
+      const shownTime = Math.max(0, Math.ceil(timeLeft));
+      document.getElementById("timerText").textContent = `Aikaa: ${shownTime} s`;
+      const percent = Math.max(0, Math.min(100, (timeLeft / totalTime) * 100));
+      document.getElementById("timeBar").style.width = `${percent}%`;
+    }
+
+    function startTimer() {
+      clearInterval(timerInterval);
+
+      const totalTime = getTimeForQuestion();
+      timeLeft = totalTime;
+      updateTimerDisplay(totalTime);
+
+      const startedAt = Date.now();
+
+      timerInterval = setInterval(() => {
+        if (!running) {
+          clearInterval(timerInterval);
+          return;
+        }
+
+        const elapsed = (Date.now() - startedAt) / 1000;
+        timeLeft = totalTime - elapsed;
+        updateTimerDisplay(totalTime);
+
+        if (timeLeft <= 0) {
+          timeLeft = 0;
+          updateTimerDisplay(totalTime);
+          clearInterval(timerInterval);
+          buttons.forEach(btn => btn.disabled = true);
+          endGame("Aika loppui! ⏱️");
+        }
+      }, 100);
+    }
+
+    function nextQuestion() {
+      if (!running) return;
+
+      currentQuestion = getQuestion();
+
+      if (!currentQuestion) {
+        winGame();
+        return;
+      }
+
+      usedQuestions.add(currentQuestion);
+
+      questionNumber++;
+
+      document.getElementById("questionNumberText").textContent =
+        `Kysymys ${questionNumber}`;
+
+      document.getElementById("question").innerHTML = currentQuestion.q;
+      document.getElementById("feedback").textContent = "";
+
+      const answers = shuffleArray(currentQuestion.a.map((text, index) => ({
+        text: text,
+        originalIndex: index
+      })));
+
+      if (document.activeElement && typeof document.activeElement.blur === "function") {
+        document.activeElement.blur();
+      }
+
+      buttons.forEach((btn, i) => {
+        btn.disabled = false;
+        btn.classList.remove("wrong-answer", "correct-answer");
+        btn.textContent = answers[i].text;
+        btn.dataset.originalIndex = answers[i].originalIndex;
+        btn.onclick = () => answer(answers[i].originalIndex, btn);
+      });
+
+      startTimer();
+    }
+
+    function shuffleArray(array) {
+      // Fisher–Yates
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function answer(choice, selectedButton) {
+      if (!running) return;
+
+      if (selectedButton && typeof selectedButton.blur === "function") {
+        selectedButton.blur();
+      }
+
+      clearInterval(timerInterval);
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (choice === currentQuestion.correct) {
+        correctAnswers++;
+        score += gameMode === "hardcore" ? 3 : 1;
+        document.getElementById("feedback").textContent = "Oikein! ✓";
+        updateScore();
+
+        // Pieni tauko tekee palautteesta näkyvän ilman, että peli tuntuu tahmealta.
+        setTimeout(() => {
+          if (running) nextQuestion();
+        }, 250);
+
+      } else {
+        buttons.forEach(btn => {
+          btn.classList.remove("wrong-answer", "correct-answer");
+          const originalIndex = Number(btn.dataset.originalIndex);
+
+          if (originalIndex === currentQuestion.correct) {
+            btn.classList.add("correct-answer");
+          }
+
+          if (btn === selectedButton && originalIndex !== currentQuestion.correct) {
+            btn.classList.add("wrong-answer");
+          }
+
+          btn.disabled = true;
+        });
+        endGame("Väärä vastaus! ❌");
+      }
+    }
+
+    function getResultMessage(score) {
+  if (score <= 4) {
+    return "Hyvä yritys! Harjoittele vielä.";
+  } else if (score <= 9) {
+    return "Hyvä! Jatka harjoittelua!";
+  } else if (score <= 17) {
+    return "Hienoa! Osaat jo monta passiivin muotoa!";
+  } else if (score <= 24) {
+    return "Todella hyvä! Passiivi alkaa sujua!";
+  } else if (score <= 30) {
+    return "Mahtavaa! Osaat passiivin ja objektin jo hyvin!";
+  } else if (score <= 50) {
+    return "Erinomaista! Passiivi ja objekti ovat hyvin hallussa!";
+  } else {
+    return "Huipputulos! Olet passiivin mestari!";
+  }
+}
+
+
+
+    function winGame() {
+      clearInterval(timerInterval);
+      running = false;
+
+      buttons.forEach(btn => btn.disabled = true);
+
+      document.getElementById("feedback").textContent = "";
+      document.getElementById("gameOver").textContent =
+        "🎉 Kaikki kysymykset suoritettu!";
+
+      document.getElementById("finalMessage").textContent =
+        gameMode === "hardcore"
+          ? `Lopulliset pisteesi: ${score} · Oikein: ${correctAnswers}`
+          : `Lopulliset pisteesi: ${score} / ${questionBank.length}`;
+      document.getElementById("resultFeedback").textContent =
+        getResultMessage(score);
+
+      updateScore();
+      saveHighscoreIfNeeded();
+      document.getElementById("retryButton").style.display = "inline-block";
+    }
+
+    function updateScore() {
+      document.getElementById("score").textContent =
+        gameMode === "hardcore"
+          ? `Pisteet: ${score} · Hardcore`
+          : `Pisteet: ${score}`;
+    }
+
+    function endGame(message) {
+      if (!running) return;
+
+      clearInterval(timerInterval);
+      running = false;
+
+      buttons.forEach(btn => btn.disabled = true);
+
+      document.getElementById("feedback").textContent = "";
+      document.getElementById("gameOver").textContent = message;
+
+      document.getElementById("finalMessage").textContent =
+        gameMode === "hardcore"
+          ? `Lopulliset pisteesi: ${score} · Oikein: ${correctAnswers}`
+          : `Lopulliset pisteesi: ${score}`;
+      document.getElementById("resultFeedback").textContent =
+        getResultMessage(score);
+
+      updateScore();
+      saveHighscoreIfNeeded();
+      document.getElementById("retryButton").style.display = "inline-block";
+    }
+
+    updateScore();
+    updateHighscoreDisplay();
+    startGame();
+  </script>
+
+<div id="versionNumber">v1.0</div>
+</body>
+</html>
