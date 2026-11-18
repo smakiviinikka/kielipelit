@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Passiivi ja objekti v1.15</title>
+<title>Passiivi ja objekti v1.16</title>
 
   <style>
     body {
@@ -355,1815 +355,1815 @@
     /*
       PASSIIVI JA OBJEKTI -PELI
       150 kysymystä: passiivin aikamuodot, myös kielteiset passiivimuodot, sekä objektin sijamuoto myönteisissä ja kielteisissä lauseissa.
-      Ensimmäiset viisi kysymystä ovat helpommasta tasosta.
+      Kaikki kysymykset arvotaan yhteen satunnaiseen järjestykseen.
     */
 
     const questionBank = [
-  {
-    "level": 1,
-    "q": "Eilen opistolla ______ musiikkia.",
-    "a": [
-      "kuuneltiin",
-      "kuunneltiin",
-      "kuunneltin",
-      "kuuneltin"
-    ],
-    "correct": 1,
-    "id": 1,
-    "starter": true
-  },
-  {
-    "level": 1,
-    "q": "Koulun ruokalassa ei juoda ______.",
-    "a": [
-      "energiajuomat",
-      "energiajuomia",
-      "energiajuomien",
-      "energiajuomissa"
-    ],
-    "correct": 1,
-    "id": 2,
-    "starter": true
-  },
-  {
-    "level": 1,
-    "q": "Nuorisotalolla ______ monenlaisia kerhoja.",
-    "a": [
-      "pidetäänn",
-      "pidetän",
-      "pidetään",
-      "pidetää"
-    ],
-    "correct": 2,
-    "id": 3,
-    "starter": true
-  },
-  {
-    "level": 1,
-    "q": "Lounaalla tarjotaan usein ______.",
-    "a": [
-      "keitto",
-      "keiton",
-      "keitossa",
-      "keittoa"
-    ],
-    "correct": 3,
-    "id": 4,
-    "starter": true
-  },
-  {
-    "level": 1,
-    "q": "Tällä kurssilla on tähän asti ______ kolme kirjaa.",
-    "a": [
-      "luettu",
-      "luetuu",
-      "luetun",
-      "luetu"
-    ],
-    "correct": 0,
-    "id": 5,
-    "starter": true
-  },
-  {
-    "level": 1,
-    "q": "Kirjastosta ei lainata ______.",
-    "a": [
-      "kengät",
-      "kenkien",
-      "kenkiä",
-      "kengissä"
-    ],
-    "correct": 2,
-    "id": 6
-  },
-  {
-    "level": 1,
-    "q": "Kun vieraat saapuivat, pöytä ______ jo.",
-    "a": [
-      "oli katetu",
-      "oli katettu",
-      "oli katettuu",
-      "oli katettun"
-    ],
-    "correct": 1,
-    "id": 7
-  },
-  {
-    "level": 1,
-    "q": "Autossa kuunnellaan ______.",
-    "a": [
-      "musiikkia",
-      "musiikki",
-      "musiikin",
-      "musiikissa"
-    ],
-    "correct": 0,
-    "id": 8
-  },
-  {
-    "level": 1,
-    "q": "Viime vuonna kyläjuhlissa ______ ohjelmaa.",
-    "a": [
-      "ei järjestetty",
-      "ei järjestetä",
-      "ei järjestettty",
-      "ei järjestetyn"
-    ],
-    "correct": 0,
-    "id": 9
-  },
-  {
-    "level": 1,
-    "q": "Torilta ei osteta ______.",
-    "a": [
-      "autot",
-      "autojen",
-      "autoja",
-      "autoissa"
-    ],
-    "correct": 2,
-    "id": 10
-  },
-  {
-    "level": 1,
-    "q": "Kesäisin puistossa ______ usein jalkapalloa.",
-    "a": [
-      "pelataann",
-      "pelataan",
-      "pelataa",
-      "pelatään"
-    ],
-    "correct": 1,
-    "id": 11
-  },
-  {
-    "level": 1,
-    "q": "Juhlissa tarjotaan ______.",
-    "a": [
-      "kakkua",
-      "kakun",
-      "kakku",
-      "kakussa"
-    ],
-    "correct": 0,
-    "id": 12
-  },
-  {
-    "level": 1,
-    "q": "Eilen urheilukentällä ______ jalkapalloa.",
-    "a": [
-      "pelattin",
-      "pelatttiin",
-      "pelatiin",
-      "pelattiin"
-    ],
-    "correct": 3,
-    "id": 13
-  },
-  {
-    "level": 1,
-    "q": "Lasten syntymäpäivillä ei juoda ______.",
-    "a": [
-      "alkoholi",
-      "alkoholissa",
-      "alkoholia",
-      "alkoholin"
-    ],
-    "correct": 2,
-    "id": 14
-  },
-  {
-    "level": 1,
-    "q": "Tällä kentällä on tänä kesänä ______ monta ottelua.",
-    "a": [
-      "on pelatu",
-      "on pelattun",
-      "on pelattu",
-      "on pelattuu"
-    ],
-    "correct": 2,
-    "id": 15
-  },
-  {
-    "level": 1,
-    "q": "Koulussa tehdään usein ______.",
-    "a": [
-      "tehtävät",
-      "tehtävissä",
-      "tehtävien",
-      "tehtäviä"
-    ],
-    "correct": 3,
-    "id": 16
-  },
-  {
-    "level": 1,
-    "q": "Kun sade alkoi, kentällä ______ jo pitkään.",
-    "a": [
-      "oli pelattu",
-      "oli pelatu",
-      "oli pelattuu",
-      "oli pelattun"
-    ],
-    "correct": 0,
-    "id": 17
-  },
-  {
-    "level": 1,
-    "q": "Suomen tunnilla ei harjoitella ______.",
-    "a": [
-      "hiihdon",
-      "hiihtoa",
-      "hiihto",
-      "hiihdossa"
-    ],
-    "correct": 1,
-    "id": 18
-  },
-  {
-    "level": 1,
-    "q": "Viime kesänä rannalla ______ jalkapalloa sateen vuoksi.",
-    "a": [
-      "ei pelattu",
-      "ei pelattun",
-      "ei pelattuu",
-      "ei pelatu"
-    ],
-    "correct": 0,
-    "id": 19
-  },
-  {
-    "level": 1,
-    "q": "Kaupassa myydään tuoreita ______.",
-    "a": [
-      "vihannesten",
-      "vihanneksissa",
-      "vihanneksia",
-      "vihannekset"
-    ],
-    "correct": 2,
-    "id": 20
-  },
-  {
-    "level": 2,
-    "q": "Lukupiirissä ______ parhaillaan kiinnostavaa romaania.",
-    "a": [
-      "luetaa",
-      "luetaann",
-      "luetaan",
-      "luetään"
-    ],
-    "correct": 2,
-    "id": 21
-  },
-  {
-    "level": 2,
-    "q": "Aamupalalla ei tarjoilla ______.",
-    "a": [
-      "hedelmissä",
-      "hedelmiä",
-      "hedelmien",
-      "hedelmät"
-    ],
-    "correct": 1,
-    "id": 22
-  },
-  {
-    "level": 2,
-    "q": "Eilen lukupiirissä ______ samaa romaania.",
-    "a": [
-      "luettin",
-      "luettiin",
-      "luetiin",
-      "luetttiin"
-    ],
-    "correct": 1,
-    "id": 23
-  },
-  {
-    "level": 2,
-    "q": "Kesäisin katsotaan ulkona ______.",
-    "a": [
-      "elokuvissa",
-      "elokuvia",
-      "elokuvat",
-      "elokuvien"
-    ],
-    "correct": 1,
-    "id": 24
-  },
-  {
-    "level": 2,
-    "q": "Tällä kurssilla ______ tähän mennessä vain yhtä oppikirjaa.",
-    "a": [
-      "on käytety",
-      "on käytetä",
-      "on käytetty",
-      "on käytettty"
-    ],
-    "correct": 2,
-    "id": 25
-  },
-  {
-    "level": 2,
-    "q": "Puutarhassa ei istuteta ______.",
-    "a": [
-      "kukat",
-      "kukissa",
-      "kukkia",
-      "kukkien"
-    ],
-    "correct": 2,
-    "id": 26
-  },
-  {
-    "level": 2,
-    "q": "Kun keskustelu alkoi, kirja ______ jo kokonaan.",
-    "a": [
-      "oli luetu",
-      "oli luettu",
-      "oli luettun",
-      "oli luettuu"
-    ],
-    "correct": 1,
-    "id": 27
-  },
-  {
-    "level": 2,
-    "q": "Jouluna leivotaan ______.",
-    "a": [
-      "piparkakkujen",
-      "piparkakkuja",
-      "piparkakut",
-      "piparkakuissa"
-    ],
-    "correct": 1,
-    "id": 28
-  },
-  {
-    "level": 2,
-    "q": "Viime viikolla tätä kirjaa ______ lainkaan.",
-    "a": [
-      "ei luettu",
-      "ei luettuu",
-      "ei luettun",
-      "ei luetu"
-    ],
-    "correct": 0,
-    "id": 29
-  },
-  {
-    "level": 2,
-    "q": "Koulun ruokalassa ei tarjota ______.",
-    "a": [
-      "kasvisruoan",
-      "kasvisruoka",
-      "kasvisruoassa",
-      "kasvisruokaa"
-    ],
-    "correct": 3,
-    "id": 30
-  },
-  {
-    "level": 2,
-    "q": "Ravintolan keittiössä ______ ruokaa koko päivän.",
-    "a": [
-      "tehdäänn",
-      "tehdään",
-      "tehdaan",
-      "tehdää"
-    ],
-    "correct": 1,
-    "id": 31
-  },
-  {
-    "level": 2,
-    "q": "Kahvilassa juodaan ______.",
-    "a": [
-      "teessä",
-      "teen",
-      "tee",
-      "teetä"
-    ],
-    "correct": 3,
-    "id": 32
-  },
-  {
-    "level": 2,
-    "q": "Eilen ravintolan keittiössä ______ ruokaa suurelle joukolle.",
-    "a": [
-      "tehtin",
-      "tehtiin",
-      "tehteen",
-      "tehttiin"
-    ],
-    "correct": 1,
-    "id": 33
-  },
-  {
-    "level": 2,
-    "q": "Museossa ei esitellä ______.",
-    "a": [
-      "esineitä",
-      "esineet",
-      "esineissä",
-      "esineiden"
-    ],
-    "correct": 0,
-    "id": 34
-  },
-  {
-    "level": 2,
-    "q": "Tähän mennessä keittiössä ______ jo monta annosta.",
-    "a": [
-      "on teht",
-      "on tehtyy",
-      "on tehty",
-      "on tehtyn"
-    ],
-    "correct": 2,
-    "id": 35
-  },
-  {
-    "level": 2,
-    "q": "Konsertissa kuunnellaan ______.",
-    "a": [
-      "lauluja",
-      "laulut",
-      "laulujen",
-      "lauluissa"
-    ],
-    "correct": 0,
-    "id": 36
-  },
-  {
-    "level": 2,
-    "q": "Kun asiakkaat saapuivat, ruoka ______ jo valmiiksi.",
-    "a": [
-      "oli tehtyy",
-      "oli teht",
-      "oli tehty",
-      "oli tehtyn"
-    ],
-    "correct": 2,
-    "id": 37
-  },
-  {
-    "level": 2,
-    "q": "Talvella ei rakenneta ______.",
-    "a": [
-      "lumilinnoja",
-      "lumilinnat",
-      "lumilinnojen",
-      "lumilinnoissa"
-    ],
-    "correct": 0,
-    "id": 38
-  },
-  {
-    "level": 2,
-    "q": "Nuotiolla ______ ruokaa viime retkellä sateen takia.",
-    "a": [
-      "ei tehtyy",
-      "ei teht",
-      "ei tehtyn",
-      "ei tehty"
-    ],
-    "correct": 3,
-    "id": 39
-  },
-  {
-    "level": 2,
-    "q": "Lukupiirissä luetaan usein ______.",
-    "a": [
-      "romaanien",
-      "romaaneissa",
-      "romaanit",
-      "romaaneja"
-    ],
-    "correct": 3,
-    "id": 40
-  },
-  {
-    "level": 2,
-    "q": "Toimistolla ______ parhaillaan tärkeää viestiä.",
-    "a": [
-      "kirjoitetään",
-      "kirjoitetaann",
-      "kirjoitetaa",
-      "kirjoitetaan"
-    ],
-    "correct": 3,
-    "id": 41
-  },
-  {
-    "level": 2,
-    "q": "Pajassa ei korjata ______.",
-    "a": [
-      "polkupyörien",
-      "polkupyörät",
-      "polkupyörissä",
-      "polkupyöriä"
-    ],
-    "correct": 3,
-    "id": 42
-  },
-  {
-    "level": 2,
-    "q": "Eilen toimistolla ______ viestiä asiakkaille.",
-    "a": [
-      "kirjoitettin",
-      "kirjoitettiin",
-      "kirjoitetiin",
-      "kirjoitetttiin"
-    ],
-    "correct": 1,
-    "id": 43
-  },
-  {
-    "level": 2,
-    "q": "Matkalla otetaan paljon ______.",
-    "a": [
-      "valokuvissa",
-      "valokuvia",
-      "valokuvien",
-      "valokuvat"
-    ],
-    "correct": 1,
-    "id": 44
-  },
-  {
-    "level": 2,
-    "q": "Tähän mennessä ryhmälle ______ jo useita viestejä.",
-    "a": [
-      "on kirjoitettu",
-      "on kirjoitetu",
-      "on kirjoitettuu",
-      "on kirjoitettun"
-    ],
-    "correct": 0,
-    "id": 45
-  },
-  {
-    "level": 2,
-    "q": "Ruokakaupassa ei osteta ______.",
-    "a": [
-      "hedelmiä",
-      "hedelmien",
-      "hedelmissä",
-      "hedelmät"
-    ],
-    "correct": 0,
-    "id": 46
-  },
-  {
-    "level": 2,
-    "q": "Kun palaveri alkoi, viesti ______ jo kaikille.",
-    "a": [
-      "oli kirjoitettun",
-      "oli kirjoitetu",
-      "oli kirjoitettuu",
-      "oli kirjoitettu"
-    ],
-    "correct": 3,
-    "id": 47
-  },
-  {
-    "level": 2,
-    "q": "Keittiössä pilkotaan ______.",
-    "a": [
-      "vihanneksia",
-      "vihannekset",
-      "vihannesten",
-      "vihanneksissa"
-    ],
-    "correct": 0,
-    "id": 48
-  },
-  {
-    "level": 2,
-    "q": "Eilisessä kokouksessa tärkeää viestiä ______ kirjallisesti.",
-    "a": [
-      "ei kirjoitetu",
-      "ei kirjoitettuu",
-      "ei kirjoitettu",
-      "ei kirjoitettun"
-    ],
-    "correct": 2,
-    "id": 49
-  },
-  {
-    "level": 2,
-    "q": "Pihalla ei kasvateta ______.",
-    "a": [
-      "tomaateissa",
-      "tomaattien",
-      "tomaatit",
-      "tomaatteja"
-    ],
-    "correct": 3,
-    "id": 50
-  },
-  {
-    "level": 2,
-    "q": "Koulun kaikki luokat ______ illalla.",
-    "a": [
-      "siivottiin",
-      "siivotiin",
-      "siivotttiin",
-      "siivottin"
-    ],
-    "correct": 0,
-    "id": 51
-  },
-  {
-    "level": 2,
-    "q": "Välipalalla tarjotaan usein ______.",
-    "a": [
-      "pähkinät",
-      "pähkinöissä",
-      "pähkinöiden",
-      "pähkinöitä"
-    ],
-    "correct": 3,
-    "id": 52
-  },
-  {
-    "level": 2,
-    "q": "Eilen remontin jälkeen ______ huonetta perusteellisesti.",
-    "a": [
-      "siivottiin",
-      "siivotiin",
-      "siivotttiin",
-      "siivottin"
-    ],
-    "correct": 0,
-    "id": 53
-  },
-  {
-    "level": 2,
-    "q": "Juhlissa ei lauleta ______.",
-    "a": [
-      "lauluissa",
-      "laulujen",
-      "laulut",
-      "lauluja"
-    ],
-    "correct": 3,
-    "id": 54
-  },
-  {
-    "level": 2,
-    "q": "Tähän mennessä talossa ______ jo monta huonetta.",
-    "a": [
-      "on siivottuu",
-      "on siivottun",
-      "on siivotu",
-      "on siivottu"
-    ],
-    "correct": 3,
-    "id": 55
-  },
-  {
-    "level": 2,
-    "q": "Koulussa opiskellaan ______.",
-    "a": [
-      "historia",
-      "historian",
-      "historiassa",
-      "historiaa"
-    ],
-    "correct": 3,
-    "id": 56
-  },
-  {
-    "level": 2,
-    "q": "Kun asukkaat palasivat, huone ______ jo.",
-    "a": [
-      "oli siivotu",
-      "oli siivottun",
-      "oli siivottuu",
-      "oli siivottu"
-    ],
-    "correct": 3,
-    "id": 57
-  },
-  {
-    "level": 2,
-    "q": "Sairaalassa hoidetaan ______.",
-    "a": [
-      "potilaita",
-      "potilaat",
-      "potilaiden",
-      "potilaissa"
-    ],
-    "correct": 0,
-    "id": 58
-  },
-  {
-    "level": 2,
-    "q": "Viime viikolla varastohuonetta ______ kertaakaan.",
-    "a": [
-      "ei siivottun",
-      "ei siivotu",
-      "ei siivottuu",
-      "ei siivottu"
-    ],
-    "correct": 3,
-    "id": 59
-  },
-  {
-    "level": 2,
-    "q": "Lopuksi ei lueta ______ ääneen.",
-    "a": [
-      "kirja",
-      "kirjan",
-      "kirjaa",
-      "kirjassa"
-    ],
-    "correct": 2,
-    "id": 60
-  },
-  {
-    "level": 2,
-    "q": "Ravintolassa ______ astioita jatkuvasti.",
-    "a": [
-      "pestään",
-      "pestaan",
-      "pestää",
-      "pestäänn"
-    ],
-    "correct": 0,
-    "id": 61
-  },
-  {
-    "level": 2,
-    "q": "Opettaja tarkistaa kokeessa yhden ______.",
-    "a": [
-      "vastauksessa",
-      "vastaukset",
-      "vastausta",
-      "vastauksen"
-    ],
-    "correct": 3,
-    "id": 62
-  },
-  {
-    "level": 2,
-    "q": "Eilen juhlien jälkeen ______ astioita pitkään.",
-    "a": [
-      "pesttiin",
-      "pestin",
-      "pestiin",
-      "pesteen"
-    ],
-    "correct": 2,
-    "id": 63
-  },
-  {
-    "level": 2,
-    "q": "Tänään ei lueta ______ loppuun.",
-    "a": [
-      "romaani",
-      "romaanin",
-      "romaania",
-      "romaanissa"
-    ],
-    "correct": 2,
-    "id": 64
-  },
-  {
-    "level": 2,
-    "q": "Tähän mennessä kaikki astiat ______ jo.",
-    "a": [
-      "on pesty",
-      "on pestyn",
-      "on pestyy",
-      "on pest"
-    ],
-    "correct": 0,
-    "id": 65
-  },
-  {
-    "level": 2,
-    "q": "Minä luen tänään tämän ______ loppuun.",
-    "a": [
-      "kirjan",
-      "kirjaa",
-      "kirjassa",
-      "kirjat"
-    ],
-    "correct": 0,
-    "id": 66
-  },
-  {
-    "level": 2,
-    "q": "Kun vieraat tulivat, astiat ______ jo koneessa.",
-    "a": [
-      "oli pest",
-      "oli pestyn",
-      "oli pestyy",
-      "oli pesty"
-    ],
-    "correct": 3,
-    "id": 67
-  },
-  {
-    "level": 2,
-    "q": "Päivän päätteeksi ei siivota ______.",
-    "a": [
-      "luokka",
-      "luokan",
-      "luokkaa",
-      "luokassa"
-    ],
-    "correct": 2,
-    "id": 68
-  },
-  {
-    "level": 2,
-    "q": "Viime viikonlopun aikana astioita ______ käsin.",
-    "a": [
-      "ei pestyn",
-      "ei pestyy",
-      "ei pest",
-      "ei pesty"
-    ],
-    "correct": 3,
-    "id": 69
-  },
-  {
-    "level": 2,
-    "q": "Oppilas palauttaa ______ ennen tunnin alkua.",
-    "a": [
-      "vihkoa",
-      "vihkot",
-      "vihkossa",
-      "vihkon"
-    ],
-    "correct": 3,
-    "id": 70
-  },
-  {
-    "level": 2,
-    "q": "Aamuisin toimiston ______ ennen työpäivän alkua.",
-    "a": [
-      "avataann",
-      "avataa",
-      "avataan",
-      "avatään"
-    ],
-    "correct": 2,
-    "id": 71
-  },
-  {
-    "level": 2,
-    "q": "Ennen koetta ei kerrata ______.",
-    "a": [
-      "kaikki säännöt",
-      "kaikkien sääntöjen",
-      "kaikkia sääntöjä",
-      "kaikissa säännöissä"
-    ],
-    "correct": 2,
-    "id": 72
-  },
-  {
-    "level": 2,
-    "q": "Eilen aamulla toimiston ______ jo ennen työntekijöiden tuloa.",
-    "a": [
-      "avatiin",
-      "avatttiin",
-      "avattin",
-      "avattiin"
-    ],
-    "correct": 3,
-    "id": 73
-  },
-  {
-    "level": 2,
-    "q": "Me katsomme illalla koko ______ loppuun.",
-    "a": [
-      "elokuvaa",
-      "elokuvan",
-      "elokuvassa",
-      "elokuvat"
-    ],
-    "correct": 1,
-    "id": 74
-  },
-  {
-    "level": 2,
-    "q": "Tähän mennessä rakennuksen kaikki ikkunat ______.",
-    "a": [
-      "on avattu",
-      "on avattuu",
-      "on avattun",
-      "on avatu"
-    ],
-    "correct": 0,
-    "id": 75
-  },
-  {
-    "level": 2,
-    "q": "Ennen matkaa ei osteta ______.",
-    "a": [
-      "liput",
-      "lippujen",
-      "lippuja",
-      "lipuissa"
-    ],
-    "correct": 2,
-    "id": 76
-  },
-  {
-    "level": 2,
-    "q": "Kun myrsky alkoi, ikkunat ______ jo.",
-    "a": [
-      "oli avattu",
-      "oli avatu",
-      "oli avattuu",
-      "oli avattun"
-    ],
-    "correct": 0,
-    "id": 77
-  },
-  {
-    "level": 2,
-    "q": "Kirjoitan tänään ______ valmiiksi.",
-    "a": [
-      "tekstissä",
-      "tekstiä",
-      "tekstit",
-      "tekstin"
-    ],
-    "correct": 3,
-    "id": 78
-  },
-  {
-    "level": 2,
-    "q": "Viime talvena vanhan talon ikkunoita ______ lainkaan.",
-    "a": [
-      "ei avatu",
-      "ei avattu",
-      "ei avattuu",
-      "ei avattun"
-    ],
-    "correct": 1,
-    "id": 79
-  },
-  {
-    "level": 2,
-    "q": "Varastossa ei avata ______ ennen tarkistusta.",
-    "a": [
-      "laatikko",
-      "laatikon",
-      "laatikkoa",
-      "laatikossa"
-    ],
-    "correct": 2,
-    "id": 80
-  },
-  {
-    "level": 2,
-    "q": "Kilpailun lopuksi ______ voittaja.",
-    "a": [
-      "valitään",
-      "valitaan",
-      "valitaa",
-      "valitaann"
-    ],
-    "correct": 1,
-    "id": 81
-  },
-  {
-    "level": 2,
-    "q": "Perhe ostaa lapselle uuden ______.",
-    "a": [
-      "polkupyörää",
-      "polkupyörät",
-      "polkupyörän",
-      "polkupyörässä"
-    ],
-    "correct": 2,
-    "id": 82
-  },
-  {
-    "level": 2,
-    "q": "Eilisessä kilpailussa ______ voittaja yleisön edessä.",
-    "a": [
-      "valitttiin",
-      "valittin",
-      "valittiin",
-      "valitiin"
-    ],
-    "correct": 2,
-    "id": 83
-  },
-  {
-    "level": 2,
-    "q": "Juhlan aluksi ei lauleta ______.",
-    "a": [
-      "Maamme-laulu",
-      "Maamme-laulun",
-      "Maamme-laulua",
-      "Maamme-laulussa"
-    ],
-    "correct": 2,
-    "id": 84
-  },
-  {
-    "level": 2,
-    "q": "Tässä kilpailussa ______ tähän mennessä kolme voittajaa.",
-    "a": [
-      "on valitu",
-      "on valittu",
-      "on valittun",
-      "on valittuu"
-    ],
-    "correct": 1,
-    "id": 85
-  },
-  {
-    "level": 2,
-    "q": "Minä avaan nyt tämän ______.",
-    "a": [
-      "kirjeessä",
-      "kirjeet",
-      "kirjeen",
-      "kirjettä"
-    ],
-    "correct": 2,
-    "id": 86
-  },
-  {
-    "level": 2,
-    "q": "Kun palkintojenjako alkoi, voittaja ______ jo.",
-    "a": [
-      "oli valitu",
-      "oli valittuu",
-      "oli valittun",
-      "oli valittu"
-    ],
-    "correct": 3,
-    "id": 87
-  },
-  {
-    "level": 2,
-    "q": "Kilpailussa ei palkita ______.",
-    "a": [
-      "voittajat",
-      "voittajien",
-      "voittajia",
-      "voittajissa"
-    ],
-    "correct": 2,
-    "id": 88
-  },
-  {
-    "level": 2,
-    "q": "Viime vuonna kilpailussa voittajaa ______ lainkaan.",
-    "a": [
-      "ei valitu",
-      "ei valittu",
-      "ei valittun",
-      "ei valittuu"
-    ],
-    "correct": 1,
-    "id": 89
-  },
-  {
-    "level": 2,
-    "q": "Opettaja lukee tunnilla yhden ______ ääneen.",
-    "a": [
-      "tarinan",
-      "tarinassa",
-      "tarinat",
-      "tarinaa"
-    ],
-    "correct": 0,
-    "id": 90
-  },
-  {
-    "level": 2,
-    "q": "Korjaamolla ______ polkupyöriä ympäri vuoden.",
-    "a": [
-      "korjataan",
-      "korjataa",
-      "korjatään",
-      "korjataann"
-    ],
-    "correct": 0,
-    "id": 91
-  },
-  {
-    "level": 2,
-    "q": "Ennen talvea ei korjata ______.",
-    "a": [
-      "katto",
-      "katon",
-      "kattoa",
-      "katossa"
-    ],
-    "correct": 2,
-    "id": 92
-  },
-  {
-    "level": 2,
-    "q": "Eilen korjaamolla ______ useita polkupyöriä.",
-    "a": [
-      "korjatiin",
-      "korjatttiin",
-      "korjattiin",
-      "korjattin"
-    ],
-    "correct": 2,
-    "id": 93
-  },
-  {
-    "level": 2,
-    "q": "Hän pesee aamulla auton ______.",
-    "a": [
-      "ikkunassa",
-      "ikkunoissa",
-      "ikkunalle",
-      "ikkunat"
-    ],
-    "correct": 3,
-    "id": 94
-  },
-  {
-    "level": 2,
-    "q": "Tässä korjaamossa ______ tänä vuonna jo kymmeniä polkupyöriä.",
-    "a": [
-      "on korjattun",
-      "on korjattu",
-      "on korjatu",
-      "on korjattuu"
-    ],
-    "correct": 1,
-    "id": 95
-  },
-  {
-    "level": 2,
-    "q": "Juhlaa varten harjoitellaan kaikki ______ etukäteen.",
-    "a": [
-      "esityksissä",
-      "esitysten",
-      "esityksiä",
-      "esitykset"
-    ],
-    "correct": 3,
-    "id": 96
-  },
-  {
-    "level": 2,
-    "q": "Kun asiakas tuli hakemaan pyöräänsä, sitä ______ jo.",
-    "a": [
-      "oli korjattu",
-      "oli korjatu",
-      "oli korjattuu",
-      "oli korjattun"
-    ],
-    "correct": 0,
-    "id": 97
-  },
-  {
-    "level": 2,
-    "q": "Me valmistamme juhliin ______.",
-    "a": [
-      "ruoat",
-      "ruoan",
-      "ruokaa",
-      "ruoassa"
-    ],
-    "correct": 1,
-    "id": 98
-  },
-  {
-    "level": 2,
-    "q": "Viime talvena korjaamolla polkupyöriä ______ pakkasten vuoksi.",
-    "a": [
-      "ei korjattu",
-      "ei korjattun",
-      "ei korjatu",
-      "ei korjattuu"
-    ],
-    "correct": 0,
-    "id": 99
-  },
-  {
-    "level": 2,
-    "q": "Retken jälkeen pestään ______.",
-    "a": [
-      "astioita",
-      "astioiden",
-      "astiat",
-      "astioissa"
-    ],
-    "correct": 2,
-    "id": 100
-  },
-  {
-    "level": 3,
-    "q": "Ruokakaupassa ______ tuoreita raaka-aineita joka aamu.",
-    "a": [
-      "ostetaa",
-      "ostetaan",
-      "ostetään",
-      "ostetaann"
-    ],
-    "correct": 1,
-    "id": 101
-  },
-  {
-    "level": 3,
-    "q": "Pihalle ei pystytetä ______.",
-    "a": [
-      "teltta",
-      "teltan",
-      "telttaa",
-      "teltassa"
-    ],
-    "correct": 2,
-    "id": 102
-  },
-  {
-    "level": 3,
-    "q": "Eilen kaupasta ______ ruokaa koko viikon tarpeisiin.",
-    "a": [
-      "ostettin",
-      "ostetiin",
-      "ostetttiin",
-      "ostettiin"
-    ],
-    "correct": 3,
-    "id": 103
-  },
-  {
-    "level": 3,
-    "q": "Ennen nukkumaanmenoa luetaan ______.",
-    "a": [
-      "iltasatua",
-      "iltasadussa",
-      "iltasadun",
-      "iltasatu"
-    ],
-    "correct": 3,
-    "id": 104
-  },
-  {
-    "level": 3,
-    "q": "Tähän mennessä kaupasta ______ jo kaikki tarvittava.",
-    "a": [
-      "on ostettuu",
-      "on ostettu",
-      "on ostetu",
-      "on ostettun"
-    ],
-    "correct": 1,
-    "id": 105
-  },
-  {
-    "level": 3,
-    "q": "Tänään ei katsota ______ loppuun.",
-    "a": [
-      "elokuva",
-      "elokuvan",
-      "elokuvaa",
-      "elokuvassa"
-    ],
-    "correct": 2,
-    "id": 106
-  },
-  {
-    "level": 3,
-    "q": "Kun vieraat saapuivat, ruoka ______ jo valmiiksi.",
-    "a": [
-      "oli ostettun",
-      "oli ostettuu",
-      "oli ostettu",
-      "oli ostetu"
-    ],
-    "correct": 2,
-    "id": 107
-  },
-  {
-    "level": 3,
-    "q": "Ennen vieraiden tuloa valmistetaan ______.",
-    "a": [
-      "ruoka",
-      "ruoassa",
-      "ruokaa",
-      "ruoan"
-    ],
-    "correct": 0,
-    "id": 108
-  },
-  {
-    "level": 3,
-    "q": "Viime vuonna tästä kaupasta ______ lainkaan lähiruokaa.",
-    "a": [
-      "ei ostettu",
-      "ei ostetu",
-      "ei ostettun",
-      "ei ostettuu"
-    ],
-    "correct": 0,
-    "id": 109
-  },
-  {
-    "level": 3,
-    "q": "Kaikki oppilaat eivät palauta ______ määräaikaan mennessä.",
-    "a": [
-      "tehtävät",
-      "tehtävien",
-      "tehtäviä",
-      "tehtävissä"
-    ],
-    "correct": 2,
-    "id": 110
-  },
-  {
-    "level": 3,
-    "q": "Työpaikan taukohuoneessa ______ paljon kahvia.",
-    "a": [
-      "juodaann",
-      "juodaa",
-      "juodään",
-      "juodaan"
-    ],
-    "correct": 3,
-    "id": 111
-  },
-  {
-    "level": 3,
-    "q": "Lopuksi tarkistetaan ______.",
-    "a": [
-      "vastausten",
-      "vastauksia",
-      "vastauksissa",
-      "vastaukset"
-    ],
-    "correct": 3,
-    "id": 112
-  },
-  {
-    "level": 3,
-    "q": "Eilen kokouksen aikana ______ useita pannullisia kahvia.",
-    "a": [
-      "juoteen",
-      "juotiin",
-      "juottiin",
-      "juotin"
-    ],
-    "correct": 1,
-    "id": 113
-  },
-  {
-    "level": 3,
-    "q": "Ennen ulos lähtöä ei pueta ______.",
-    "a": [
-      "takki",
-      "takin",
-      "takkia",
-      "takissa"
-    ],
-    "correct": 2,
-    "id": 114
-  },
-  {
-    "level": 3,
-    "q": "Tässä toimistossa ______ tänään jo monta pannullista kahvia.",
-    "a": [
-      "on juotuu",
-      "on juot",
-      "on juotu",
-      "on juotun"
-    ],
-    "correct": 2,
-    "id": 115
-  },
-  {
-    "level": 3,
-    "q": "Juhlan jälkeen siivotaan ______.",
-    "a": [
-      "sali",
-      "salin",
-      "salissa",
-      "salia"
-    ],
-    "correct": 0,
-    "id": 116
-  },
-  {
-    "level": 3,
-    "q": "Kun kokous alkoi, kahvia ______ jo kaksi pannullista.",
-    "a": [
-      "oli juotuu",
-      "oli juot",
-      "oli juotu",
-      "oli juotun"
-    ],
-    "correct": 2,
-    "id": 117
-  },
-  {
-    "level": 3,
-    "q": "Tänään ei kirjoiteta ______ valmiiksi.",
-    "a": [
-      "aine",
-      "aineen",
-      "ainetta",
-      "aineessa"
-    ],
-    "correct": 2,
-    "id": 118
-  },
-  {
-    "level": 3,
-    "q": "Viime viikon retkellä ______ kahvia nuotion äärellä.",
-    "a": [
-      "ei juot",
-      "ei juotun",
-      "ei juotu",
-      "ei juotuu"
-    ],
-    "correct": 2,
-    "id": 119
-  },
-  {
-    "level": 3,
-    "q": "Ennen tunnin loppua palautetaan ______.",
-    "a": [
-      "vihkoja",
-      "vihkojen",
-      "vihkoissa",
-      "vihkot"
-    ],
-    "correct": 3,
-    "id": 120
-  },
-  {
-    "level": 3,
-    "q": "Syntymäpäiville ______ ystäviä ja sukulaisia.",
-    "a": [
-      "kutsutään",
-      "kutsutaann",
-      "kutsutaa",
-      "kutsutaan"
-    ],
-    "correct": 3,
-    "id": 121
-  },
-  {
-    "level": 3,
-    "q": "Koko luokka ei lue ______ yhdessä.",
-    "a": [
-      "tarina",
-      "tarinan",
-      "tarinaa",
-      "tarinassa"
-    ],
-    "correct": 2,
-    "id": 122
-  },
-  {
-    "level": 3,
-    "q": "Eilisille avajaisille ______ paljon vieraita.",
-    "a": [
-      "kutsuttin",
-      "kutsuttiin",
-      "kutsutttiin",
-      "kutsutiin"
-    ],
-    "correct": 1,
-    "id": 123
-  },
-  {
-    "level": 3,
-    "q": "Pihalta kerätään ______.",
-    "a": [
-      "roskissa",
-      "roskat",
-      "roskia",
-      "roskien"
-    ],
-    "correct": 1,
-    "id": 124
-  },
-  {
-    "level": 3,
-    "q": "Tähän tilaisuuteen ______ jo yli sata vierasta.",
-    "a": [
-      "on kutsuttun",
-      "on kutsutu",
-      "on kutsuttu",
-      "on kutsuttuu"
-    ],
-    "correct": 2,
-    "id": 125
-  },
-  {
-    "level": 3,
-    "q": "Ennen kokousta ei jaeta ______.",
-    "a": [
-      "asiakirjat",
-      "asiakirjojen",
-      "asiakirjoja",
-      "asiakirjoissa"
-    ],
-    "correct": 2,
-    "id": 126
-  },
-  {
-    "level": 3,
-    "q": "Kun juhlat alkoivat, vieraita ______ jo runsaasti.",
-    "a": [
-      "oli kutsutu",
-      "oli kutsuttuu",
-      "oli kutsuttun",
-      "oli kutsuttu"
-    ],
-    "correct": 3,
-    "id": 127
-  },
-  {
-    "level": 3,
-    "q": "Jouluksi ostetaan ______.",
-    "a": [
-      "lahjojen",
-      "lahjoissa",
-      "lahjat",
-      "lahjoja"
-    ],
-    "correct": 2,
-    "id": 128
-  },
-  {
-    "level": 3,
-    "q": "Viime vuonna tähän tapahtumaan ______ ulkopuolisia vieraita.",
-    "a": [
-      "ei kutsuttuu",
-      "ei kutsutu",
-      "ei kutsuttun",
-      "ei kutsuttu"
-    ],
-    "correct": 3,
-    "id": 129
-  },
-  {
-    "level": 3,
-    "q": "Pöydälle ei aseteta ______.",
-    "a": [
-      "maljakko",
-      "maljakon",
-      "maljakkoa",
-      "maljakossa"
-    ],
-    "correct": 2,
-    "id": 130
-  },
-  {
-    "level": 3,
-    "q": "Vanhan talon seinää ______ parhaillaan uudella maalilla.",
-    "a": [
-      "maalataan",
-      "maalatään",
-      "maalataa",
-      "maalataann"
-    ],
-    "correct": 0,
-    "id": 131
-  },
-  {
-    "level": 3,
-    "q": "Ennen lähtöä pakataan ______.",
-    "a": [
-      "matkalaukkujen",
-      "matkalaukuissa",
-      "matkalaukkuja",
-      "matkalaukut"
-    ],
-    "correct": 3,
-    "id": 132
-  },
-  {
-    "level": 3,
-    "q": "Eilen mökin seinää ______ talkoovoimin.",
-    "a": [
-      "maalattin",
-      "maalattiin",
-      "maalatiin",
-      "maalatttiin"
-    ],
-    "correct": 1,
-    "id": 133
-  },
-  {
-    "level": 3,
-    "q": "Lopuksi ei avata ______.",
-    "a": [
-      "kirje",
-      "kirjeen",
-      "kirjettä",
-      "kirjeessä"
-    ],
-    "correct": 2,
-    "id": 134
-  },
-  {
-    "level": 3,
-    "q": "Tähän mennessä rakennuksen ulkoseinää ______ jo kahdesti.",
-    "a": [
-      "on maalattu",
-      "on maalattuu",
-      "on maalatu",
-      "on maalattun"
-    ],
-    "correct": 0,
-    "id": 135
-  },
-  {
-    "level": 3,
-    "q": "Tunnilla harjoitellaan ______.",
-    "a": [
-      "kieliopissa",
-      "kieliopin",
-      "kielioppi",
-      "kielioppia"
-    ],
-    "correct": 3,
-    "id": 136
-  },
-  {
-    "level": 3,
-    "q": "Kun sade alkoi, seinää ______ vasta vähän.",
-    "a": [
-      "oli maalattuu",
-      "oli maalattu",
-      "oli maalattun",
-      "oli maalatu"
-    ],
-    "correct": 1,
-    "id": 137
-  },
-  {
-    "level": 3,
-    "q": "Aamulla ei keitetä ______.",
-    "a": [
-      "kahvin",
-      "kahvia",
-      "kahvi",
-      "kahvissa"
-    ],
-    "correct": 1,
-    "id": 138
-  },
-  {
-    "level": 3,
-    "q": "Viime kesänä mökin seinää ______ lainkaan.",
-    "a": [
-      "ei maalattun",
-      "ei maalattuu",
-      "ei maalatu",
-      "ei maalattu"
-    ],
-    "correct": 3,
-    "id": 139
-  },
-  {
-    "level": 3,
-    "q": "Välitunnilla pelataan ______.",
-    "a": [
-      "jalkapallo",
-      "jalkapalloa",
-      "jalkapallossa",
-      "jalkapallon"
-    ],
-    "correct": 1,
-    "id": 140
-  },
-  {
-    "level": 3,
-    "q": "Naapurustossa ______ parhaillaan uutta omakotitaloa.",
-    "a": [
-      "rakennetaann",
-      "rakennetään",
-      "rakennetaan",
-      "rakennetaa"
-    ],
-    "correct": 2,
-    "id": 141
-  },
-  {
-    "level": 3,
-    "q": "Tänään ei lueta loppuun ______.",
-    "a": [
-      "kirja",
-      "kirjan",
-      "kirjaa",
-      "kirjassa"
-    ],
-    "correct": 2,
-    "id": 142
-  },
-  {
-    "level": 3,
-    "q": "Viime kesänä tontille ______ uusi omakotitalo.",
-    "a": [
-      "rakennetiin",
-      "rakennettin",
-      "rakennettiin",
-      "rakennetttiin"
-    ],
-    "correct": 2,
-    "id": 143
-  },
-  {
-    "level": 3,
-    "q": "Uutisissa luetaan ______.",
-    "a": [
-      "uutisissa",
-      "uutisten",
-      "uutiset",
-      "uutisia"
-    ],
-    "correct": 3,
-    "id": 144
-  },
-  {
-    "level": 3,
-    "q": "Tälle tontille ______ viime vuosina jo useita taloja.",
-    "a": [
-      "on rakennettuu",
-      "on rakennettu",
-      "on rakennettun",
-      "on rakennetu"
-    ],
-    "correct": 1,
-    "id": 145
-  },
-  {
-    "level": 3,
-    "q": "Tänään ei tehdä ______ valmiiksi.",
-    "a": [
-      "koko työ",
-      "koko työn",
-      "koko työtä",
-      "koko työssä"
-    ],
-    "correct": 2,
-    "id": 146
-  },
-  {
-    "level": 3,
-    "q": "Kun ostajat tulivat katsomaan taloa, sitä ______ jo pitkään.",
-    "a": [
-      "oli rakennettun",
-      "oli rakennetu",
-      "oli rakennettu",
-      "oli rakennettuu"
-    ],
-    "correct": 2,
-    "id": 147
-  },
-  {
-    "level": 3,
-    "q": "Ennen vieraiden tuloa koristellaan ______.",
-    "a": [
-      "koko huonetta",
-      "koko huone",
-      "koko huoneessa",
-      "koko huoneen"
-    ],
-    "correct": 1,
-    "id": 148
-  },
-  {
-    "level": 3,
-    "q": "Tälle alueelle ______ viime vuonna yhtään uutta taloa.",
-    "a": [
-      "ei rakennettu",
-      "ei rakennettun",
-      "ei rakennetu",
-      "ei rakennettuu"
-    ],
-    "correct": 0,
-    "id": 149
-  },
-  {
-    "level": 3,
-    "q": "Ennen koulun alkua avataan ______.",
-    "a": [
-      "kaikkien ikkunoiden",
-      "kaikki ikkunat",
-      "kaikkia ikkunoita",
-      "kaikissa ikkunoissa"
-    ],
-    "correct": 1,
-    "id": 150
-  }
+      {
+            "level": 1,
+            "q": "Opistolla kuunneltiin eilen ______.",
+            "a": [
+                  "musiikkia",
+                  "musiikin",
+                  "musiikissa",
+                  "musiikille"
+            ],
+            "correct": 0,
+            "id": 1,
+            "starter": true
+      },
+      {
+            "level": 1,
+            "q": "Koulun ruokalassa ei juoda ______.",
+            "a": [
+                  "olut",
+                  "olutta",
+                  "oluen",
+                  "oluessa"
+            ],
+            "correct": 1,
+            "id": 2,
+            "starter": true
+      },
+      {
+            "level": 1,
+            "q": "Nuorisotalolla ______ monenlaisia kerhoja.",
+            "a": [
+                  "pidetäänn",
+                  "pidetän",
+                  "pidetään",
+                  "pidetää"
+            ],
+            "correct": 2,
+            "id": 3,
+            "starter": true
+      },
+      {
+            "level": 1,
+            "q": "Lounaalla tarjotaan usein ______.",
+            "a": [
+                  "keitto",
+                  "keiton",
+                  "keitossa",
+                  "keittoa"
+            ],
+            "correct": 3,
+            "id": 4,
+            "starter": true
+      },
+      {
+            "level": 1,
+            "q": "Tällä kurssilla ______ tähän asti kolme kirjaa.",
+            "a": [
+                  "on luettu",
+                  "on luetuu",
+                  "on luetun",
+                  "on luetu"
+            ],
+            "correct": 0,
+            "id": 5,
+            "starter": true
+      },
+      {
+            "level": 1,
+            "q": "Kirjastosta ei lainata ______.",
+            "a": [
+                  "kengät",
+                  "kenkien",
+                  "kenkiä",
+                  "kengissä"
+            ],
+            "correct": 2,
+            "id": 6
+      },
+      {
+            "level": 1,
+            "q": "Kun vieraat saapuivat, pöytä ______ jo.",
+            "a": [
+                  "oli katetu",
+                  "oli katettu",
+                  "oli katettuu",
+                  "oli katettun"
+            ],
+            "correct": 1,
+            "id": 7
+      },
+      {
+            "level": 1,
+            "q": "Autossa kuunnellaan ______.",
+            "a": [
+                  "musiikkia",
+                  "musiikki",
+                  "musiikin",
+                  "musiikissa"
+            ],
+            "correct": 0,
+            "id": 8
+      },
+      {
+            "level": 1,
+            "q": "Viime vuonna kyläjuhlissa ______ ohjelmaa.",
+            "a": [
+                  "ei järjestetty",
+                  "ei järjestetä",
+                  "ei järjestettty",
+                  "ei järjestetyn"
+            ],
+            "correct": 0,
+            "id": 9
+      },
+      {
+            "level": 1,
+            "q": "Torilta ei osteta ______.",
+            "a": [
+                  "autot",
+                  "autojen",
+                  "autoja",
+                  "autoissa"
+            ],
+            "correct": 2,
+            "id": 10
+      },
+      {
+            "level": 1,
+            "q": "Puistossa pelataan kesäisin usein ______.",
+            "a": [
+                  "jalkapalloa",
+                  "jalkapallon",
+                  "jalkapallot",
+                  "jalkapallossa"
+            ],
+            "correct": 0,
+            "id": 11
+      },
+      {
+            "level": 1,
+            "q": "______ leivottiin vasta illalla.",
+            "a": [
+                  "kakkua",
+                  "kakku",
+                  "kakun",
+                  "kakussa"
+            ],
+            "correct": 1,
+            "id": 12
+      },
+      {
+            "level": 1,
+            "q": "Kentällä pelattiin eilen ______.",
+            "a": [
+                  "jalkapalloa",
+                  "jalkapallon",
+                  "jalkapallot",
+                  "jalkapallossa"
+            ],
+            "correct": 0,
+            "id": 13
+      },
+      {
+            "level": 1,
+            "q": "Lasten syntymäpäivillä ei juoda ______.",
+            "a": [
+                  "alkoholi",
+                  "alkoholissa",
+                  "alkoholia",
+                  "alkoholin"
+            ],
+            "correct": 2,
+            "id": 14
+      },
+      {
+            "level": 1,
+            "q": "Tällä kentällä ______ monta ottelua.",
+            "a": [
+                  "on pelatu",
+                  "on pelattun",
+                  "on pelattu",
+                  "on pelattuu"
+            ],
+            "correct": 2,
+            "id": 15
+      },
+      {
+            "level": 1,
+            "q": "Koulussa tehdään usein ______.",
+            "a": [
+                  "tehtävät",
+                  "tehtävissä",
+                  "tehtävien",
+                  "tehtäviä"
+            ],
+            "correct": 3,
+            "id": 16
+      },
+      {
+            "level": 1,
+            "q": "Kun sade alkoi, kentällä ______ jo pitkään.",
+            "a": [
+                  "oli pelattu",
+                  "oli pelatu",
+                  "oli pelattuu",
+                  "oli pelattun"
+            ],
+            "correct": 0,
+            "id": 17
+      },
+      {
+            "level": 1,
+            "q": "Suomen tunnilla ei harjoitella ______.",
+            "a": [
+                  "hiihdon",
+                  "hiihtoa",
+                  "hiihto",
+                  "hiihdossa"
+            ],
+            "correct": 1,
+            "id": 18
+      },
+      {
+            "level": 1,
+            "q": "Viime kesänä rannalla ______ jalkapalloa sateen vuoksi.",
+            "a": [
+                  "ei pelattu",
+                  "ei pelattun",
+                  "ei pelattuu",
+                  "ei pelatu"
+            ],
+            "correct": 0,
+            "id": 19
+      },
+      {
+            "level": 1,
+            "q": "Kaikki ______ pilkottiin ennen ruoanlaittoa.",
+            "a": [
+                  "vihanneksia",
+                  "vihannekset",
+                  "vihannesten",
+                  "vihanneksissa"
+            ],
+            "correct": 1,
+            "id": 20
+      },
+      {
+            "level": 2,
+            "q": "Lukupiirissä luetaan parhaillaan ______.",
+            "a": [
+                  "uutta romaania",
+                  "uuden romaanin",
+                  "uusi romaani",
+                  "uudessa romaanissa"
+            ],
+            "correct": 0,
+            "id": 21
+      },
+      {
+            "level": 2,
+            "q": "Aamupalalla ei tarjoilla ______.",
+            "a": [
+                  "hedelmissä",
+                  "hedelmiä",
+                  "hedelmien",
+                  "hedelmät"
+            ],
+            "correct": 1,
+            "id": 22
+      },
+      {
+            "level": 2,
+            "q": "Lukupiirissä luettiin eilen ______.",
+            "a": [
+                  "runokokoelmaa",
+                  "runokokoelman",
+                  "runokokoelma",
+                  "runokokoelmassa"
+            ],
+            "correct": 0,
+            "id": 23
+      },
+      {
+            "level": 2,
+            "q": "Koko ______ katsottiin eilen.",
+            "a": [
+                  "elokuvaa",
+                  "elokuva",
+                  "elokuvan",
+                  "elokuvassa"
+            ],
+            "correct": 1,
+            "id": 24
+      },
+      {
+            "level": 2,
+            "q": "Tällä kurssilla ______ tähän mennessä vain yhtä oppikirjaa.",
+            "a": [
+                  "on käytety",
+                  "on käytetä",
+                  "on käytetty",
+                  "on käytettty"
+            ],
+            "correct": 2,
+            "id": 25
+      },
+      {
+            "level": 2,
+            "q": "Puutarhaan ei istuteta ______.",
+            "a": [
+                  "rikkaruohot",
+                  "rikkaruohojen",
+                  "rikkaruohoja",
+                  "rikkaruohoissa"
+            ],
+            "correct": 2,
+            "id": 26
+      },
+      {
+            "level": 2,
+            "q": "Kun keskustelu alkoi, kirja ______ jo kokonaan.",
+            "a": [
+                  "oli luetu",
+                  "oli luettu",
+                  "oli luettun",
+                  "oli luettuu"
+            ],
+            "correct": 1,
+            "id": 27
+      },
+      {
+            "level": 2,
+            "q": "______ leivottiin valmiiksi.",
+            "a": [
+                  "piparkakkuja",
+                  "piparkakut",
+                  "piparkakkujen",
+                  "piparkakuissa"
+            ],
+            "correct": 1,
+            "id": 28
+      },
+      {
+            "level": 2,
+            "q": "Viime viikolla tätä kirjaa ______ lainkaan.",
+            "a": [
+                  "ei luettu",
+                  "ei luettuu",
+                  "ei luettun",
+                  "ei luetu"
+            ],
+            "correct": 0,
+            "id": 29
+      },
+      {
+            "level": 2,
+            "q": "Koulun ruokalassa ei tarjota ______.",
+            "a": [
+                  "kasvisruoan",
+                  "kasvisruoka",
+                  "kasvisruoassa",
+                  "kasvisruokaa"
+            ],
+            "correct": 3,
+            "id": 30
+      },
+      {
+            "level": 2,
+            "q": "Ruokaa ______ ravintolan keittiössä koko päivän.",
+            "a": [
+                  "tehdäänn",
+                  "tehdään",
+                  "tehdaan",
+                  "tehdää"
+            ],
+            "correct": 1,
+            "id": 31
+      },
+      {
+            "level": 2,
+            "q": "Kahvilassa juodaan ______.",
+            "a": [
+                  "teessä",
+                  "teen",
+                  "tee",
+                  "teetä"
+            ],
+            "correct": 3,
+            "id": 32
+      },
+      {
+            "level": 2,
+            "q": "Eilen ravintolan keittiössä ______ ruokaa suurelle joukolle.",
+            "a": [
+                  "tehtin",
+                  "tehtiin",
+                  "tehteen",
+                  "tehttiin"
+            ],
+            "correct": 1,
+            "id": 33
+      },
+      {
+            "level": 2,
+            "q": "Museossa ei esitellä ______.",
+            "a": [
+                  "esineitä",
+                  "esineet",
+                  "esineissä",
+                  "esineiden"
+            ],
+            "correct": 0,
+            "id": 34
+      },
+      {
+            "level": 2,
+            "q": "Tähän mennessä keittiössä ______ jo monta annosta.",
+            "a": [
+                  "on teht",
+                  "on tehtyy",
+                  "on tehty",
+                  "on tehtyn"
+            ],
+            "correct": 2,
+            "id": 35
+      },
+      {
+            "level": 2,
+            "q": "Juhlan lopuksi laulettiin yksi ______.",
+            "a": [
+                  "laulua",
+                  "laulu",
+                  "laulun",
+                  "laulussa"
+            ],
+            "correct": 1,
+            "id": 36
+      },
+      {
+            "level": 2,
+            "q": "Kun asiakkaat saapuivat, ruoka ______ jo valmiiksi.",
+            "a": [
+                  "oli tehtyy",
+                  "oli teht",
+                  "oli tehty",
+                  "oli tehtyn"
+            ],
+            "correct": 2,
+            "id": 37
+      },
+      {
+            "level": 2,
+            "q": "______ ei rakenneta talvella.",
+            "a": [
+                  "lumilinnoja",
+                  "lumilinnat",
+                  "lumilinnojen",
+                  "lumilinnoissa"
+            ],
+            "correct": 0,
+            "id": 38
+      },
+      {
+            "level": 2,
+            "q": "Nuotiolla ______ ruokaa viime retkellä sateen takia.",
+            "a": [
+                  "ei tehtyy",
+                  "ei teht",
+                  "ei tehtyn",
+                  "ei tehty"
+            ],
+            "correct": 3,
+            "id": 39
+      },
+      {
+            "level": 2,
+            "q": "Lukupiirissä luetaan useita ______.",
+            "a": [
+                  "kirjat",
+                  "kirjojen",
+                  "kirjoissa",
+                  "kirjoja"
+            ],
+            "correct": 3,
+            "id": 40
+      },
+      {
+            "level": 2,
+            "q": "Toimistolla ______ parhaillaan tärkeää viestiä.",
+            "a": [
+                  "kirjoitetään",
+                  "kirjoitetaann",
+                  "kirjoitetaa",
+                  "kirjoitetaan"
+            ],
+            "correct": 3,
+            "id": 41
+      },
+      {
+            "level": 2,
+            "q": "______ ei korjata pajassa.",
+            "a": [
+                  "polkupyörien",
+                  "polkupyörät",
+                  "polkupyörissä",
+                  "polkupyöriä"
+            ],
+            "correct": 3,
+            "id": 42
+      },
+      {
+            "level": 2,
+            "q": "Eilen toimistolla ______ viestiä asiakkaille.",
+            "a": [
+                  "kirjoitettin",
+                  "kirjoitettiin",
+                  "kirjoitetiin",
+                  "kirjoitetttiin"
+            ],
+            "correct": 1,
+            "id": 43
+      },
+      {
+            "level": 2,
+            "q": "Matkalla otetaan paljon ______.",
+            "a": [
+                  "valokuvissa",
+                  "valokuvia",
+                  "valokuvien",
+                  "valokuvat"
+            ],
+            "correct": 1,
+            "id": 44
+      },
+      {
+            "level": 2,
+            "q": "Tähän mennessä ryhmälle ______ jo useita viestejä.",
+            "a": [
+                  "on kirjoitettu",
+                  "on kirjoitetu",
+                  "on kirjoitettuu",
+                  "on kirjoitettun"
+            ],
+            "correct": 0,
+            "id": 45
+      },
+      {
+            "level": 2,
+            "q": "______ ei osteta ruokakaupasta.",
+            "a": [
+                  "hedelmiä",
+                  "hedelmien",
+                  "hedelmissä",
+                  "hedelmät"
+            ],
+            "correct": 0,
+            "id": 46
+      },
+      {
+            "level": 2,
+            "q": "Kun palaveri alkoi, viesti ______ jo kaikille.",
+            "a": [
+                  "oli kirjoitettun",
+                  "oli kirjoitetu",
+                  "oli kirjoitettuu",
+                  "oli kirjoitettu"
+            ],
+            "correct": 3,
+            "id": 47
+      },
+      {
+            "level": 2,
+            "q": "Kaikki ______ pilkottiin ennen ruoanlaittoa.",
+            "a": [
+                  "vihanneksia",
+                  "vihannekset",
+                  "vihannesten",
+                  "vihanneksissa"
+            ],
+            "correct": 1,
+            "id": 48
+      },
+      {
+            "level": 2,
+            "q": "Eilisessä kokouksessa ei kirjoitettu ______.",
+            "a": [
+                  "muistiinpanoja",
+                  "muistiinpanot",
+                  "muistiinpanojen",
+                  "muistiinpanoissa"
+            ],
+            "correct": 0,
+            "id": 49
+      },
+      {
+            "level": 2,
+            "q": "______ ei kasvateta pihalla.",
+            "a": [
+                  "tomaateissa",
+                  "tomaattien",
+                  "tomaatit",
+                  "tomaatteja"
+            ],
+            "correct": 3,
+            "id": 50
+      },
+      {
+            "level": 2,
+            "q": "Koulun kaikki luokat ______ illalla.",
+            "a": [
+                  "siivottiin",
+                  "siivotiin",
+                  "siivotttiin",
+                  "siivottin"
+            ],
+            "correct": 0,
+            "id": 51
+      },
+      {
+            "level": 2,
+            "q": "Viimeinen ______ syötiin retkellä.",
+            "a": [
+                  "pähkinää",
+                  "pähkinä",
+                  "pähkinän",
+                  "pähkinässä"
+            ],
+            "correct": 1,
+            "id": 52
+      },
+      {
+            "level": 2,
+            "q": "Eilen remontin jälkeen ______ huonetta perusteellisesti.",
+            "a": [
+                  "siivottiin",
+                  "siivotiin",
+                  "siivotttiin",
+                  "siivottin"
+            ],
+            "correct": 0,
+            "id": 53
+      },
+      {
+            "level": 2,
+            "q": "______ ei lauleta juhlissa.",
+            "a": [
+                  "lauluissa",
+                  "laulujen",
+                  "laulut",
+                  "lauluja"
+            ],
+            "correct": 3,
+            "id": 54
+      },
+      {
+            "level": 2,
+            "q": "Tähän mennessä talossa ______ jo monta huonetta.",
+            "a": [
+                  "on siivottuu",
+                  "on siivottun",
+                  "on siivotu",
+                  "on siivottu"
+            ],
+            "correct": 3,
+            "id": 55
+      },
+      {
+            "level": 2,
+            "q": "Koko Suomen ______ opiskeltiin ennen koetta.",
+            "a": [
+                  "historiaa",
+                  "historia",
+                  "historian",
+                  "historiassa"
+            ],
+            "correct": 1,
+            "id": 56
+      },
+      {
+            "level": 2,
+            "q": "Kun asukkaat palasivat, huone ______ jo.",
+            "a": [
+                  "oli siivotu",
+                  "oli siivottun",
+                  "oli siivottuu",
+                  "oli siivottu"
+            ],
+            "correct": 3,
+            "id": 57
+      },
+      {
+            "level": 2,
+            "q": "______ hoidetaan sairaalassa.",
+            "a": [
+                  "potilaita",
+                  "potilaat",
+                  "potilaiden",
+                  "potilaissa"
+            ],
+            "correct": 0,
+            "id": 58
+      },
+      {
+            "level": 2,
+            "q": "Viime viikolla varastohuonetta ______ kertaakaan.",
+            "a": [
+                  "ei siivottun",
+                  "ei siivotu",
+                  "ei siivottuu",
+                  "ei siivottu"
+            ],
+            "correct": 3,
+            "id": 59
+      },
+      {
+            "level": 2,
+            "q": "______ ei lueta ääneen.",
+            "a": [
+                  "kirja",
+                  "kirjan",
+                  "kirjaa",
+                  "kirjassa"
+            ],
+            "correct": 2,
+            "id": 60
+      },
+      {
+            "level": 2,
+            "q": "Astioita ______ ravintolassa jatkuvasti.",
+            "a": [
+                  "pestään",
+                  "pestaan",
+                  "pestää",
+                  "pestäänn"
+            ],
+            "correct": 0,
+            "id": 61
+      },
+      {
+            "level": 2,
+            "q": "Kokeessa tarkistetaan yksi ______.",
+            "a": [
+                  "vastaus",
+                  "vastaukset",
+                  "vastausta",
+                  "vastauksessa"
+            ],
+            "correct": 0,
+            "id": 62
+      },
+      {
+            "level": 2,
+            "q": "Eilen juhlien jälkeen ______ astioita pitkään.",
+            "a": [
+                  "pesttiin",
+                  "pestin",
+                  "pestiin",
+                  "pesteen"
+            ],
+            "correct": 2,
+            "id": 63
+      },
+      {
+            "level": 2,
+            "q": "Tänään ei lueta ______ loppuun.",
+            "a": [
+                  "romaani",
+                  "romaanin",
+                  "romaania",
+                  "romaanissa"
+            ],
+            "correct": 2,
+            "id": 64
+      },
+      {
+            "level": 2,
+            "q": "Tähän mennessä kaikki astiat ______ jo.",
+            "a": [
+                  "on pesty",
+                  "on pestyn",
+                  "on pestyy",
+                  "on pest"
+            ],
+            "correct": 0,
+            "id": 65
+      },
+      {
+            "level": 2,
+            "q": "Tänään luetaan tämä ______ loppuun.",
+            "a": [
+                  "kirjaa",
+                  "kirjan",
+                  "kirja",
+                  "kirjassa"
+            ],
+            "correct": 2,
+            "id": 66
+      },
+      {
+            "level": 2,
+            "q": "Kun vieraat tulivat, astiat ______ jo koneessa.",
+            "a": [
+                  "oli pest",
+                  "oli pestyn",
+                  "oli pestyy",
+                  "oli pesty"
+            ],
+            "correct": 3,
+            "id": 67
+      },
+      {
+            "level": 2,
+            "q": "______ ei siivota päivän päätteeksi.",
+            "a": [
+                  "luokka",
+                  "luokan",
+                  "luokkaa",
+                  "luokassa"
+            ],
+            "correct": 2,
+            "id": 68
+      },
+      {
+            "level": 2,
+            "q": "Viime viikonlopun aikana astioita ______ käsin.",
+            "a": [
+                  "ei pestyn",
+                  "ei pestyy",
+                  "ei pest",
+                  "ei pesty"
+            ],
+            "correct": 3,
+            "id": 69
+      },
+      {
+            "level": 2,
+            "q": "Ennen tunnin alkua palautetaan ______.",
+            "a": [
+                  "vihkoja",
+                  "vihkojen",
+                  "vihkot",
+                  "vihkoissa"
+            ],
+            "correct": 2,
+            "id": 70
+      },
+      {
+            "level": 2,
+            "q": "Toimiston ______ aamuisin ennen työpäivän alkua.",
+            "a": [
+                  "avataann",
+                  "avataa",
+                  "avataan",
+                  "avatään"
+            ],
+            "correct": 2,
+            "id": 71
+      },
+      {
+            "level": 2,
+            "q": "Ennen koetta ei kerrata ______.",
+            "a": [
+                  "kaikki säännöt",
+                  "kaikkien sääntöjen",
+                  "kaikkia sääntöjä",
+                  "kaikissa säännöissä"
+            ],
+            "correct": 2,
+            "id": 72
+      },
+      {
+            "level": 2,
+            "q": "Eilen aamulla toimisto ______ jo ennen työntekijöiden tuloa.",
+            "a": [
+                  "avatiin",
+                  "avatttiin",
+                  "avattin",
+                  "avattiin"
+            ],
+            "correct": 3,
+            "id": 73
+      },
+      {
+            "level": 2,
+            "q": "Illalla katsotaan koko ______ loppuun.",
+            "a": [
+                  "elokuvaa",
+                  "elokuvan",
+                  "elokuva",
+                  "elokuvassa"
+            ],
+            "correct": 2,
+            "id": 74
+      },
+      {
+            "level": 2,
+            "q": "Tähän mennessä rakennuksen kaikki ikkunat ______.",
+            "a": [
+                  "on avattu",
+                  "on avattuu",
+                  "on avattun",
+                  "on avatu"
+            ],
+            "correct": 0,
+            "id": 75
+      },
+      {
+            "level": 2,
+            "q": "______ ei osteta ennen matkaa.",
+            "a": [
+                  "liput",
+                  "lippujen",
+                  "lippuja",
+                  "lipuissa"
+            ],
+            "correct": 2,
+            "id": 76
+      },
+      {
+            "level": 2,
+            "q": "Kun myrsky alkoi, ikkunat ______ jo.",
+            "a": [
+                  "oli avattu",
+                  "oli avatu",
+                  "oli avattuu",
+                  "oli avattun"
+            ],
+            "correct": 0,
+            "id": 77
+      },
+      {
+            "level": 2,
+            "q": "Tänään kirjoitetaan ______ valmiiksi.",
+            "a": [
+                  "tekstiä",
+                  "tekstin",
+                  "teksti",
+                  "tekstissä"
+            ],
+            "correct": 2,
+            "id": 78
+      },
+      {
+            "level": 2,
+            "q": "Viime talvena vanhan talon ikkunoita ______ lainkaan.",
+            "a": [
+                  "ei avatu",
+                  "ei avattu",
+                  "ei avattuu",
+                  "ei avattun"
+            ],
+            "correct": 1,
+            "id": 79
+      },
+      {
+            "level": 2,
+            "q": "Laatikkoa ______ ennen tarkistusta.",
+            "a": [
+                  "ei avata",
+                  "ei avataan",
+                  "ei avattu",
+                  "ei avanneet"
+            ],
+            "correct": 0,
+            "id": 80
+      },
+      {
+            "level": 2,
+            "q": "Kilpailun lopuksi ______ voittaja.",
+            "a": [
+                  "valitään",
+                  "valitaan",
+                  "valitaa",
+                  "valitaann"
+            ],
+            "correct": 1,
+            "id": 81
+      },
+      {
+            "level": 2,
+            "q": "Lapselle ostetaan uusi ______.",
+            "a": [
+                  "polkupyörää",
+                  "polkupyörän",
+                  "polkupyörä",
+                  "polkupyörässä"
+            ],
+            "correct": 2,
+            "id": 82
+      },
+      {
+            "level": 2,
+            "q": "Eilisessä kilpailussa ______ voittaja yleisön edessä.",
+            "a": [
+                  "valitttiin",
+                  "valittin",
+                  "valittiin",
+                  "valitiin"
+            ],
+            "correct": 2,
+            "id": 83
+      },
+      {
+            "level": 2,
+            "q": "______ ei lauleta juhlan aluksi.",
+            "a": [
+                  "Maamme-laulu",
+                  "Maamme-laulun",
+                  "Maamme-laulua",
+                  "Maamme-laulussa"
+            ],
+            "correct": 2,
+            "id": 84
+      },
+      {
+            "level": 2,
+            "q": "Tässä kilpailussa ______ tähän mennessä kolme voittajaa.",
+            "a": [
+                  "on valitu",
+                  "on valittu",
+                  "on valittun",
+                  "on valittuu"
+            ],
+            "correct": 1,
+            "id": 85
+      },
+      {
+            "level": 2,
+            "q": "Nyt avataan tämä ______.",
+            "a": [
+                  "kirjeessä",
+                  "kirjeet",
+                  "kirje",
+                  "kirjettä"
+            ],
+            "correct": 2,
+            "id": 86
+      },
+      {
+            "level": 2,
+            "q": "Kun palkintojenjako alkoi, voittaja ______ jo.",
+            "a": [
+                  "oli valitu",
+                  "oli valittuu",
+                  "oli valittun",
+                  "oli valittu"
+            ],
+            "correct": 3,
+            "id": 87
+      },
+      {
+            "level": 2,
+            "q": "______ ei palkita kilpailussa.",
+            "a": [
+                  "voittajat",
+                  "voittajien",
+                  "voittajia",
+                  "voittajissa"
+            ],
+            "correct": 2,
+            "id": 88
+      },
+      {
+            "level": 2,
+            "q": "Viime vuonna kilpailussa voittajaa ______ lainkaan.",
+            "a": [
+                  "ei valitu",
+                  "ei valittu",
+                  "ei valittun",
+                  "ei valittuu"
+            ],
+            "correct": 1,
+            "id": 89
+      },
+      {
+            "level": 2,
+            "q": "Tunnilla luetaan yksi ______ ääneen.",
+            "a": [
+                  "tarinaa",
+                  "tarinan",
+                  "tarina",
+                  "tarinassa"
+            ],
+            "correct": 2,
+            "id": 90
+      },
+      {
+            "level": 2,
+            "q": "Polkupyöriä ______ korjaamolla ympäri vuoden.",
+            "a": [
+                  "korjataan",
+                  "korjataa",
+                  "korjatään",
+                  "korjataann"
+            ],
+            "correct": 0,
+            "id": 91
+      },
+      {
+            "level": 2,
+            "q": "______ ei korjata ennen talvea.",
+            "a": [
+                  "katto",
+                  "katon",
+                  "kattoa",
+                  "katossa"
+            ],
+            "correct": 2,
+            "id": 92
+      },
+      {
+            "level": 2,
+            "q": "Eilen korjaamolla ______ useita polkupyöriä.",
+            "a": [
+                  "korjatiin",
+                  "korjatttiin",
+                  "korjattiin",
+                  "korjattin"
+            ],
+            "correct": 2,
+            "id": 93
+      },
+      {
+            "level": 2,
+            "q": "Aamulla pestään auton ______.",
+            "a": [
+                  "ikkunassa",
+                  "ikkunoissa",
+                  "ikkunalle",
+                  "ikkunat"
+            ],
+            "correct": 3,
+            "id": 94
+      },
+      {
+            "level": 2,
+            "q": "Tässä korjaamossa ______ tänä vuonna jo kymmeniä polkupyöriä.",
+            "a": [
+                  "on korjattun",
+                  "on korjattu",
+                  "on korjatu",
+                  "on korjattuu"
+            ],
+            "correct": 1,
+            "id": 95
+      },
+      {
+            "level": 2,
+            "q": "Kaikki ______ harjoitellaan juhlaa varten etukäteen.",
+            "a": [
+                  "esityksissä",
+                  "esitysten",
+                  "esityksiä",
+                  "esitykset"
+            ],
+            "correct": 3,
+            "id": 96
+      },
+      {
+            "level": 2,
+            "q": "Kun asiakas tuli hakemaan pyöräänsä, sitä ______ jo.",
+            "a": [
+                  "oli korjattu",
+                  "oli korjatu",
+                  "oli korjattuu",
+                  "oli korjattun"
+            ],
+            "correct": 0,
+            "id": 97
+      },
+      {
+            "level": 2,
+            "q": "Juhliin valmistetaan ______.",
+            "a": [
+                  "ruoat",
+                  "ruoan",
+                  "ruokaa",
+                  "ruoassa"
+            ],
+            "correct": 2,
+            "id": 98
+      },
+      {
+            "level": 2,
+            "q": "Viime talvena korjaamolla polkupyöriä ______ pakkasten vuoksi.",
+            "a": [
+                  "ei korjattu",
+                  "ei korjattun",
+                  "ei korjatu",
+                  "ei korjattuu"
+            ],
+            "correct": 0,
+            "id": 99
+      },
+      {
+            "level": 2,
+            "q": "______ pestään retken jälkeen.",
+            "a": [
+                  "astioita",
+                  "astioiden",
+                  "astiat",
+                  "astioissa"
+            ],
+            "correct": 2,
+            "id": 100
+      },
+      {
+            "level": 3,
+            "q": "Ruokakaupassa ______ tuoreita raaka-aineita joka aamu.",
+            "a": [
+                  "ostetaa",
+                  "ostetaan",
+                  "ostetään",
+                  "ostetaann"
+            ],
+            "correct": 1,
+            "id": 101
+      },
+      {
+            "level": 3,
+            "q": "______ ei pystytetä pihalle.",
+            "a": [
+                  "teltta",
+                  "teltan",
+                  "telttaa",
+                  "teltassa"
+            ],
+            "correct": 2,
+            "id": 102
+      },
+      {
+            "level": 3,
+            "q": "Eilen kaupasta ______ ruokaa koko viikon tarpeisiin.",
+            "a": [
+                  "ostettin",
+                  "ostetiin",
+                  "ostetttiin",
+                  "ostettiin"
+            ],
+            "correct": 3,
+            "id": 103
+      },
+      {
+            "level": 3,
+            "q": "______ luetaan ennen nukkumaanmenoa.",
+            "a": [
+                  "iltasatua",
+                  "iltasadussa",
+                  "iltasadun",
+                  "iltasatu"
+            ],
+            "correct": 3,
+            "id": 104
+      },
+      {
+            "level": 3,
+            "q": "Tähän mennessä kaupasta ______ jo kaikki tarvittava.",
+            "a": [
+                  "on ostettuu",
+                  "on ostettu",
+                  "on ostetu",
+                  "on ostettun"
+            ],
+            "correct": 1,
+            "id": 105
+      },
+      {
+            "level": 3,
+            "q": "Tänään ei katsota ______ loppuun.",
+            "a": [
+                  "elokuva",
+                  "elokuvan",
+                  "elokuvaa",
+                  "elokuvassa"
+            ],
+            "correct": 2,
+            "id": 106
+      },
+      {
+            "level": 3,
+            "q": "Kun vieraat saapuivat, ruoka ______ jo valmiiksi.",
+            "a": [
+                  "oli ostettun",
+                  "oli ostettuu",
+                  "oli ostettu",
+                  "oli ostetu"
+            ],
+            "correct": 2,
+            "id": 107
+      },
+      {
+            "level": 3,
+            "q": "______ valmistetaan ennen vieraiden tuloa.",
+            "a": [
+                  "ruoka",
+                  "ruoassa",
+                  "ruokaa",
+                  "ruoan"
+            ],
+            "correct": 0,
+            "id": 108
+      },
+      {
+            "level": 3,
+            "q": "Viime vuonna tästä kaupasta ______ lainkaan lähiruokaa.",
+            "a": [
+                  "ei ostettu",
+                  "ei ostetu",
+                  "ei ostettun",
+                  "ei ostettuu"
+            ],
+            "correct": 0,
+            "id": 109
+      },
+      {
+            "level": 3,
+            "q": "______ ei palauteta määräaikaan mennessä.",
+            "a": [
+                  "tehtävät",
+                  "tehtävien",
+                  "tehtäviä",
+                  "tehtävissä"
+            ],
+            "correct": 2,
+            "id": 110
+      },
+      {
+            "level": 3,
+            "q": "Työpaikan taukohuoneessa ______ paljon kahvia.",
+            "a": [
+                  "juodaann",
+                  "juodaa",
+                  "juodään",
+                  "juodaan"
+            ],
+            "correct": 3,
+            "id": 111
+      },
+      {
+            "level": 3,
+            "q": "______ tarkistetaan lopuksi.",
+            "a": [
+                  "vastausten",
+                  "vastauksia",
+                  "vastauksissa",
+                  "vastaukset"
+            ],
+            "correct": 3,
+            "id": 112
+      },
+      {
+            "level": 3,
+            "q": "Eilen kokouksen aikana ______ useita pannullisia kahvia.",
+            "a": [
+                  "juoteen",
+                  "juotiin",
+                  "juottiin",
+                  "juotin"
+            ],
+            "correct": 1,
+            "id": 113
+      },
+      {
+            "level": 3,
+            "q": "______ ei pueta ennen ulos lähtöä.",
+            "a": [
+                  "takki",
+                  "takin",
+                  "takkia",
+                  "takissa"
+            ],
+            "correct": 2,
+            "id": 114
+      },
+      {
+            "level": 3,
+            "q": "Tässä toimistossa ______ tänään jo monta pannullista kahvia.",
+            "a": [
+                  "on juotuu",
+                  "on juot",
+                  "on juotu",
+                  "on juotun"
+            ],
+            "correct": 2,
+            "id": 115
+      },
+      {
+            "level": 3,
+            "q": "______ siivotaan juhlan jälkeen.",
+            "a": [
+                  "sali",
+                  "salin",
+                  "salissa",
+                  "salia"
+            ],
+            "correct": 0,
+            "id": 116
+      },
+      {
+            "level": 3,
+            "q": "Kun kokous alkoi, kahvia ______ jo kaksi pannullista.",
+            "a": [
+                  "oli juotuu",
+                  "oli juot",
+                  "oli juotu",
+                  "oli juotun"
+            ],
+            "correct": 2,
+            "id": 117
+      },
+      {
+            "level": 3,
+            "q": "______ ei kirjoiteta tänään valmiiksi.",
+            "a": [
+                  "aine",
+                  "aineen",
+                  "ainetta",
+                  "aineessa"
+            ],
+            "correct": 2,
+            "id": 118
+      },
+      {
+            "level": 3,
+            "q": "Viime viikon retkellä ______ kahvia nuotion äärellä.",
+            "a": [
+                  "ei juot",
+                  "ei juotun",
+                  "ei juotu",
+                  "ei juotuu"
+            ],
+            "correct": 2,
+            "id": 119
+      },
+      {
+            "level": 3,
+            "q": "______ palautetaan ennen tunnin loppua.",
+            "a": [
+                  "vihkoja",
+                  "vihkojen",
+                  "vihkoissa",
+                  "vihkot"
+            ],
+            "correct": 3,
+            "id": 120
+      },
+      {
+            "level": 3,
+            "q": "Syntymäpäiville ______ ystäviä ja sukulaisia.",
+            "a": [
+                  "kutsutään",
+                  "kutsutaann",
+                  "kutsutaa",
+                  "kutsutaan"
+            ],
+            "correct": 3,
+            "id": 121
+      },
+      {
+            "level": 3,
+            "q": "______ ei lueta koko luokan voimin yhdessä.",
+            "a": [
+                  "tarina",
+                  "tarinan",
+                  "tarinaa",
+                  "tarinassa"
+            ],
+            "correct": 2,
+            "id": 122
+      },
+      {
+            "level": 3,
+            "q": "Eilisille avajaisille ______ paljon vieraita.",
+            "a": [
+                  "kutsuttin",
+                  "kutsuttiin",
+                  "kutsutttiin",
+                  "kutsutiin"
+            ],
+            "correct": 1,
+            "id": 123
+      },
+      {
+            "level": 3,
+            "q": "______ kerätään pihalta.",
+            "a": [
+                  "roskissa",
+                  "roskat",
+                  "roskia",
+                  "roskien"
+            ],
+            "correct": 1,
+            "id": 124
+      },
+      {
+            "level": 3,
+            "q": "Tähän tilaisuuteen ______ jo yli sata vierasta.",
+            "a": [
+                  "on kutsuttun",
+                  "on kutsutu",
+                  "on kutsuttu",
+                  "on kutsuttuu"
+            ],
+            "correct": 2,
+            "id": 125
+      },
+      {
+            "level": 3,
+            "q": "______ ei jaeta ennen kokousta.",
+            "a": [
+                  "asiakirjat",
+                  "asiakirjojen",
+                  "asiakirjoja",
+                  "asiakirjoissa"
+            ],
+            "correct": 2,
+            "id": 126
+      },
+      {
+            "level": 3,
+            "q": "Kun juhlat alkoivat, vieraita ______ jo runsaasti.",
+            "a": [
+                  "oli kutsutu",
+                  "oli kutsuttuu",
+                  "oli kutsuttun",
+                  "oli kutsuttu"
+            ],
+            "correct": 3,
+            "id": 127
+      },
+      {
+            "level": 3,
+            "q": "______ ostetaan jouluksi.",
+            "a": [
+                  "lahjojen",
+                  "lahjoissa",
+                  "lahjat",
+                  "lahjoja"
+            ],
+            "correct": 2,
+            "id": 128
+      },
+      {
+            "level": 3,
+            "q": "Viime vuonna tähän tapahtumaan ______ ulkopuolisia vieraita.",
+            "a": [
+                  "ei kutsuttuu",
+                  "ei kutsutu",
+                  "ei kutsuttun",
+                  "ei kutsuttu"
+            ],
+            "correct": 3,
+            "id": 129
+      },
+      {
+            "level": 3,
+            "q": "______ ei aseteta pöydälle.",
+            "a": [
+                  "maljakko",
+                  "maljakon",
+                  "maljakkoa",
+                  "maljakossa"
+            ],
+            "correct": 2,
+            "id": 130
+      },
+      {
+            "level": 3,
+            "q": "Vanhan talon seinää ______ parhaillaan uudella maalilla.",
+            "a": [
+                  "maalataan",
+                  "maalatään",
+                  "maalataa",
+                  "maalataann"
+            ],
+            "correct": 0,
+            "id": 131
+      },
+      {
+            "level": 3,
+            "q": "______ pakataan ennen lähtöä.",
+            "a": [
+                  "matkalaukkujen",
+                  "matkalaukuissa",
+                  "matkalaukkuja",
+                  "matkalaukut"
+            ],
+            "correct": 3,
+            "id": 132
+      },
+      {
+            "level": 3,
+            "q": "Eilen mökin seinää ______ talkoovoimin.",
+            "a": [
+                  "maalattin",
+                  "maalattiin",
+                  "maalatiin",
+                  "maalatttiin"
+            ],
+            "correct": 1,
+            "id": 133
+      },
+      {
+            "level": 3,
+            "q": "______ ei avata lopuksi.",
+            "a": [
+                  "kirje",
+                  "kirjeen",
+                  "kirjettä",
+                  "kirjeessä"
+            ],
+            "correct": 2,
+            "id": 134
+      },
+      {
+            "level": 3,
+            "q": "Tähän mennessä rakennuksen ulkoseinää ______ jo kahdesti.",
+            "a": [
+                  "on maalattu",
+                  "on maalattuu",
+                  "on maalatu",
+                  "on maalattun"
+            ],
+            "correct": 0,
+            "id": 135
+      },
+      {
+            "level": 3,
+            "q": "______ harjoitellaan tunnilla.",
+            "a": [
+                  "kieliopissa",
+                  "kieliopin",
+                  "kielioppi",
+                  "kielioppia"
+            ],
+            "correct": 3,
+            "id": 136
+      },
+      {
+            "level": 3,
+            "q": "Kun sade alkoi, seinää ______ vasta vähän.",
+            "a": [
+                  "oli maalattuu",
+                  "oli maalattu",
+                  "oli maalattun",
+                  "oli maalatu"
+            ],
+            "correct": 1,
+            "id": 137
+      },
+      {
+            "level": 3,
+            "q": "______ ei keitetä aamulla.",
+            "a": [
+                  "kahvin",
+                  "kahvia",
+                  "kahvi",
+                  "kahvissa"
+            ],
+            "correct": 1,
+            "id": 138
+      },
+      {
+            "level": 3,
+            "q": "Viime kesänä mökin seinää ______ lainkaan.",
+            "a": [
+                  "ei maalattun",
+                  "ei maalattuu",
+                  "ei maalatu",
+                  "ei maalattu"
+            ],
+            "correct": 3,
+            "id": 139
+      },
+      {
+            "level": 3,
+            "q": "______ pelataan välitunnilla.",
+            "a": [
+                  "jalkapallo",
+                  "jalkapalloa",
+                  "jalkapallossa",
+                  "jalkapallon"
+            ],
+            "correct": 1,
+            "id": 140
+      },
+      {
+            "level": 3,
+            "q": "Naapurustossa ______ parhaillaan uutta omakotitaloa.",
+            "a": [
+                  "rakennetaann",
+                  "rakennetään",
+                  "rakennetaan",
+                  "rakennetaa"
+            ],
+            "correct": 2,
+            "id": 141
+      },
+      {
+            "level": 3,
+            "q": "______ ei lueta tänään loppuun.",
+            "a": [
+                  "kirja",
+                  "kirjan",
+                  "kirjaa",
+                  "kirjassa"
+            ],
+            "correct": 2,
+            "id": 142
+      },
+      {
+            "level": 3,
+            "q": "Viime kesänä tontille ______ uusi omakotitalo.",
+            "a": [
+                  "rakennetiin",
+                  "rakennettin",
+                  "rakennettiin",
+                  "rakennetttiin"
+            ],
+            "correct": 2,
+            "id": 143
+      },
+      {
+            "level": 3,
+            "q": "Uutisissa luetaan ______.",
+            "a": [
+                  "uutisissa",
+                  "uutisten",
+                  "uutiset",
+                  "uutisia"
+            ],
+            "correct": 3,
+            "id": 144
+      },
+      {
+            "level": 3,
+            "q": "Tälle tontille ______ viime vuosina jo useita taloja.",
+            "a": [
+                  "on rakennettuu",
+                  "on rakennettu",
+                  "on rakennettun",
+                  "on rakennetu"
+            ],
+            "correct": 1,
+            "id": 145
+      },
+      {
+            "level": 3,
+            "q": "______ ei tehdä tänään valmiiksi.",
+            "a": [
+                  "koko työ",
+                  "koko työn",
+                  "koko työtä",
+                  "koko työssä"
+            ],
+            "correct": 2,
+            "id": 146
+      },
+      {
+            "level": 3,
+            "q": "Kun ostajat tulivat katsomaan taloa, sitä ______ jo pitkään.",
+            "a": [
+                  "oli rakennettun",
+                  "oli rakennetu",
+                  "oli rakennettu",
+                  "oli rakennettuu"
+            ],
+            "correct": 2,
+            "id": 147
+      },
+      {
+            "level": 3,
+            "q": "______ koristellaan ennen vieraiden tuloa.",
+            "a": [
+                  "koko huonetta",
+                  "koko huone",
+                  "koko huoneessa",
+                  "koko huoneen"
+            ],
+            "correct": 1,
+            "id": 148
+      },
+      {
+            "level": 3,
+            "q": "Tälle alueelle ______ viime vuonna yhtään uutta taloa.",
+            "a": [
+                  "ei rakennettu",
+                  "ei rakennettun",
+                  "ei rakennetu",
+                  "ei rakennettuu"
+            ],
+            "correct": 0,
+            "id": 149
+      },
+      {
+            "level": 3,
+            "q": "______ avataan ennen koulun alkua.",
+            "a": [
+                  "kaikkien ikkunoiden",
+                  "kaikki ikkunat",
+                  "kaikkia ikkunoita",
+                  "kaikissa ikkunoissa"
+            ],
+            "correct": 1,
+            "id": 150
+      }
 ];
     const TIME_PER_QUESTION = 15;
     let timerInterval = null;
@@ -2175,9 +2175,7 @@
     let gameMode = "normal";
     let currentQuestion = null;
     let running = false;
-    let usedQuestions = new Set();
-    let levelQueues = {};
-    let currentLevel = 1;
+    let questionQueue = [];
 
     const buttons = document.querySelectorAll(".buttons button");
 
@@ -2223,19 +2221,9 @@
       correctAnswers = 0;
       currentQuestion = null;
       running = true;
-      usedQuestions = new Set();
-      currentLevel = 1;
-
-      // Jokainen vaikeustaso arvotaan omaksi jonokseen. Peli etenee
-      // järjestyksessä helposta (1) keskivaikeaan (2) ja vaikeaan (3).
-      // Kunkin tason sisällä passiivin ja objektin kysymykset vuorottelevat.
-      levelQueues = {};
-      [1, 2, 3].forEach(level => {
-        levelQueues[level] = {
-          passive: shuffleArray(questionBank.filter(q => q.level === level && q.id % 2 === 1)),
-          object: shuffleArray(questionBank.filter(q => q.level === level && q.id % 2 === 0))
-        };
-      });
+      // Kaikki kysymykset sekoitetaan yhdeksi yhteiseksi kysymyspankiksi.
+      // Vaikeustasot ja kysymystyypit eivät enää määrää etenemisjärjestystä.
+      questionQueue = shuffleArray([...questionBank]);
 
       document.getElementById("retryButton").style.display = "none";
       document.getElementById("gameOver").textContent = "";
@@ -2248,36 +2236,8 @@
     }
 
     function getQuestion() {
-      // Parittomat kysymykset testaavat passiivimuotoa ja parilliset objektia.
-      const wantsPassive = questionNumber % 2 === 0;
-      const queueType = wantsPassive ? "passive" : "object";
-
-      while (currentLevel <= 3) {
-        const queues = levelQueues[currentLevel];
-        const queue = queues[queueType];
-
-        if (queue.length > 0) {
-          const candidate = queue.pop();
-          if (!usedQuestions.has(candidate)) return candidate;
-          continue;
-        }
-
-        // Tason molemmat jonot ovat tyhjät: siirrytään seuraavaan tasoon.
-        if (queues.passive.length === 0 && queues.object.length === 0) {
-          currentLevel++;
-          continue;
-        }
-
-        // Jos toisen kysymystyypin jono on tyhjä, etsitään seuraava
-        // vuorossa oleva kysymys jäljellä olevasta jonosta.
-        const otherQueue = queues[queueType === "passive" ? "object" : "passive"];
-        if (otherQueue.length > 0) {
-          const candidate = otherQueue.pop();
-          if (!usedQuestions.has(candidate)) return candidate;
-        }
-      }
-
-      return null;
+      // Poimitaan seuraava kysymys yhteisestä satunnaistetusta jonosta.
+      return questionQueue.length > 0 ? questionQueue.pop() : null;
     }
 
     function getTimeForQuestion() {
@@ -2336,7 +2296,6 @@
         return;
       }
 
-      usedQuestions.add(currentQuestion);
 
       questionNumber++;
 
@@ -2492,6 +2451,6 @@
     startGame();
   </script>
 
-<div id="versionNumber">v1.15</div>
+<div id="versionNumber">v1.27</div>
 </body>
 </html>
